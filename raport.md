@@ -1,7 +1,7 @@
 naszegenomy\_raport
 ================
 
-## Sequencing statistics (in millions)
+## 1. Sequencing statistics (in millions)
 
 |     | flagstat\_total | mapped\_passed | properly.paired\_passed |
 |:----|:----------------|:---------------|:------------------------|
@@ -14,7 +14,7 @@ naszegenomy\_raport
 
 ![](raport_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-## Depth statistics
+## 2. Depth statistics
 
 |     | average\_depth | percentage\_above\_10 | percentage\_above\_20 | percentage\_above\_30 |
 |:----|:---------------|:----------------------|:----------------------|:----------------------|
@@ -43,7 +43,7 @@ naszegenomy\_raport
 
 ![](raport_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-## Per sample count (PSC)
+## 3. Per sample count (PSC)
 
 |     | nRefHom      | nNonRefHom      | nHets           | nTransitions    | nTransversions  | nIndels        | average\_depth | nSingletons     | nHapRef   | nHapAlt   | nMissing       |
 |:----|:-------------|:----------------|:----------------|:----------------|:----------------|:---------------|:---------------|:----------------|:----------|:----------|:---------------|

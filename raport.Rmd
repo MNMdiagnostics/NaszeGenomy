@@ -32,7 +32,7 @@ flagstat <- flagstat %>%
 
 ```
 
-## Sequencing statistics (in millions)
+## 1. Sequencing statistics (in millions)
 
 ```{r echo=FALSE}
 x <- flagstat %>% select(flagstat_total,mapped_passed,properly.paired_passed) 
@@ -55,7 +55,7 @@ grid.arrange(p1, p2, p3,ncol = 1)
 
 ```
 
-## Depth statistics
+## 2. Depth statistics
 
 ```{r echo=FALSE}
 depth <- read.table(depth_path,header=T,sep='\t')
@@ -91,7 +91,7 @@ depth_percent <- depth_intervals %>% ggplot(aes(y= group, x=depth)) +
 depth_percent
 ```
 
-## Per sample count (PSC)
+## 3. Per sample count (PSC)
 ```{r echo=FALSE}
 
 psc <- read.table('output/total_psc.stats', sep='\t')
