@@ -1,6 +1,6 @@
 ---
 title: "naszegenomy_raport"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, echo=FALSE}
