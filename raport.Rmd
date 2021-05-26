@@ -1,13 +1,22 @@
 ---
 title: "naszegenomy_raport"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, echo=FALSE}
 knitr::opts_chunk$set(echo=FALSE)
+suppressMessages(library(knitr))
 ```
 
-## Flagstat
+```{r echo=FALSE}
+outlier <- function (x) {
+  IQR <- quantile(x)[[4]] - quantile(x)[[2]]
+  low <- quantile(x)[[2]] - 1.5*IQR
+  high <- quantile(x)[[4]] + 1.5*IQR
+  out_val <- x[x < low | x > high]
+  return(out_val)
+}
+```
 
 ```{r echo=FALSE}
 suppressMessages(library(tidyverse))
@@ -21,11 +30,13 @@ flagstat <- flagstat %>%
     mutate(total_passed = total_passed/1e+06, properly.paired_passed = properly.paired_passed/1e+06, flagstat_total = flagstat_total/1e+06,
     mapped_passed = mapped_passed/1e+06, singletons_passed = singletons_passed/1e+06, duplicates_passed = duplicates_passed/1e+06)
 
-depth <- read.table(depth_path,header=T,sep='\t')
 ```
 
+## Sequencing statistics (in millions)
+
 ```{r echo=FALSE}
-flagstat %>% select(flagstat_total,mapped_passed,properly.paired_passed) %>% summary()
+x <- flagstat %>% select(flagstat_total,mapped_passed,properly.paired_passed) 
+kable(summary(x))
 ```
 
 
@@ -44,20 +55,32 @@ grid.arrange(p1, p2, p3,ncol = 1)
 
 ```
 
-## Depth
+## Depth statistics
 
 ```{r echo=FALSE}
-summary(depth)
+depth <- read.table(depth_path,header=T,sep='\t')
 
+kable(depth %>% select(-sample) %>% summary())
+```
+
+### Average depth outliers 
+```{r echo=FALSE}
+kable(depth %>% select(sample,average_depth) %>% filter(average_depth %in% outlier(depth$average_depth)))
+```
+
+```{r echo=FALSE}
 depth_intervals <- depth %>% select(-average_depth) %>% pivot_longer(cols = -sample,
                                       names_to = 'group', 
                                       values_to = 'depth'
                                       )
 avg_depth_plot <- depth %>% ggplot(aes(x=average_depth)) + geom_boxplot() +
-  theme(axis.text.y = element_blank()) +
-  theme_minimal()
+  theme_minimal() +
+  theme(axis.text.y = element_blank())
 avg_depth_plot
+```
 
+
+```{r echo=FALSE}
 depth_percent <- depth_intervals %>% ggplot(aes(y= group, x=depth)) + 
     geom_boxplot() + 
     theme_minimal() +
@@ -68,13 +91,24 @@ depth_percent <- depth_intervals %>% ggplot(aes(y= group, x=depth)) +
 depth_percent
 ```
 
-## PSC
+## Per sample count (PSC)
 ```{r echo=FALSE}
 
 psc <- read.table('output/total_psc.stats', sep='\t')
-colnames(psc) <- c('PSC','id', 'sample', 'nRefHom', 'nNonRefHom', 'nHets', 
+colnames(psc) <- c(
+  'PSC','id', 'sample', 'nRefHom', 'nNonRefHom', 'nHets', 
                    'nTransitions', 'nTransversions', 'nIndels', 'average_depth',
                    'nSingletons', 'nHapRef', 'nHapAlt', 'nMissing'
 )
-summary(psc)
+
+kable(psc %>% select(-c(PSC,id,sample)) %>% summary())
+
+p1 <- psc %>% ggplot(aes(x=nRefHom)) + geom_boxplot() +
+    xlab('nRefHom') + theme_minimal() + theme(axis.text.y = element_blank()) + ggtitle('Number of reference homozygous')
+p2 <- psc %>% ggplot(aes(x=nNonRefHom)) + geom_boxplot() +
+    xlab('nNonRefHom') + theme_minimal() + theme(axis.text.y = element_blank()) + ggtitle('Number of non-reference homozygous')
+p3 <- psc %>% ggplot(aes(x=nHets)) + geom_boxplot() +
+    xlab('nHets') + theme_minimal() + theme(axis.text.y = element_blank()) + ggtitle('Number of heterozygous')
+
+grid.arrange(p1, p2, p3,ncol = 1)
 ```
