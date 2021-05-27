@@ -25,7 +25,7 @@ naszegenomy\_raport
 |     | 3rd Qu.:37.26  | 3rd Qu.:92.14         | 3rd Qu.:90.63         | 3rd Qu.:82.05         |
 |     | Max. :45.75    | Max. :92.34           | Max. :91.27           | Max. :90.00           |
 
-### Average depth outliers
+Average depth outliers
 
 | sample         | average\_depth |
 |:---------------|---------------:|
@@ -55,3 +55,32 @@ naszegenomy\_raport
 |     | Max. :1349   | Max. :1634096   | Max. :2445661   | Max. :2630499   | Max. :1316387   | Max. :823059   | Max. :47.90    | Max. :4766110   | Max. :0   | Max. :0   | Max. :162078   |
 
 ![](raport_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+## 3. AF
+
+to do: Summary: rare, medium, common variants, impacts
+
+AF curve: AF on X axis, number of variant on Y
+
+## 4. ROHs
+
+Summary
+
+|     | Length          | Number\_of\_markers | Quality       |
+|:----|:----------------|:--------------------|:--------------|
+|     | Min. : 83       | Min. : 2            | Min. : 0.60   |
+|     | 1st Qu.: 28823  | 1st Qu.: 58         | 1st Qu.:31.20 |
+|     | Median : 54628  | Median : 100        | Median :51.10 |
+|     | Mean : 124447   | Mean : 166          | Mean :49.86   |
+|     | 3rd Qu.: 105935 | 3rd Qu.: 179        | 3rd Qu.:68.50 |
+|     | Max. :63912719  | Max. :45797         | Max. :98.70   |
+
+ROHs quality histogram
+
+![](raport_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+Number of ROHs with length in specific ranges
+
+![](raport_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->![](raport_files/figure-gfm/unnamed-chunk-12-2.png)<!-- -->![](raport_files/figure-gfm/unnamed-chunk-12-3.png)<!-- -->
+
+to do: ROH fst

@@ -63,7 +63,7 @@ depth <- read.table(depth_path,header=T,sep='\t')
 kable(depth %>% select(-sample) %>% summary())
 ```
 
-### Average depth outliers 
+Average depth outliers 
 ```{r echo=FALSE}
 kable(depth %>% select(sample,average_depth) %>% filter(average_depth %in% outlier(depth$average_depth)))
 ```
@@ -112,3 +112,51 @@ p3 <- psc %>% ggplot(aes(x=nHets)) + geom_boxplot() +
 
 grid.arrange(p1, p2, p3,ncol = 1)
 ```
+
+
+## 3. AF
+to do:
+Summary: rare, medium, common variants, impacts
+
+AF curve: AF on X axis, number of variant on Y
+
+## 4. ROHs
+
+Summary
+
+```{r echo=FALSE}
+suppressMessages(library(data.table))
+roh <- fread('input/roh_concat.txt', showProgress = T)
+colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id')
+roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
+kable(roh %>% select(Length,Number_of_markers,Quality) %>% summary())
+```
+
+ROHs quality histogram
+
+```{r echo=FALSE}
+roh %>% ggplot(aes(x=Quality)) + geom_histogram(bins=100) +
+    theme(axis.text.y = element_blank()) + xlab('ROHs quality') + theme_minimal()
+```
+
+Number of ROHs with length in specific ranges
+
+```{r echo=FALSE} 
+roh_mln <- roh %>% filter(Length > 1e+06) 
+
+roh_mln %>% ggplot(aes(x=Length)) + geom_histogram(bins=100) +
+    theme(axis.text.y = element_blank()) + xlab('ROHs > 1Mb') + theme_minimal()
+
+roh100_mln <- roh %>% filter(Length <= 1e+06 & Length >= 1e+05) 
+
+roh100_mln %>% ggplot(aes(x=Length)) + geom_histogram(bins=100) +
+    theme(axis.text.y = element_blank()) + xlab('ROHs >0.1Mb & <1Mb') + theme_minimal()
+
+roh100 <- roh %>% filter(Length < 1e+05) 
+
+roh100 %>% ggplot(aes(x=Length)) + geom_histogram(bins=100) +
+    theme(axis.text.y = element_blank()) +  xlab('ROHs <0.1Mb') + theme_minimal()
+```
+
+to do: ROH fst
+
