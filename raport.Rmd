@@ -161,7 +161,7 @@ AF curves
 
 ```{r echo=FALSE}
 library(png)
-img1_path <- "output/afcurve.png"
+img1_path <- "raport_files/figure-gfm/afcurve.png"
 img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
 include_graphics(img1_path)
 

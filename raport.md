@@ -91,7 +91,7 @@ to do: Summary: rare, medium, common variants, impacts
 
 AF curves
 
-<img src="output/afcurve.png" width="2240" />
+<img src="raport_files/figure-gfm/afcurve.png" width="2240" />
 
 ## 4. ROHs
 
