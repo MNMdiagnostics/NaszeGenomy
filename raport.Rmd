@@ -35,35 +35,55 @@ flagstat <- flagstat %>%
 ## 1. Sequencing statistics (in millions)
 
 ```{r echo=FALSE}
-x <- flagstat %>% select(flagstat_total,mapped_passed,properly.paired_passed) 
-kable(summary(x))
+kable(flagstat %>% select(flagstat_total,mapped_passed,properly.paired_passed) %>%
+  pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
+  group_by(stat) %>% 
+  summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2),
+            max=round(max(value),2))
+)
 ```
 
 
 ```{r echo=FALSE}
-p1 <- flagstat %>% ggplot(aes(x=flagstat_total)) + geom_boxplot() +
-    xlab('Total reads (millions)') + theme_minimal() + xlim(c(600,1200)) + 
-    theme(axis.text.y = element_blank())
-p2 <- flagstat %>% ggplot(aes(x=mapped_passed)) + geom_boxplot() +
-    xlab('Mapped (millions)') + theme_minimal()+ xlim(c(600,1200)) +
-    theme(axis.text.y = element_blank())
-p3 <- flagstat %>% ggplot(aes(x=properly.paired_passed)) + geom_boxplot() + 
-    xlab('Properly paired (millions)') + theme_minimal()+ xlim(c(600,1200)) +
-    theme(axis.text.y = element_blank())
+p1 <- flagstat %>% ggplot(aes(y=flagstat_total,x=1)) + geom_violin(fill='#48C095',col='#27384A') +
+    geom_boxplot(width=0.1) +
+    xlab('Total reads (millions)') + theme_classic() + ylim(c(600,1200)) + 
+    theme(axis.text.x = element_blank())
+p2 <- flagstat %>% ggplot(aes(y=mapped_passed,x=1)) + geom_violin(fill='#48C095',col='#27384A') +
+    geom_boxplot(width=0.1) +
+    xlab('Mapped (millions)') + theme_classic()+ ylim(c(600,1200)) +
+    theme(axis.text.x = element_blank())
+p3 <- flagstat %>% ggplot(aes(y=properly.paired_passed,x=1)) + geom_violin(fill='#48C095',col='#27384A') +
+    geom_boxplot(width=0.1) + 
+    xlab('Properly paired (millions)') + theme_classic()+ ylim(c(600,1200)) +
+    theme(axis.text.x = element_blank())
 
-grid.arrange(p1, p2, p3,ncol = 1)
+grid.arrange(p1, p2, p3,nrow = 1)
 
 ```
+Total reads outliers 
+```{r echo=FALSE}
+kable(flagstat %>% select(Sample,flagstat_total) %>% filter(flagstat_total %in% outlier(flagstat$flagstat_total)))
+```
+
+
 
 ## 2. Depth statistics
 
 ```{r echo=FALSE}
 depth <- read.table(depth_path,header=T,sep='\t')
 
-kable(depth %>% select(-sample) %>% summary())
+kable(depth %>% 
+  select(-sample) %>% 
+  pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
+  group_by(stat) %>% 
+  summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2),
+            max=round(max(value),2))
+)
 ```
 
 Average depth outliers 
+
 ```{r echo=FALSE}
 kable(depth %>% select(sample,average_depth) %>% filter(average_depth %in% outlier(depth$average_depth)))
 ```
@@ -73,17 +93,21 @@ depth_intervals <- depth %>% select(-average_depth) %>% pivot_longer(cols = -sam
                                       names_to = 'group', 
                                       values_to = 'depth'
                                       )
-avg_depth_plot <- depth %>% ggplot(aes(x=average_depth)) + geom_boxplot() +
-  theme_minimal() +
-  theme(axis.text.y = element_blank())
+avg_depth_plot <- depth %>% ggplot(aes(y=average_depth,x=1)) + 
+  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_boxplot(width=0.1) +
+  theme_classic() +
+  xlab('Average depth') + 
+  ylab('') +
+  theme(axis.text.x = element_blank())
 avg_depth_plot
 ```
 
 
 ```{r echo=FALSE}
-depth_percent <- depth_intervals %>% ggplot(aes(y= group, x=depth)) + 
-    geom_boxplot() + 
-    theme_minimal() +
+depth_percent <- depth_intervals %>% ggplot(aes(y= depth, x=group)) + 
+    geom_boxplot() +
+    theme_classic() +
     scale_y_discrete(labels=c("percentage_above_30" = "30x", "percentage_above_20" = "20x",
                                 "percentage_above_10" = "10x")) +
     ylab('') +
@@ -101,16 +125,31 @@ colnames(psc) <- c(
                    'nSingletons', 'nHapRef', 'nHapAlt', 'nMissing'
 )
 
-kable(psc %>% select(-c(PSC,id,sample)) %>% summary())
+kable(psc %>% 
+  select(-c(PSC,id,sample,nHapAlt,nHapRef)) %>% 
+  pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
+  group_by(stat) %>% 
+  summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2),
+            max=round(max(value),2))
+)
 
-p1 <- psc %>% ggplot(aes(x=nRefHom)) + geom_boxplot() +
-    xlab('nRefHom') + theme_minimal() + theme(axis.text.y = element_blank()) + ggtitle('Number of reference homozygous')
-p2 <- psc %>% ggplot(aes(x=nNonRefHom)) + geom_boxplot() +
-    xlab('nNonRefHom') + theme_minimal() + theme(axis.text.y = element_blank()) + ggtitle('Number of non-reference homozygous')
-p3 <- psc %>% ggplot(aes(x=nHets)) + geom_boxplot() +
-    xlab('nHets') + theme_minimal() + theme(axis.text.y = element_blank()) + ggtitle('Number of heterozygous')
+p1 <- psc %>% ggplot(aes(y=nRefHom,x=1)) + 
+  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_boxplot(width=0.1) +
+    ylab('Number of reference homozygous') + theme_classic() + theme(axis.text.x = element_blank()) +
+  xlab('')
+p2 <- psc %>% ggplot(aes(y=nNonRefHom,x=1)) + 
+  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_boxplot(width=0.1) +
+    ylab('Number of non-reference homozygous') + theme_classic() + theme(axis.text.x = element_blank())+
+  xlab('')
+p3 <- psc %>% ggplot(aes(y=nHets,x=1)) + 
+  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_boxplot(width=0.1) +
+    ylab('Number of heterozygous') + theme_classic() + theme(axis.text.x = element_blank())+
+  xlab('')
 
-grid.arrange(p1, p2, p3,ncol = 1)
+grid.arrange(p1, p2, p3,nrow = 1)
 ```
 
 
@@ -118,7 +157,15 @@ grid.arrange(p1, p2, p3,ncol = 1)
 to do:
 Summary: rare, medium, common variants, impacts
 
-AF curve: AF on X axis, number of variant on Y
+AF curves
+
+```{r echo=FALSE}
+library(png)
+img1_path <- "output/afcurve.png"
+img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
+include_graphics(img1_path)
+
+```
 
 ## 4. ROHs
 
@@ -129,33 +176,42 @@ suppressMessages(library(data.table))
 roh <- fread('input/roh_concat.txt', showProgress = T)
 colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id')
 roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
-kable(roh %>% select(Length,Number_of_markers,Quality) %>% summary())
+
+kable(roh %>% select(Length,Number_of_markers,Quality) %>%
+  pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
+  group_by(stat) %>% 
+  summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2),
+            max=round(max(value),2))
+)
+
 ```
 
 ROHs quality histogram
 
 ```{r echo=FALSE}
-roh %>% ggplot(aes(x=Quality)) + geom_histogram(bins=100) +
-    theme(axis.text.y = element_blank()) + xlab('ROHs quality') + theme_minimal()
+roh  %>% ggplot(aes(x=1,y=Quality)) + 
+    geom_violin(fill='#48C095', col='#27384A') + 
+  geom_boxplot(width=0.1) +
+     theme_classic() + theme(axis.text.x = element_blank()) +
+  xlab('')
 ```
 
 Number of ROHs with length in specific ranges
 
 ```{r echo=FALSE} 
-roh_mln <- roh %>% filter(Length > 1e+06) 
+test1 <- roh$Length > 5e+06 
+test2 <- roh$Length < 25000
 
-roh_mln %>% ggplot(aes(x=Length)) + geom_histogram(bins=100) +
-    theme(axis.text.y = element_blank()) + xlab('ROHs > 1Mb') + theme_minimal()
+roh <- roh %>% 
+    mutate(group = case_when(test1 ~ ">5Mb", 
+                             (test2) ~ "<25Kb" , 
+                             !test1 & !test2 ~ "25Kb-5Mb" 
+    ))
 
-roh100_mln <- roh %>% filter(Length <= 1e+06 & Length >= 1e+05) 
-
-roh100_mln %>% ggplot(aes(x=Length)) + geom_histogram(bins=100) +
-    theme(axis.text.y = element_blank()) + xlab('ROHs >0.1Mb & <1Mb') + theme_minimal()
-
-roh100 <- roh %>% filter(Length < 1e+05) 
-
-roh100 %>% ggplot(aes(x=Length)) + geom_histogram(bins=100) +
-    theme(axis.text.y = element_blank()) +  xlab('ROHs <0.1Mb') + theme_minimal()
+roh  %>% ggplot(aes(x=1,y=Length)) + 
+    geom_violin(fill='#48C095', col='#27384A') + geom_boxplot(width=0.1) +
+     theme_classic() + theme(axis.text.x = element_blank()) + 
+  facet_wrap(~group, ncol=3, scales = 'free_y') + xlab('')
 ```
 
 to do: ROH fst
