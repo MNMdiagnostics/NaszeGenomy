@@ -152,6 +152,22 @@ p3 <- psc %>% ggplot(aes(y=nHets,x=1)) +
 grid.arrange(p1, p2, p3,nrow = 1)
 ```
 
+PSC outliers
+
+```{r echo=FALSE}
+kable(psc %>% 
+        select(sample,nRefHom) %>% 
+        filter(nRefHom %in% outlier(psc$nRefHom)))
+
+kable(psc %>% 
+        select(sample,nNonRefHom) %>% 
+        filter(nNonRefHom %in% outlier(psc$nNonRefHom)))
+
+kable(psc %>% 
+        select(sample,nHets) %>% 
+        filter(nHets %in% outlier(psc$nHets)))
+```
+
 
 ## 3. AF
 to do:
@@ -208,11 +224,29 @@ roh <- roh %>%
                              !test1 & !test2 ~ "25Kb-5Mb" 
     ))
 
-roh  %>% ggplot(aes(x=1,y=Length)) + 
+roh  %>% 
+  ggplot(aes(x=1,y=Length)) + 
     geom_violin(fill='#48C095', col='#27384A') + geom_boxplot(width=0.1) +
      theme_classic() + theme(axis.text.x = element_blank()) + 
   facet_wrap(~group, ncol=3, scales = 'free_y') + xlab('')
 ```
+
+ROH span across chromosome 1
+
+```{r echo=FALSE}
+library(viridis)
+roh %>% filter(Chromosome == 'chr1') %>%
+  ggplot(aes(x=Start/1e+06,y=Length/1e+06,col=sample_id)) + 
+  geom_line() + 
+  theme_classic() +
+  theme(legend.position = "none") + 
+  ylab('ROH length (Mb)')  +
+  xlab('Chromosome coordinates (Mb)') + 
+  scale_color_viridis(discrete = TRUE, option = "D")
+
+
+```
+
 
 to do: ROH fst
 

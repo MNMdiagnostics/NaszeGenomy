@@ -85,6 +85,26 @@ Average depth outliers
 
 ![](raport_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
+PSC outliers
+
+| sample         | nRefHom |
+|:---------------|--------:|
+| 365\_23988\_20 |    1023 |
+| COV031K        |    1037 |
+| COV045K        |    1295 |
+| COV258X060B    |    1349 |
+| COV641Y213A    |    1025 |
+
+| sample         | nNonRefHom |
+|:---------------|-----------:|
+| 389\_24332\_20 |    1634096 |
+| COV215X042A    |    1468590 |
+
+| sample         |   nHets |
+|:---------------|--------:|
+| 389\_24332\_20 | 2164166 |
+| COV215X042A    | 2445661 |
+
 ## 3. AF
 
 to do: Summary: rare, medium, common variants, impacts
@@ -105,10 +125,16 @@ Summary
 
 ROHs quality histogram
 
-![](raport_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](raport_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 Number of ROHs with length in specific ranges
 
-![](raport_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](raport_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+ROH span across chromosome 1
+
+    ## Loading required package: viridisLite
+
+![](raport_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 to do: ROH fst
