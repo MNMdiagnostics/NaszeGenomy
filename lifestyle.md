@@ -1,7 +1,5 @@
 ---
 title: "Lifestyle variants"
-author: "Mateusz Sypniewski"
-date: "6/2/2021"
 output:
   html_document:
     keep_md: yes
