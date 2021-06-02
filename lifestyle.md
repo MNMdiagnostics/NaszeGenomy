@@ -11,6 +11,11 @@ output:
 
 
 
+
+
+Top 5 and bottom 5 differences between AF in PL and EUR
+
+
 |rsid       |REF |ALT |CLIN_SIG                  |IMPACT   |    PL_AF| EUR_AF|  eur_diff|
 |:----------|:---|:---|:-------------------------|:--------|--------:|------:|---------:|
 |rs4988235  |G   |A   |association               |MODIFIER | 0.407116| 0.5080| -0.100884|
@@ -27,4 +32,4 @@ output:
 
 
 
-![](lifestyle_files/figure-html/unnamed-chunk-2-1.png)<!-- -->![](lifestyle_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
+![](lifestyle_files/figure-html/unnamed-chunk-3-1.png)<!-- -->![](lifestyle_files/figure-html/unnamed-chunk-3-2.png)<!-- -->

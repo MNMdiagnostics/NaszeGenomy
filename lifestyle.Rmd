@@ -37,7 +37,12 @@ af_comp$eur_diff <- af_comp$PL_AF - af_comp$EUR_AF
 af_outlier <- af_comp %>% 
   top_n(-5, eur_diff) %>% rbind( top_n(af_comp,5, eur_diff)) %>% 
   select(rsid,REF,ALT,CLIN_SIG,IMPACT,PL_AF,EUR_AF,eur_diff) %>% arrange(eur_diff)
+```
 
+
+Top 5 and bottom 5 differences between AF in PL and EUR
+
+```{r echo=FALSE}
 kable(af_outlier)
 ```
 
