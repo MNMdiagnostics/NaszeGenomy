@@ -21,12 +21,14 @@ pl <- pl %>% unite('Location',V1,V2,remove=T,sep = ':')
 pl$Location <- gsub('chr',pl$Location,replacement = '')
 colnames(pl) <- c('Location',"REF",'ALT','PL_AF')
 
+effects <- read.table('input/lifestyle_effect','\t',header=T)
+
 vep <- read.csv('output/lifestyle_id.vep',sep='\t',header = T,skip = 49)
 colnames(vep)[1] <- 'rsid'
 
-lifestyle <- vep %>% right_join(pl)
+lifestyle <- vep %>% right_join(pl) %>% right_join(effects)
 
-af_comp <- lifestyle %>% select(rsid,Location,REF,ALT,AFR_AF:SAS_AF,PL_AF,CLIN_SIG,IMPACT) %>%
+af_comp <- lifestyle %>% select(rsid,Location,REF,ALT,AFR_AF:SAS_AF,PL_AF,CLIN_SIG,IMPACT,effect) %>%
   filter(EUR_AF != '-') %>% mutate(EUR_AF = as.numeric(as.character(EUR_AF)),
                                    EAS_AF = as.numeric(as.character(EAS_AF)),
                                    AFR_AF = as.numeric(as.character(AFR_AF)),
@@ -36,7 +38,7 @@ af_comp$eur_diff <- af_comp$PL_AF - af_comp$EUR_AF
 
 af_outlier <- af_comp %>% 
   top_n(-5, eur_diff) %>% rbind( top_n(af_comp,5, eur_diff)) %>% 
-  select(rsid,REF,ALT,CLIN_SIG,IMPACT,PL_AF,EUR_AF,eur_diff) %>% arrange(eur_diff)
+  select(rsid,REF,ALT,effect,CLIN_SIG,IMPACT,PL_AF,EUR_AF,eur_diff) %>% arrange(eur_diff)
 ```
 
 
@@ -62,7 +64,15 @@ af_outlier %>%
   ggplot(aes(x=eur_diff,y = rsid)) + 
   geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
   ylab('rsid ') + xlab('Difference between AF in Polish and European populations') +
-  ggtitle('Top5 and bottom 5 differences between AF in PL and EUR') +
+  ggtitle('Top 5 and bottom 5 differences between AF in PL and EUR') +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+af_outlier %>%
+  ggplot(aes(x=eur_diff,y = effect)) + 
+  geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
+  ylab('Variant effect') + xlab('Difference between AF in Polish and European populations') +
+  ggtitle('Top 5 and bottom 5 differences between AF in PL and EUR') +
   theme(plot.title = element_text(hjust = 0.5))
 
 ```
