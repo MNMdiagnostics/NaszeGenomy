@@ -1,5 +1,5 @@
 ---
-title: "Lifestyle variants"
+title: "Lifestyle_variants"
 output:
   html_document:
     keep_md: yes
