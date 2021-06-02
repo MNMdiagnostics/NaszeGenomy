@@ -1,0 +1,66 @@
+---
+title: "Lifestyle variants"
+author: "Mateusz Sypniewski"
+date: "6/2/2021"
+output:
+  html_document:
+    keep_md: yes
+
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+suppressMessages(library(knitr))
+```
+
+
+
+
+```{r echo=FALSE, message=F}
+suppressMessages(library(tidyverse))
+
+pl <- read.table('output/lifestyle.variants')
+pl <- pl %>% unite('Location',V1,V2,remove=T,sep = ':')
+pl$Location <- gsub('chr',pl$Location,replacement = '')
+colnames(pl) <- c('Location',"REF",'ALT','PL_AF')
+
+vep <- read.csv('output/lifestyle_id.vep',sep='\t',header = T,skip = 49)
+colnames(vep)[1] <- 'rsid'
+
+lifestyle <- vep %>% right_join(pl)
+
+af_comp <- lifestyle %>% select(rsid,Location,REF,ALT,AFR_AF:SAS_AF,PL_AF,CLIN_SIG,IMPACT) %>%
+  filter(EUR_AF != '-') %>% mutate(EUR_AF = as.numeric(as.character(EUR_AF)),
+                                   EAS_AF = as.numeric(as.character(EAS_AF)),
+                                   AFR_AF = as.numeric(as.character(AFR_AF)),
+                                   AMR_AF = as.numeric(as.character(AMR_AF)),
+                                   SAS_AF = as.numeric(as.character(SAS_AF))) %>% na.omit()
+af_comp$eur_diff <- af_comp$PL_AF - af_comp$EUR_AF
+
+af_outlier <- af_comp %>% 
+  top_n(-5, eur_diff) %>% rbind( top_n(af_comp,5, eur_diff)) %>% 
+  select(rsid,REF,ALT,CLIN_SIG,IMPACT,PL_AF,EUR_AF,eur_diff) %>% arrange(eur_diff)
+
+kable(af_outlier)
+```
+
+
+
+
+```{r echo=FALSE, message=F}
+af_comp %>% 
+  ggplot(aes(y=PL_AF,x=EUR_AF)) + geom_point(col='#27384A') + 
+  geom_smooth(method='lm',se = F,col='#48C095') + theme_classic() + 
+  xlab('AF in 1000 Genomes EUR population') +
+  ylab('AF in PL population') + 
+  ggtitle('Correlation between AF in PL and EUR populations') +
+  theme(plot.title = element_text(hjust = 0.5))
+
+af_outlier %>%
+  ggplot(aes(x=eur_diff,y = rsid)) + 
+  geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
+  ylab('rsid ') + xlab('Difference between AF in Polish and European populations') +
+  ggtitle('Top5 and bottom 5 differences between AF in PL and EUR') +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
