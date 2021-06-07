@@ -57,8 +57,7 @@ Total reads outliers
 |COV661X220A  |       693.8154|
 |COV663X221B  |       697.1672|
 
-
-
+![](raport_files/figure-html/variant_missing_call_rate-1.png)<!-- -->
 
 ![](raport_files/figure-html/missing_call_rate-1.png)<!-- -->
 
@@ -196,7 +195,11 @@ Summary: rare, medium, common variants, impacts
 
 AF curves
 
-<img src="raport_files/figure-gfm/afcurve.png" width="2239" />
+<img src="raport_files/figure-gfm/afcurve.png" width="2240" />
+
+<img src="raport_files/figure-gfm/logafcurve.png" width="2239" />
+
+
 
 ## 4. ROHs
 
@@ -211,7 +214,7 @@ Summary
 
 
 
-![](raport_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](raport_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 
 
@@ -224,7 +227,7 @@ ROH span across chromosome 1
 ## Loading required package: viridisLite
 ```
 
-![](raport_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](raport_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 
 to do: ROH fst

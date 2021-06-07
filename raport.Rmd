@@ -82,8 +82,14 @@ flagstat_out <- flagstat %>% select(sample,flagstat_total) %>% filter(flagstat_t
 kable(flagstat_out)
 ```
 
+```{r variant_missing_call_rate, echo=FALSE}
+varmiss <-  fread('output/plink_stats/plink.lmiss')
+varmiss %>% filter(F_MISS > 0.005) %>% 
+  ggplot(aes(F_MISS)) +geom_histogram(fill='#48C095',col='#27384A',bins=30) +
+  theme_classic() + ggtitle('N variants with missing call rate > 0.5%') + xlab('Call rate missing')
 
 
+```
 
 ```{r missing_call_rate, echo=FALSE}
 imiss <- fread('output/plink_stats/plink.imiss') %>% as.data.frame()
@@ -266,6 +272,16 @@ img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
 include_graphics(img1_path)
 
 ```
+
+```{r echo=FALSE}
+library(png)
+img1_path <- "raport_files/figure-gfm/logafcurve.png"
+img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
+include_graphics(img1_path)
+
+```
+
+
 
 ## 4. ROHs
 
