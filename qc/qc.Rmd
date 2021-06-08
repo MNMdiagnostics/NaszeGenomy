@@ -1,0 +1,326 @@
+---
+title: "qc"
+../output: github_document
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+suppressMessages(library(knitr))
+```
+
+```{r echo=FALSE}
+outlier <- function (x) {
+  IQR <- quantile(x)[[4]] - quantile(x)[[2]]
+  low <- quantile(x)[[2]] - 1.5*IQR
+  high <- quantile(x)[[4]] + 1.5*IQR
+  out_val <- x[x < low | x > high]
+  return(out_val)
+}
+```
+
+```{r echo=FALSE}
+suppressMessages(library(tidyverse))
+suppressMessages(library(gridExtra))
+suppressMessages(library(grid))
+suppressMessages(library(data.table))
+
+flagstat_path = "../output/multiqc_data/multiqc_samtools_flagstat.txt"
+depth_path = "../output/depth_concat.txt"
+
+flagstat <- read.table(flagstat_path,header=T,sep='\t')
+colnames(flagstat)[1] <- 'sample'
+flagstat_samples <- length(unique(flagstat$sample))
+
+flagstat <- flagstat %>% 
+    mutate(total_passed = total_passed/1e+06, properly.paired_passed = properly.paired_passed/1e+06, flagstat_total = flagstat_total/1e+06,
+    mapped_passed = mapped_passed/1e+06, singletons_passed = singletons_passed/1e+06, duplicates_passed = duplicates_passed/1e+06)
+
+```
+
+## 1. Sequencing statistics (in millions)
+
+```{r echo=FALSE}
+kable(flagstat %>% select(flagstat_total,mapped_passed,properly.paired_passed) %>%
+  pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
+  group_by(stat) %>% 
+  summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2),
+            max=round(max(value),2))
+)
+```
+
+
+```{r flagstat, echo=FALSE}
+p1 <- flagstat %>% ggplot(aes(y=flagstat_total,x=1)) + geom_violin(fill='#48C095',col='#27384A') +
+    geom_boxplot(width=0.1) +
+    xlab('Total reads (millions)') + theme_classic() + ylim(c(600,1200)) + ylab('') + 
+    theme(axis.text.x = element_blank())
+p2 <- flagstat %>% ggplot(aes(y=mapped_passed,x=1)) + geom_violin(fill='#48C095',col='#27384A') +
+    geom_boxplot(width=0.1) +
+    xlab('Mapped (millions)') + theme_classic()+ ylim(c(600,1200)) + ylab('') + 
+    theme(axis.text.x = element_blank())
+p3 <- flagstat %>% ggplot(aes(y=properly.paired_passed,x=1)) + geom_violin(fill='#48C095',col='#27384A') +
+    geom_boxplot(width=0.1) + 
+    xlab('Properly paired (millions)') + theme_classic()+ ylim(c(600,1200)) + ylab('') + 
+    theme(axis.text.x = element_blank())
+
+grid.arrange(p1, p2, p3,nrow = 1, 
+             top=textGrob(paste("Reads statistics in cohort of", length(unique(flagstat$sample)), 'unrelated individuals',sep=' ')), 
+             left = textGrob("Number of unrelated individuals", rot = 90, vjust = 1))
+
+```
+
+
+Total reads outliers 
+
+```{r echo=FALSE}
+flagstat_out <- flagstat %>% select(sample,flagstat_total) %>% filter(flagstat_total %in% outlier(flagstat$flagstat_total))
+
+kable(flagstat_out)
+```
+
+```{r variant_missing_call_rate, echo=FALSE}
+varmiss <-  fread('../output/plink_stats/plink.lmiss')
+varmiss %>% filter(F_MISS > 0.005) %>% 
+  ggplot(aes(F_MISS)) +geom_histogram(fill='#48C095',col='#27384A',bins=30) +
+  theme_classic() + ggtitle('N variants with missing call rate > 0.5%') + xlab('Call rate missing')
+
+
+```
+
+```{r missing_call_rate, echo=FALSE}
+imiss <- fread('../output/plink_stats/plink.imiss') %>% as.data.frame()
+colnames(imiss)[2] <- 'sample'
+imiss %>% ggplot(aes(F_MISS)) + 
+  geom_histogram(fill='#48C095',col='#27384A') +
+  xlab('Call rate missing') + 
+  ylab('count') +
+  ggtitle('Histogram of missing call-rate per genome', 
+  subtitle = paste('cohort of', length(unique(imiss$sample)), 'unrelated individuals' ,sep = ' ')) +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) 
+```
+
+Call rate missing outliers 
+
+```{r echo=FALSE}
+imiss_out <- imiss %>% select(sample,F_MISS) %>% 
+        filter(F_MISS %in% outlier(imiss$F_MISS)) %>% arrange(F_MISS)
+
+kable(imiss_out) 
+
+```
+
+
+## 2. Depth statistics
+
+```{r  echo=FALSE}
+depth <- read.table(depth_path,header=T,sep='\t')
+depth_samples <- length(unique(depth$sample))
+
+
+kable(depth %>% 
+  select(-sample) %>% 
+  pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
+  group_by(stat) %>% 
+  summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2),
+            max=round(max(value),2))
+)
+```
+
+Average depth outliers 
+
+```{r echo=FALSE}
+depth_out <- depth %>% select(sample,average_depth) %>% 
+        filter(average_depth %in% outlier(depth$average_depth)) %>% 
+        arrange(average_depth)
+
+kable(depth_out)
+```
+
+```{r average_depth, echo=FALSE}
+depth_intervals <- depth %>% select(-average_depth) %>% pivot_longer(cols = -sample,
+                                      names_to = 'group', 
+                                      values_to = 'depth'
+                                      )
+avg_depth_plot <- depth %>% ggplot(aes(y=average_depth,x=1)) + 
+  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_boxplot(width=0.1) +
+  theme_classic() +
+  xlab('Average depth') + 
+  ylab('') +
+  theme(axis.text.x = element_blank()) + 
+  ggtitle(paste("Average depth per sample", length(unique(depth$sample)), 'unrelated individuals',sep=' ')) + theme(plot.title = element_text(hjust = 0.5))
+avg_depth_plot
+```
+
+
+```{r depth_intervals,echo=FALSE}
+depth_percent <- depth_intervals %>% ggplot(aes(x= depth, y=1)) + 
+    geom_violin(fill='#48C095',col='#27384A') +
+    geom_boxplot(width=0.1) +
+    theme_classic() +
+    xlab('% coverage') + 
+  ylab('') +
+  ggtitle(paste("% of genome coverage in cohort of", length(unique(depth$sample)), 'unrelated individuals',sep=' ')) + 
+  facet_wrap(~group, nrow = 3, scales = 'free') +
+  theme(axis.text.y = element_blank()) + 
+  theme(plot.title = element_text(hjust = 0.5))
+depth_percent
+```
+
+## 3. Per sample count (PSC)
+
+```{r psc,echo=FALSE}
+
+psc <- read.table('../output/total_psc.stats', sep='\t')
+colnames(psc) <- c(
+  'PSC','id', 'sample', 'nRefHom', 'nNonRefHom', 'nHets', 
+                   'nTransitions', 'nTransversions', 'nIndels', 'average_depth',
+                   'nSingletons', 'nHapRef', 'nHapAlt', 'nMissing'
+)
+
+kable(psc %>% 
+  select(-c(PSC,id,sample,nHapAlt,nHapRef)) %>% 
+  pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
+  group_by(stat) %>% 
+  summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2),
+            max=round(max(value),2))
+)
+
+p1 <- psc %>% ggplot(aes(x=nRefHom,y=1)) + 
+  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_boxplot(width=0.1) +
+    xlab('Number of reference homozygous') + theme_classic() + theme(axis.text.y = element_blank()) +
+  ylab('')
+p2 <- psc %>% ggplot(aes(x=nNonRefHom,y=1)) + 
+  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_boxplot(width=0.1) +
+    xlab('Number of non-reference homozygous') + theme_classic() + theme(axis.text.y = element_blank())+
+  ylab('')
+p3 <- psc %>% ggplot(aes(x=nHets,y=1)) + 
+  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_boxplot(width=0.1) +
+    xlab('Number of heterozygous') + theme_classic() + theme(axis.text.y = element_blank())+
+  ylab('')
+
+grid.arrange(p1, p2, p3,ncol = 1, 
+             top=textGrob(paste("Per Sample Count (PSC) in cohort of", length(unique(flagstat$sample)), 'unrelated individuals',sep=' ')))
+```
+
+PSC outliers
+
+```{r echo=FALSE}
+psc_nref_out <- psc %>% 
+        select(sample,nRefHom) %>% 
+        filter(nRefHom %in% outlier(psc$nRefHom)) %>% arrange(nRefHom)
+
+kable(psc_nref_out)
+
+psc_nonref_out <-  psc %>% 
+        select(sample,nNonRefHom) %>% 
+        filter(nNonRefHom %in% outlier(psc$nNonRefHom)) %>% arrange(nNonRefHom)
+
+kable(psc_nonref_out)
+
+psc_hets_out <-  psc %>% 
+        select(sample,nHets) %>% 
+        filter(nHets %in% outlier(psc$nHets))
+kable(psc_hets_out)
+```
+
+### Outlier samples reccuring in other statistics:
+
+```{r echo=FALSE}
+
+final_out <- imiss_out %>% 
+  left_join(depth_out,by = "sample") %>% 
+  left_join(flagstat_out,by = "sample") %>%
+  left_join(psc_nref_out,by = "sample") %>%
+  left_join(psc_nonref_out,by = "sample") %>%
+  left_join(psc_hets_out,by = "sample") 
+
+final_out <- final_out %>% filter(!is.na(average_depth) | !is.na(flagstat_total) | !is.na(nRefHom)  |
+           !is.na(nNonRefHom) | !is.na(nHets)) %>% 
+  pivot_longer(-sample) 
+  
+final_out$value <-  ifelse(is.na(final_out$value),
+                                   'not_outlier',
+                                   final_out$value) 
+final_out <- final_out %>% pivot_wider()
+
+kable(final_out)
+
+```
+
+
+
+<!-- ## 4. ROHs -->
+
+<!-- Summary -->
+
+<!-- ```{r echo=FALSE} -->
+<!-- roh <- fread('input/roh_concat.txt', showProgress = T) -->
+<!-- colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id') -->
+<!-- roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id) -->
+
+<!-- kable(roh %>% select(Length,Number_of_markers,Quality) %>% -->
+<!--   pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>% -->
+<!--   group_by(stat) %>%  -->
+<!--   summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2), -->
+<!--             max=round(max(value),2)) -->
+<!-- ) -->
+
+<!-- ``` -->
+
+
+
+<!-- ```{r echo=FALSE} -->
+<!-- roh  %>% ggplot(aes(x=1,y=Quality)) +  -->
+<!--     geom_violin(fill='#48C095', col='#27384A') +  -->
+<!--   geom_boxplot(width=0.1) + -->
+<!--      theme_classic() + theme(axis.text.x = element_blank()) + -->
+<!--   ggtitle('ROHs quality histogram') +  -->
+<!--   theme(plot.title = element_text(hjust = 0.5)) + -->
+<!--   xlab('') -->
+<!-- ``` -->
+
+
+
+<!-- ```{r roh, echo=FALSE}  -->
+<!-- test1 <- roh$Length > 5e+06  -->
+<!-- test2 <- roh$Length < 25000 -->
+
+<!-- roh <- roh %>%  -->
+<!--     mutate(group = case_when(test1 ~ ">5Mb",  -->
+<!--                              (test2) ~ "<25Kb" ,  -->
+<!--                              !test1 & !test2 ~ "25Kb-5Mb"  -->
+<!--     )) -->
+
+<!-- roh  %>%  -->
+<!--   ggplot(aes(x=1,y=Length)) +  -->
+<!--     geom_violin(fill='#48C095', col='#27384A') + geom_boxplot(width=0.1) + -->
+<!--      theme_classic() + theme(axis.text.x = element_blank()) +  -->
+<!--   facet_wrap(~group, ncol=3, scales = 'free_y') + xlab('') + -->
+<!--   ggtitle('Number of ROHs with length in specific ranges') +  -->
+<!--   theme(plot.title = element_text(hjust = 0.5)) -->
+<!-- ``` -->
+
+<!-- ROH span across chromosome 1 -->
+
+<!-- ```{r echo=FALSE} -->
+<!-- library(viridis) -->
+<!-- roh %>% filter(Chromosome == 'chr1') %>% -->
+<!--   ggplot(aes(x=Start/1e+06,y=Length/1e+06,col=sample_id)) +  -->
+<!--   geom_line() +  -->
+<!--   theme_classic() + -->
+<!--   theme(legend.position = "none") +  -->
+<!--   ylab('ROH length (Mb)')  + -->
+<!--   xlab('Chromosome coordinates (Mb)') +  -->
+<!--   scale_color_viridis(discrete = TRUE, option = "D") -->
+
+
+<!-- ``` -->
+
+
+<!-- to do: ROH fst -->
+
