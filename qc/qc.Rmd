@@ -1,6 +1,6 @@
 ---
 title: "qc"
-../output: github_document
+output: github_document
 ---
 
 ```{r setup, echo=FALSE}
@@ -77,6 +77,8 @@ flagstat_out <- flagstat %>% select(sample,flagstat_total) %>% filter(flagstat_t
 
 kable(flagstat_out)
 ```
+
+### Call rate
 
 ```{r variant_missing_call_rate, echo=FALSE}
 varmiss <-  fread('../output/plink_stats/plink.lmiss')
