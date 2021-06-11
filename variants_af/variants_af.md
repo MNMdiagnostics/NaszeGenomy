@@ -1,6 +1,8 @@
 Variants in disease causing genes
 ================
 
+## Variants distribution
+
 <img src="variants_af_files/figure-gfm/afcurve.png" width="2240" />
 
 ![](variants_af_files/figure-gfm/ACMG-1.png)<!-- -->

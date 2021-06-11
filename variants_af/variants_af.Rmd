@@ -1,7 +1,6 @@
 ---
 title: "Variants in disease causing genes"
 output: 
-  pdf_document: default
   github_document: default
 
 ---
