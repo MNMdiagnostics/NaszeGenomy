@@ -1,6 +1,8 @@
 ---
 title: "qc"
-output: github_document
+output:
+  github_document: default
+  
 ---
 
 ```{r setup, echo=FALSE}
@@ -82,9 +84,12 @@ kable(flagstat_out)
 
 ```{r variant_missing_call_rate, echo=FALSE}
 varmiss <-  fread('../output/plink_stats/plink.lmiss')
-varmiss %>% filter(F_MISS > 0.005) %>% 
+varmiss %>% 
+  filter(F_MISS < 0.05) %>% 
   ggplot(aes(F_MISS)) +geom_histogram(fill='#48C095',col='#27384A',bins=30) +
-  theme_classic() + ggtitle('N variants with missing call rate > 0.5%') + xlab('Call rate missing')
+  geom_vline(xintercept = 0.01, col='red') +
+  geom_text(aes(y=4e+06,x=0.01), label='cutoff') +
+  theme_classic() + ggtitle('N variants with missing call rate < 5%') + xlab('Call rate missing')
 
 
 ```
