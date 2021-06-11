@@ -1,6 +1,9 @@
 ---
 title: "Variants in disease causing genes"
-output: github_document
+output: 
+  pdf_document: default
+  github_document: default
+
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE}
@@ -8,10 +11,13 @@ knitr::opts_chunk$set(echo=FALSE)
 suppressMessages(library(knitr))
 suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
+library(grid)
+suppressMessages(library(gridExtra))
 ```
 
 
 
+## Variants distribution
 ```{r af_hist,echo=FALSE}
 library(png)
 img1_path <- "variants_af_files/figure-gfm/afcurve.png"
@@ -29,79 +35,121 @@ group.colors <- c(PL_AF = "#BC0020", AF = "#27384A", gnomAD_FIN_AF ="#48C095", g
 ```{r ACMG, echo=FALSE, warning=FALSE}
 acmg <- read.table('../input/diseases/acmg_ready.tsv',sep='\t',header=T)
 
-comp_acmg <- acmg %>% 
-  select(X.Uploaded_variation, all_of(af_list)) %>%
+comp_acmg <- acmg %>%
+   select(Uploaded_variation, all_of(af_list)) %>%
   mutate(across(AF:gnomAD_NFE_AF,as.character)) %>%
-  mutate(across(AF:gnomAD_NFE_AF,as.numeric)) %>%
-  pivot_longer(-X.Uploaded_variation, names_to = 'Pop',values_to = 'AF',
-               values_drop_na = F) 
-comp_acmg$AF <- ifelse(is.na(comp_acmg$AF)==T,0,comp_acmg$AF)
+   mutate(across(AF:gnomAD_NFE_AF,as.numeric)) 
 
-comp_acmg %>% 
-  ggplot(aes(x=1:nrow(comp_acmg),y=AF,col=Pop)) + geom_point() +
-  ylab('Allele frequency') +
-  xlab('Variants') +
-  ggtitle('Variants in ACMG genes with high impact', 
-  subtitle = paste(length(unique(comp_acmg$X.Uploaded_variation)), 
-                   'variants' 
-                   ,sep = ' ')) +
-  theme_classic() +
-  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) +
-  theme(axis.text.x = element_blank()) +
-  scale_color_manual(values=group.colors)
+af <- comp_acmg %>% ggplot(aes(x=AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('1000 genomes AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+eur <- comp_acmg %>% ggplot(aes(x=EUR_AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('1000 genomes European AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+fin <- comp_acmg %>% ggplot(aes(x=gnomAD_FIN_AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('gnomAD Finnish AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+nonfin <- comp_acmg %>% ggplot(aes(x=gnomAD_NFE_AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('gnomAD Non-Finnish European AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+
+
+grid.arrange(af,eur,fin,nonfin,
+             top=textGrob('ACMG genes'))
 
 
 ```
 
 
 ```{r clinvar, echo=FALSE, warning=FALSE}
-clinsig <- read.table('../input/diseases/clin_sig.tsv',sep='\t',header=T)
-comp_clinsig <- clinsig %>% na.omit() %>%
-  select(X.Uploaded_variation, all_of(af_list)) %>%
+clinsig <- read.table('../input/diseases/clin_sig_ready.tsv',sep='\t',header=T)
+comp_clinsig <- clinsig %>% 
+  select(Uploaded_variation, all_of(af_list)) %>%
   mutate(across(AF:gnomAD_NFE_AF,as.character)) %>%
-  mutate(across(AF:gnomAD_NFE_AF,as.numeric)) %>%
-  pivot_longer(-X.Uploaded_variation, names_to = 'Pop',values_to = 'AF',
-               values_drop_na = F) 
-comp_clinsig$AF <- ifelse(is.na(comp_clinsig$AF)==T,0,comp_clinsig$AF)
+  mutate(across(AF:gnomAD_NFE_AF,as.numeric)) 
 
-comp_clinsig %>% 
-  ggplot(aes(x=1:nrow(comp_clinsig),y=AF,col=Pop)) + geom_point() +
-  ylab('Allele frequency') +
-  xlab('Variants') +
-  ggtitle('Variants with pathogenic annotation', 
-  subtitle = paste(length(unique(comp_clinsig$X.Uploaded_variation)), 
-                   'variants' 
-                   ,sep = ' ')) +
-  theme_classic() +
-  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) +
-  theme(axis.text.x = element_blank()) +
-  scale_color_manual(values=group.colors)
+af <- comp_clinsig %>% ggplot(aes(x=AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('1000 genomes AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+eur <- comp_clinsig %>% ggplot(aes(x=EUR_AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('1000 genomes European AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+fin <- comp_clinsig %>% ggplot(aes(x=gnomAD_FIN_AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('gnomAD Finnish AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+nonfin <- comp_clinsig %>% ggplot(aes(x=gnomAD_NFE_AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('gnomAD Non-Finnish European AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+library(gridExtra)
+
+grid.arrange(af,eur,fin,nonfin,
+             top=textGrob('ClINVAR pathogenic'))
+
+
+
 ```
 
 
 
 ```{r putative, echo=FALSE, warning=FALSE}
-putative <- read.table('../input/diseases/putative_ready.tsv',sep='\t',header=T)
+putative <- fread('../input/diseases/putative_ready.tsv',header=T)
 comp_putative <- putative %>% 
-  select(X.Uploaded_variation, all_of(af_list)) %>%
+  select(Uploaded_variation, all_of(af_list)) %>%
   mutate(across(AF:gnomAD_NFE_AF,as.character)) %>%
-  mutate(across(AF:gnomAD_NFE_AF,as.numeric)) %>%
-  pivot_longer(-X.Uploaded_variation, names_to = 'Pop',values_to = 'AF',
-               values_drop_na = F)
-comp_putative$AF <- ifelse(is.na(comp_putative$AF)==T,0,comp_putative$AF)
+  mutate(across(AF:gnomAD_NFE_AF,as.numeric)) 
 
-comp_putative %>% 
-  ggplot(aes(x=1:nrow(comp_putative),y=AF,col=Pop)) + geom_point() +
-  ylab('Allele frequency') +
-  xlab('Variants') +
-  ggtitle('Putative disease causing variants', 
-  subtitle = paste(length(unique(comp_putative$X.Uploaded_variation)), 
-                   'variants with high or moderate impact' 
-                   ,sep = ' ')) +
-  theme_classic() +
-  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) +
-  theme(axis.text.x = element_blank())  + ylim(c(0,0.04)) +
-  scale_color_manual(values=group.colors)
+af <- comp_putative %>% ggplot(aes(x=AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('1000 genomes AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+eur <- comp_putative %>% ggplot(aes(x=EUR_AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('1000 genomes European AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+fin <- comp_putative %>% ggplot(aes(x=gnomAD_FIN_AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('gnomAD Finnish AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+nonfin <- comp_putative %>% ggplot(aes(x=gnomAD_NFE_AF,y=PL_AF)) + 
+  geom_point(col="#48C095") + 
+  xlab('gnomAD Non-Finnish European AF') +
+  ylab('Polish AF') +
+  theme_classic()
+
+library(gridExtra)
+
+grid.arrange(af,eur,fin,nonfin,
+             top = textGrob("Putative variants"))
 
 
 ```
@@ -118,13 +166,15 @@ include_graphics(img1_path)
 
 ## Number of variants in functional categories
 
-```{r AF and IMPACT, echo=FALSE, warning=FALSE}
+```{r AF and IMPACT, echo=FALSE}
 common <- read.table('../output/common_summary.tsv',header = T)
 mediumrare <- read.table('../output/mediumrare_summary.tsv',header = T)
 rare <- read.table('../output/rare_summary.tsv',header=T)
 
 variants <- rbind(common,mediumrare,rare)
-kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n))
+kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) %>%
+        relocate(MODERATE, .before = MODIFIER)
+        )
 
 ```
 
