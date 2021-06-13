@@ -66,8 +66,8 @@ p3 <- flagstat %>% ggplot(aes(y=properly.paired_passed,x=1)) + geom_violin(fill=
     theme(axis.text.x = element_blank())
 
 grid.arrange(p1, p2, p3,nrow = 1, 
-             top=textGrob(paste("Reads statistics in cohort of", length(unique(flagstat$sample)), 'unrelated individuals',sep=' ')), 
-             left = textGrob("Number of unrelated individuals", rot = 90, vjust = 1))
+             top=textGrob(paste("Reads statistics in cohort of", length(unique(flagstat$sample)), 'individuals',sep=' ')), 
+             left = textGrob("Number of individuals", rot = 90, vjust = 1))
 
 ```
 
@@ -83,33 +83,42 @@ kable(flagstat_out)
 ### Call rate
 
 ```{r variant_missing_call_rate, echo=FALSE}
-varmiss <-  fread('../output/plink_stats/plink.lmiss')
-varmiss %>% 
-  filter(F_MISS < 0.05) %>% 
-  ggplot(aes(F_MISS)) +geom_histogram(fill='#48C095',col='#27384A',bins=30) +
-  geom_vline(xintercept = 0.01, col='red') +
-  geom_text(aes(y=4e+06,x=0.01), label='cutoff') +
-  theme_classic() + ggtitle('N variants with missing call rate < 5%') + xlab('Call rate missing')
-
-
+library(png)
+img1_path <- "qc_files/figure-gfm/var_miss.png"
+img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
+include_graphics(img1_path)
+  
 ```
 
-```{r missing_call_rate, echo=FALSE}
-imiss <- fread('../output/plink_stats/plink.imiss') %>% as.data.frame()
-colnames(imiss)[2] <- 'sample'
-imiss %>% ggplot(aes(F_MISS)) + 
-  geom_histogram(fill='#48C095',col='#27384A') +
-  xlab('Call rate missing') + 
-  ylab('count') +
-  ggtitle('Histogram of missing call-rate per genome', 
-  subtitle = paste('cohort of', length(unique(imiss$sample)), 'unrelated individuals' ,sep = ' ')) +
-  theme_classic() +
-  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) 
+```{r filtered_variant_missing_call_rate, echo=FALSE}
+library(png)
+img1_path <- "qc_files/figure-gfm/filtered_var_miss.png"
+img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
+include_graphics(img1_path)
+  
+```
+
+```{r samples_missing_call_rate, echo=FALSE}
+library(png)
+img1_path <- "qc_files/figure-gfm/samples_miss.png"
+img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
+include_graphics(img1_path)
+  
+```
+
+```{r filtered_samples_missing_call_rate, echo=FALSE}
+library(png)
+img1_path <- "qc_files/figure-gfm/filtered_samples_miss.png"
+img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
+include_graphics(img1_path)
+  
 ```
 
 Call rate missing outliers 
 
 ```{r echo=FALSE}
+imiss <- fread('../output/plink_stats/plink.imiss')
+colnames(imiss)[2] <- 'sample'
 imiss_out <- imiss %>% select(sample,F_MISS) %>% 
         filter(F_MISS %in% outlier(imiss$F_MISS)) %>% arrange(F_MISS)
 
@@ -260,74 +269,4 @@ kable(final_out)
 ```
 
 
-
-<!-- ## 4. ROHs -->
-
-<!-- Summary -->
-
-<!-- ```{r echo=FALSE} -->
-<!-- roh <- fread('input/roh_concat.txt', showProgress = T) -->
-<!-- colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id') -->
-<!-- roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id) -->
-
-<!-- kable(roh %>% select(Length,Number_of_markers,Quality) %>% -->
-<!--   pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>% -->
-<!--   group_by(stat) %>%  -->
-<!--   summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2), -->
-<!--             max=round(max(value),2)) -->
-<!-- ) -->
-
-<!-- ``` -->
-
-
-
-<!-- ```{r echo=FALSE} -->
-<!-- roh  %>% ggplot(aes(x=1,y=Quality)) +  -->
-<!--     geom_violin(fill='#48C095', col='#27384A') +  -->
-<!--   geom_boxplot(width=0.1) + -->
-<!--      theme_classic() + theme(axis.text.x = element_blank()) + -->
-<!--   ggtitle('ROHs quality histogram') +  -->
-<!--   theme(plot.title = element_text(hjust = 0.5)) + -->
-<!--   xlab('') -->
-<!-- ``` -->
-
-
-
-<!-- ```{r roh, echo=FALSE}  -->
-<!-- test1 <- roh$Length > 5e+06  -->
-<!-- test2 <- roh$Length < 25000 -->
-
-<!-- roh <- roh %>%  -->
-<!--     mutate(group = case_when(test1 ~ ">5Mb",  -->
-<!--                              (test2) ~ "<25Kb" ,  -->
-<!--                              !test1 & !test2 ~ "25Kb-5Mb"  -->
-<!--     )) -->
-
-<!-- roh  %>%  -->
-<!--   ggplot(aes(x=1,y=Length)) +  -->
-<!--     geom_violin(fill='#48C095', col='#27384A') + geom_boxplot(width=0.1) + -->
-<!--      theme_classic() + theme(axis.text.x = element_blank()) +  -->
-<!--   facet_wrap(~group, ncol=3, scales = 'free_y') + xlab('') + -->
-<!--   ggtitle('Number of ROHs with length in specific ranges') +  -->
-<!--   theme(plot.title = element_text(hjust = 0.5)) -->
-<!-- ``` -->
-
-<!-- ROH span across chromosome 1 -->
-
-<!-- ```{r echo=FALSE} -->
-<!-- library(viridis) -->
-<!-- roh %>% filter(Chromosome == 'chr1') %>% -->
-<!--   ggplot(aes(x=Start/1e+06,y=Length/1e+06,col=sample_id)) +  -->
-<!--   geom_line() +  -->
-<!--   theme_classic() + -->
-<!--   theme(legend.position = "none") +  -->
-<!--   ylab('ROH length (Mb)')  + -->
-<!--   xlab('Chromosome coordinates (Mb)') +  -->
-<!--   scale_color_viridis(discrete = TRUE, option = "D") -->
-
-
-<!-- ``` -->
-
-
-<!-- to do: ROH fst -->
 

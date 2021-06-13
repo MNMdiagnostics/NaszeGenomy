@@ -45,11 +45,13 @@ Total reads outliers
 
 ### Call rate
 
-![](qc_files/figure-gfm/variant_missing_call_rate-1.png)<!-- -->
+<img src="qc_files/figure-gfm/var_miss.png" width="2240" />
 
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+<img src="qc_files/figure-gfm/filtered_var_miss.png" width="2239" />
 
-![](qc_files/figure-gfm/missing_call_rate-1.png)<!-- -->
+<img src="qc_files/figure-gfm/samples_miss.png" width="2239" />
+
+<img src="qc_files/figure-gfm/filtered_samples_miss.png" width="2239" />
 
 Call rate missing outliers
 
@@ -165,55 +167,3 @@ PSC outliers
 |:---------------|:--------|:---------------|:----------------|:-------------|:-------------|:-------------|
 | 180\_20770\_20 | 0.07925 | 29.09          | 689.271743      | not\_outlier | not\_outlier | not\_outlier |
 | COV215X042A    | 0.08487 | not\_outlier   | not\_outlier    | not\_outlier | 1468590      | 2445661      |
-
-<!-- ## 4. ROHs -->
-<!-- Summary -->
-<!-- ```{r echo=FALSE} -->
-<!-- roh <- fread('input/roh_concat.txt', showProgress = T) -->
-<!-- colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id') -->
-<!-- roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id) -->
-<!-- kable(roh %>% select(Length,Number_of_markers,Quality) %>% -->
-<!--   pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>% -->
-<!--   group_by(stat) %>%  -->
-<!--   summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2), -->
-<!--             max=round(max(value),2)) -->
-<!-- ) -->
-<!-- ``` -->
-<!-- ```{r echo=FALSE} -->
-<!-- roh  %>% ggplot(aes(x=1,y=Quality)) +  -->
-<!--     geom_violin(fill='#48C095', col='#27384A') +  -->
-<!--   geom_boxplot(width=0.1) + -->
-<!--      theme_classic() + theme(axis.text.x = element_blank()) + -->
-<!--   ggtitle('ROHs quality histogram') +  -->
-<!--   theme(plot.title = element_text(hjust = 0.5)) + -->
-<!--   xlab('') -->
-<!-- ``` -->
-<!-- ```{r roh, echo=FALSE}  -->
-<!-- test1 <- roh$Length > 5e+06  -->
-<!-- test2 <- roh$Length < 25000 -->
-<!-- roh <- roh %>%  -->
-<!--     mutate(group = case_when(test1 ~ ">5Mb",  -->
-<!--                              (test2) ~ "<25Kb" ,  -->
-<!--                              !test1 & !test2 ~ "25Kb-5Mb"  -->
-<!--     )) -->
-<!-- roh  %>%  -->
-<!--   ggplot(aes(x=1,y=Length)) +  -->
-<!--     geom_violin(fill='#48C095', col='#27384A') + geom_boxplot(width=0.1) + -->
-<!--      theme_classic() + theme(axis.text.x = element_blank()) +  -->
-<!--   facet_wrap(~group, ncol=3, scales = 'free_y') + xlab('') + -->
-<!--   ggtitle('Number of ROHs with length in specific ranges') +  -->
-<!--   theme(plot.title = element_text(hjust = 0.5)) -->
-<!-- ``` -->
-<!-- ROH span across chromosome 1 -->
-<!-- ```{r echo=FALSE} -->
-<!-- library(viridis) -->
-<!-- roh %>% filter(Chromosome == 'chr1') %>% -->
-<!--   ggplot(aes(x=Start/1e+06,y=Length/1e+06,col=sample_id)) +  -->
-<!--   geom_line() +  -->
-<!--   theme_classic() + -->
-<!--   theme(legend.position = "none") +  -->
-<!--   ylab('ROH length (Mb)')  + -->
-<!--   xlab('Chromosome coordinates (Mb)') +  -->
-<!--   scale_color_viridis(discrete = TRUE, option = "D") -->
-<!-- ``` -->
-<!-- to do: ROH fst -->
