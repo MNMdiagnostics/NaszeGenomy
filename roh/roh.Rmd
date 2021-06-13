@@ -1,0 +1,102 @@
+---
+title: "Runs of homozygosity"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+suppressMessages(library(knitr))
+```
+
+```{r, echo=FALSE}
+suppressMessages(library(tidyverse))
+suppressMessages(library(gridExtra))
+suppressMessages(library(grid))
+suppressMessages(library(data.table))
+
+outlier <- function (x) {
+  IQR <- quantile(x)[[4]] - quantile(x)[[2]]
+  low <- quantile(x)[[2]] - 1.5*IQR
+  high <- quantile(x)[[4]] + 1.5*IQR
+  out_val <- x[x < low | x > high]
+  return(out_val)
+}
+```
+
+
+
+```{r echo=FALSE}
+roh <- fread('../input/roh_concat.txt', showProgress = T)
+colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id')
+roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
+
+kable(roh %>% select(Length,Number_of_markers,Quality) %>%
+  pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
+  group_by(stat) %>%
+  summarise(min = round(min(value),2),median=round(median(value),2),mean=round(mean(value),2),
+            max=round(max(value),2))
+)
+
+```
+
+
+
+```{r echo=FALSE}
+roh  %>% ggplot(aes(x=1,y=Quality)) +
+    geom_violin(fill='#48C095', col='#27384A') +
+  geom_boxplot(width=0.1) +
+     theme_classic() + theme(axis.text.x = element_blank()) +
+  ggtitle('ROHs quality histogram') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab('')
+```
+
+
+
+ <!-- ```{r roh, echo=FALSE} -->
+ <!-- test1 <- roh$Length > 5e+06 -->
+ <!-- test2 <- roh$Length < 25000 -->
+
+ <!-- roh <- roh %>% -->
+ <!--     mutate(group = case_when(test1 ~ ">5Mb", -->
+ <!--                              (test2) ~ "<25Kb" , -->
+ <!--                              !test1 & !test2 ~ "25Kb-5Mb" -->
+ <!--     )) -->
+
+ <!-- roh  %>% filter(Length > 25e+03  &  Quality > 90) %>% -->
+ <!--   ggplot(aes(Length)) + -->
+ <!--     geom_histogram(fill='48C095', col='27384A') + -->
+ <!--      theme_classic() + -->
+ <!--   ggtitle('Number of ROHs with length in specific ranges') + -->
+ <!--   theme(plot.title = element_text(hjust = 0.5)) -->
+
+
+ <!-- ``` -->
+
+
+
+```{r echo=FALSE}
+roh$Chromosome <- factor(roh$Chromosome, levels=unique(roh$Chromosome))
+
+roh  %>% filter(Length > 25e+03  &  Quality > 90 & Chromosome != 'chrX' & Chromosome != 'chrY') %>% 
+  ggplot(aes(y=Chromosome, x=log10(Length))) +
+    geom_boxplot(fill='#48C095', col='#27384A') + 
+     theme_classic() + 
+  ggtitle('Autosomes with runs of homozygosity > 25kb') +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+
+```{r echo=FALSE}
+froh <- read.table('../output/roh/froh.output',header=T,sep='\t')
+
+froh %>% ggplot(aes(x=1,y=Froh_genome)) +
+    geom_violin(fill='#48C095', col='#27384A') +
+  geom_boxplot(width=0.1) +
+     theme_classic() + theme(axis.text.x = element_blank()) +
+  ggtitle('Cosanguinity in population') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab('')
+
+```
