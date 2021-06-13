@@ -3,29 +3,44 @@ Variants in disease causing genes
 
 ## Variants distribution
 
-<img src="variants_af_files/figure-gfm/afcurve.png" width="2240" />
+<img src="variants_af_files/figure-gfm/afhist.png" width="2240" />
+
+<img src="variants_af_files/figure-gfm/ac_hist.png" width="2240" />
+
+    ## # A tibble: 5 x 2
+    ##   group             n
+    ##   <chr>         <int>
+    ## 1 AF                1
+    ## 2 EUR_AF            2
+    ## 3 gnomAD_FIN_AF     5
+    ## 4 gnomAD_NFE_AF    19
+    ## 5 PL_AF            44
 
 ![](variants_af_files/figure-gfm/ACMG-1.png)<!-- -->
 
 ![](variants_af_files/figure-gfm/clinvar-1.png)<!-- -->
 
-![](variants_af_files/figure-gfm/putative-1.png)<!-- -->
+![](variants_af_files/figure-gfm/putative-1.png)<!-- -->![](variants_af_files/figure-gfm/putative-2.png)<!-- -->
 
-<img src="variants_af_files/figure-gfm/impact_all_af.png" width="2100" />
+<img src="variants_af_files/figure-gfm/stacked_af_impact.png" width="2240" />
 
 ## Number of variants in functional categories
 
 | VARIANT\_CLASS | AF        | HIGH |   LOW | MODERATE | MODIFIER |
 |:---------------|:----------|-----:|------:|---------:|---------:|
-| deletion       | &gt;0.5%  |   43 |    35 |        0 |   150334 |
-| indel          | &gt;0.5%  |    0 |     9 |       34 |   143676 |
-| insertion      | &gt;0.5%  |   13 |   531 |        1 |   508324 |
-| SNV            | &gt;0.5%  | 1227 | 44112 |    39481 | 12521945 |
-| deletion       | 0.1%-0.5% |    9 |     9 |        0 |    53728 |
-| indel          | 0.1%-0.5% |    0 |     4 |       14 |    77320 |
-| insertion      | 0.1%-0.5% |   18 |   181 |        0 |   172619 |
-| SNV            | 0.1%-0.5% |  917 | 20302 |    26219 |  5148806 |
-| deletion       | &lt;0.1%  |   21 |    30 |        0 |    56961 |
-| indel          | &lt;0.1%  |    1 |     2 |       25 |    74527 |
-| insertion      | &lt;0.1%  |   10 |   201 |       13 |   189150 |
-| SNV            | &lt;0.1%  | 4855 | 72138 |   107331 | 16155908 |
+| deletion       | &gt;0.5%  |  403 |   855 |      601 |  1210028 |
+| indel          | &gt;0.5%  |    0 |     2 |        2 |     3484 |
+| insertion      | &gt;0.5%  |  258 |   981 |      563 |  1384256 |
+| SNV            | &gt;0.5%  | 1095 | 41158 |    35424 | 10817994 |
+| deletion       | 0.1%-0.5% |  671 |   454 |      764 |   625283 |
+| indel          | 0.1%-0.5% |    0 |     1 |        1 |     7912 |
+| insertion      | 0.1%-0.5% |  347 |   507 |      513 |   717725 |
+| SNV            | 0.1%-0.5% | 1392 | 28745 |    37598 |  6726111 |
+| deletion       | &lt;0.1%  | 2308 |   776 |     1542 |   991868 |
+| indel          | &lt;0.1%  |    1 |     0 |        4 |     6354 |
+| insertion      | &lt;0.1%  | 1093 |   629 |      908 |   772858 |
+| SNV            | &lt;0.1%  | 4349 | 62644 |    94482 | 13763231 |
+| deletion       | 0%        |   57 |    25 |       40 |    27425 |
+| indel          | 0%        |    0 |     0 |        0 |      703 |
+| insertion      | 0%        |   29 |    18 |       29 |    28774 |
+| SNV            | 0%        |  120 |  1474 |     2350 |   368281 |
