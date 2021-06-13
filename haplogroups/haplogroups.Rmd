@@ -1,0 +1,56 @@
+---
+title: "Variants in disease causing genes"
+output: 
+  github_document: default
+
+---
+
+```{r setup, echo=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+suppressMessages(library(knitr))
+suppressMessages(library(tidyverse))
+suppressMessages(library(data.table))
+library(grid)
+suppressMessages(library(gridExtra))
+```
+
+```{r, echo=FALSE}
+haplo_input <- read.table('../output/haplogrep/haplo210519.txt',header=T)
+
+haplo_input %>% ggplot(aes(x=1,y=Quality)) + 
+  geom_violin(col='#27384A',fill="#48C095") +
+  geom_boxplot(width=0.1) +
+  theme_classic() +
+  ylab('Number of individuals') +
+  xlab('') +
+  ggtitle('Classification quality') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_blank())
+
+haplo_summary <- haplo_input %>% filter(Quality > 0.85) %>% 
+  group_by(Haplogroup) %>% 
+  summarise(n=n())
+
+haplo_summary %>% ggplot(aes(x=1,y=n)) + 
+  geom_violin(col='#27384A',fill="#48C095") +
+  geom_boxplot(width=0.1) +
+  theme_classic() +
+  ylab('Number of individuals') +
+  xlab('') +
+  ggtitle('Individuals per haplogroup') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_blank())
+  
+
+haplo_plot <- haplo_summary %>% filter(n >= 10) %>% arrange(desc(n))
+  
+haplo_plot %>% 
+  ggplot(aes(y=reorder(Haplogroup, -n),x=n)) +
+  geom_bar(fill="#48C095",stat='identity') + 
+  theme_classic() +
+  ylab('Haplogroup') +
+  xlab('Number of individuals') +
+  ggtitle('Haplogroup classificiation') +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```

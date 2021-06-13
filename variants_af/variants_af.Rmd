@@ -46,12 +46,12 @@ comp_acmg <- acmg %>%
   mutate(across(AF:gnomAD_NFE_AF,as.character)) %>%
    mutate(across(AF:gnomAD_NFE_AF,as.numeric)) 
 
-comp_acmg %>% select(-Uploaded_variation,-PL_AC,-SYMBOL) %>%
+kable(comp_acmg %>% select(-Uploaded_variation,-PL_AC,-SYMBOL) %>%
   pivot_longer(everything(),names_to = 'group',values_to = 'AF') %>%
   group_by(group) %>%
   na.omit() %>%
   filter(AF != 0) %>%
-  summarise(n=n())
+  summarise(n=n()))
 
 write.table(comp_acmg,'comp_acmg.tsv',quote = F,col.names = T,sep='\t')
 

@@ -7,14 +7,13 @@ Variants in disease causing genes
 
 <img src="variants_af_files/figure-gfm/ac_hist.png" width="2240" />
 
-    ## # A tibble: 5 x 2
-    ##   group             n
-    ##   <chr>         <int>
-    ## 1 AF                1
-    ## 2 EUR_AF            2
-    ## 3 gnomAD_FIN_AF     5
-    ## 4 gnomAD_NFE_AF    19
-    ## 5 PL_AF            44
+| group           |   n |
+|:----------------|----:|
+| AF              |   1 |
+| EUR\_AF         |   2 |
+| gnomAD\_FIN\_AF |   5 |
+| gnomAD\_NFE\_AF |  19 |
+| PL\_AF          |  44 |
 
 ![](variants_af_files/figure-gfm/ACMG-1.png)<!-- -->
 
