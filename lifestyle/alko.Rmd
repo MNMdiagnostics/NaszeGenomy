@@ -36,7 +36,7 @@ af_outlier <- af_comp %>%
 ```
 
 
-Top 5 and bottom 5 differences between AF in PL and EUR
+Top 10 and bottom 10 differences between AF in PL and EUR
 
 ```{r echo=FALSE}
 kable(af_outlier %>% 
