@@ -1,8 +1,8 @@
 ---
 title: "Lifestyle_variants"
 output:
-  html_document:
-    keep_md: yes
+  pdf_document: default
+  github_document: default
 ---
 
 ```{r setup, echo=FALSE}
@@ -16,14 +16,14 @@ suppressMessages(library(knitr))
 ```{r echo=FALSE, message=F}
 suppressMessages(library(tidyverse))
 
-pl <- read.table('output/lifestyle.variants')
+pl <- read.table('../output/lifestyle.variants',sep=' ',header=F)
 pl <- pl %>% unite('Location',V1,V2,remove=T,sep = ':')
 pl$Location <- gsub('chr',pl$Location,replacement = '')
 colnames(pl) <- c('Location',"REF",'ALT','PL_AF')
 
-effects <- read.table('input/lifestyle_effect','\t',header=T)
+effects <- read.table('../input/lifestyle_effect','\t',header=T)
 
-vep <- read.csv('output/lifestyle_id.vep',sep='\t',header = T,skip = 49)
+vep <- read.csv('../output/lifestyle_id.vep',sep='\t',header = T,skip = 49)
 colnames(vep)[1] <- 'rsid'
 
 lifestyle <- vep %>% right_join(pl) %>% right_join(effects)
@@ -45,7 +45,7 @@ af_outlier <- af_comp %>%
 Top 5 and bottom 5 differences between AF in PL and EUR
 
 ```{r echo=FALSE}
-kable(af_outlier)
+kable(af_outlier %>% select(-CLIN_SIG,-IMPACT))
 ```
 
 
@@ -61,7 +61,7 @@ af_comp %>%
   theme(plot.title = element_text(hjust = 0.5))
 
 af_outlier %>%
-  ggplot(aes(x=eur_diff,y = rsid)) + 
+  ggplot(aes(x=eur_diff,y = reorder(rsid,-eur_diff))) + 
   geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
   ylab('rsid ') + xlab('Difference between AF in Polish and European populations') +
   ggtitle('Top 5 and bottom 5 differences between AF in PL and EUR') +
@@ -69,7 +69,7 @@ af_outlier %>%
 
 
 af_outlier %>%
-  ggplot(aes(x=eur_diff,y = effect)) + 
+  ggplot(aes(x=eur_diff,y = reorder(effect,-eur_diff))) + 
   geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
   ylab('Variant effect') + xlab('Difference between AF in Polish and European populations') +
   ggtitle('Top 5 and bottom 5 differences between AF in PL and EUR') +
