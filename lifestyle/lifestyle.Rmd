@@ -34,6 +34,9 @@ af_comp <- lifestyle %>% select(rsid,Location,REF,ALT,AFR_AF:SAS_AF,PL_AF,CLIN_S
                                    AFR_AF = as.numeric(as.character(AFR_AF)),
                                    AMR_AF = as.numeric(as.character(AMR_AF)),
                                    SAS_AF = as.numeric(as.character(SAS_AF))) %>% na.omit()
+af_comp$PL_AF <- round(af_comp$PL_AF,2)
+af_comp$EUR_AF <- round(af_comp$EUR_AF,2)
+
 af_comp$eur_diff <- af_comp$PL_AF - af_comp$EUR_AF
 
 af_outlier <- af_comp %>% 
@@ -70,8 +73,10 @@ af_outlier %>%
 
 af_outlier %>%
   ggplot(aes(x=eur_diff,y = reorder(effect,-eur_diff))) + 
-  geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
-  ylab('Variant effect') + xlab('Difference between AF in Polish and European populations') +
+  geom_bar(stat = 'identity',fill='#48C095') + 
+  theme_classic() +
+  ylab('Variant effect') + 
+  xlab('Difference between AF in Polish and European populations') +
   ggtitle('Top 5 and bottom 5 differences between AF in PL and EUR') +
   theme(plot.title = element_text(hjust = 0.5))
 
