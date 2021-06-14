@@ -42,18 +42,18 @@ group.colors <- c(PL_AF = "#BC0020", AF = "#27384A", gnomAD_FIN_AF ="#48C095", g
 acmg <- read.table('../input/diseases/acmg_ready.tsv',sep='\t',header=T)
 
 comp_acmg <- acmg %>%
-   select(Uploaded_variation,SYMBOL, all_of(af_list), PL_AC) %>%
+   select(Uploaded_variation,Location,SYMBOL, Gene, PL_AC, all_of(af_list)) %>%
   mutate(across(AF:gnomAD_NFE_AF,as.character)) %>%
    mutate(across(AF:gnomAD_NFE_AF,as.numeric)) 
 
-kable(comp_acmg %>% select(-Uploaded_variation,-PL_AC,-SYMBOL) %>%
+kable(comp_acmg %>% select(-Uploaded_variation,-Location,-Gene,-PL_AC,-SYMBOL) %>%
   pivot_longer(everything(),names_to = 'group',values_to = 'AF') %>%
   group_by(group) %>%
   na.omit() %>%
   filter(AF != 0) %>%
   summarise(n=n()))
 
-write.table(comp_acmg,'comp_acmg.tsv',quote = F,col.names = T,sep='\t')
+write.table(comp_acmg,'comp_acmg.tsv',quote = F,col.names = T,sep='\t',row.names = F)
 
 comp_acmg %>% ggplot(aes(y=SYMBOL,x=PL_AC)) +
   geom_bar(fill="#48C095", stat = 'identity') + 
