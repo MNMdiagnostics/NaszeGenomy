@@ -1,0 +1,71 @@
+---
+title: "Alcohol metabolism"
+output:
+  pdf_document: default
+  github_document: default
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+suppressMessages(library(knitr))
+```
+
+
+
+
+```{r echo=FALSE, message=F}
+suppressMessages(library(tidyverse))
+
+lifestyle <- read.table('genes_alko.txt',sep='\t',header=T)
+
+af_comp <- lifestyle %>% 
+  select(Existing_variation,Location,SYMBOL,VARIANT_CLASS,Allele,AFR_AF:SAS_AF,PL_AF,CLIN_SIG,IMPACT) %>%
+  filter(EUR_AF != '-') %>% mutate(EUR_AF = as.numeric(as.character(EUR_AF)),
+                                   EAS_AF = as.numeric(as.character(EAS_AF)),
+                                   AFR_AF = as.numeric(as.character(AFR_AF)),
+                                   AMR_AF = as.numeric(as.character(AMR_AF)),
+                                   SAS_AF = as.numeric(as.character(SAS_AF))) %>% na.omit()
+# af_comp$PL_AF <- round(af_comp$PL_AF,2)
+# af_comp$EUR_AF <- round(af_comp$EUR_AF,2)
+
+af_comp$eur_diff <- af_comp$PL_AF - af_comp$EUR_AF
+
+af_outlier <- af_comp %>% 
+  top_n(-10, eur_diff) %>% rbind( top_n(af_comp,10, eur_diff)) %>% 
+  select(Existing_variation,SYMBOL,Allele,VARIANT_CLASS,PL_AF,EUR_AF,eur_diff) %>% arrange(eur_diff)
+```
+
+
+Top 5 and bottom 5 differences between AF in PL and EUR
+
+```{r echo=FALSE}
+kable(af_outlier %>% 
+        mutate(PL_AF =  round(af_outlier$PL_AF,2),
+               EUR_AF = round(af_outlier$EUR_AF,2),
+               eur_diff = round(af_outlier$eur_diff,2)) %>%
+        arrange(eur_diff)
+        )
+```
+
+
+
+
+```{r echo=FALSE, message=F}
+af_comp %>% 
+  ggplot(aes(y=PL_AF,x=EUR_AF)) + geom_point(col='#27384A') + 
+  geom_smooth(method='lm',se = F,col='#48C095') + theme_classic() + 
+  xlab('AF in 1000 Genomes EUR population') +
+  ylab('AF in PL population') + 
+  ggtitle('Correlation between AF in PL and EUR populations') +
+  theme(plot.title = element_text(hjust = 0.5))
+
+af_outlier %>%
+  ggplot(aes(x=eur_diff,y = reorder(Existing_variation,-eur_diff))) + 
+  geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
+  ylab('rsid ') + xlab('Difference between AF in Polish and European populations') +
+  ggtitle('Top 5 and bottom 5 differences between AF in PL and EUR') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlim(c(-1,1))
+
+
+```
