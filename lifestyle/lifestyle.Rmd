@@ -48,7 +48,11 @@ af_outlier <- af_comp %>%
 Top 5 and bottom 5 differences between AF in PL and EUR
 
 ```{r echo=FALSE}
-kable(af_outlier %>% select(-CLIN_SIG,-IMPACT))
+kable(af_outlier %>% select(-CLIN_SIG,-IMPACT) %>%
+        mutate(PL_AF =  round(af_outlier$PL_AF,2),
+               EUR_AF = round(af_outlier$EUR_AF,2),
+               eur_diff = round(af_outlier$eur_diff,2))
+        )
 ```
 
 
