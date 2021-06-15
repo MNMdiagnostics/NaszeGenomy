@@ -1,5 +1,6 @@
 ---
 title: "Alcohol metabolism"
+subtitle: "Results on 943 unrelated individuals"
 output:
   pdf_document: default
   github_document: default
@@ -13,59 +14,117 @@ suppressMessages(library(knitr))
 
 
 
-```{r echo=FALSE, message=F}
+```{r echo=FALSE, message=F, warning=F}
 suppressMessages(library(tidyverse))
 
 lifestyle <- read.table('genes_alko.txt',sep='\t',header=T)
 
 af_comp <- lifestyle %>% 
-  select(Existing_variation,Location,SYMBOL,VARIANT_CLASS,Allele,AFR_AF:SAS_AF,PL_AF,CLIN_SIG,IMPACT) %>%
+  select(Existing_variation,Location,SYMBOL,VARIANT_CLASS,Allele,EUR_AF,PL_AF,gnomAD3g_AF,gnomAD3g_AF_NFE,
+         CLIN_SIG,IMPACT) %>%
   filter(EUR_AF != '-') %>% mutate(EUR_AF = as.numeric(as.character(EUR_AF)),
-                                   EAS_AF = as.numeric(as.character(EAS_AF)),
-                                   AFR_AF = as.numeric(as.character(AFR_AF)),
-                                   AMR_AF = as.numeric(as.character(AMR_AF)),
-                                   SAS_AF = as.numeric(as.character(SAS_AF))) %>% na.omit()
-# af_comp$PL_AF <- round(af_comp$PL_AF,2)
-# af_comp$EUR_AF <- round(af_comp$EUR_AF,2)
+                                   gnomAD3g_AF = as.numeric(as.character(gnomAD3g_AF)),
+                                   gnomAD3g_AF_NFE = as.numeric(as.character(gnomAD3g_AF))
+                                   ) %>% na.omit()
+
 
 af_comp$eur_diff <- af_comp$PL_AF - af_comp$EUR_AF
+af_comp$nfe_diff <- af_comp$PL_AF - af_comp$gnomAD3g_AF_NFE
 
-af_outlier <- af_comp %>% 
-  top_n(-10, eur_diff) %>% rbind( top_n(af_comp,10, eur_diff)) %>% 
-  select(Existing_variation,SYMBOL,Allele,VARIANT_CLASS,PL_AF,EUR_AF,eur_diff) %>% arrange(eur_diff)
+alko_rsid <- read.table('alko_rsid.txt',header=T,sep='\t') %>% left_join(af_comp) %>% 
+  na.omit()
+
+# af_outlier_1k <- af_comp %>% 
+#   top_n(-10, eur_diff) %>% rbind( top_n(af_comp,10, eur_diff)) %>% 
+#   distinct() %>%
+#   select(Existing_variation,SYMBOL,Allele,VARIANT_CLASS,PL_AF,EUR_AF,eur_diff) %>% arrange(eur_diff)
+
+af_outlier_gnomad <- af_comp %>% 
+  top_n(-10, nfe_diff) %>% rbind( top_n(af_comp,10, nfe_diff)) %>% 
+  select(Existing_variation,SYMBOL,Allele,VARIANT_CLASS,PL_AF,gnomAD3g_AF_NFE,nfe_diff) %>%
+  distinct() %>%
+  arrange(nfe_diff)
+
 ```
 
 
-Top 10 and bottom 10 differences between AF in PL and EUR
+<!-- Top 10 and bottom 10 differences between AF in PL and 1000 Genomes European -->
 
-```{r echo=FALSE}
-kable(af_outlier %>% 
-        mutate(PL_AF =  round(af_outlier$PL_AF,2),
-               EUR_AF = round(af_outlier$EUR_AF,2),
-               eur_diff = round(af_outlier$eur_diff,2)) %>%
-        arrange(eur_diff)
+<!-- ```{r echo=FALSE} -->
+<!-- kable(af_outlier_1k %>%  -->
+<!--         mutate(PL_AF =  round(af_outlier_1k$PL_AF,2), -->
+<!--                EUR_AF = round(af_outlier_1k$EUR_AF,2), -->
+<!--                eur_diff = round(af_outlier_1k$eur_diff,2)) %>% -->
+<!--         arrange(eur_diff) -->
+<!--         ) -->
+<!-- ``` -->
+
+Known variants related to alcohol metabolism
+
+```{r, table_known, echo=FALSE}
+kable(alko_rsid %>% select(-Location,-VARIANT_CLASS,-EUR_AF,-gnomAD3g_AF,-IMPACT,-eur_diff) %>%
+        mutate(PL_AF =  round(alko_rsid$PL_AF,2),
+               gnomAD3g_AF_NFE = round(alko_rsid$gnomAD3g_AF_NFE,2),
+               nfe_diff = round(alko_rsid$nfe_diff,2)) %>% 
+        rename(AF_NFE = gnomAD3g_AF_NFE) %>%
+        filter(nfe_diff > 0) %>%
+        arrange(nfe_diff) 
+        )
+```
+
+
+
+Top 10 and bottom 10 differences between AF in PL and gnomAD Non Finnish European
+
+```{r, table_outlier, echo=FALSE}
+kable(af_outlier_gnomad %>% 
+        mutate(PL_AF =  round(af_outlier_gnomad$PL_AF,2),
+               gnomAD3g_AF_NFE = round(af_outlier_gnomad$gnomAD3g_AF_NFE,2),
+               nfe_diff = round(af_outlier_gnomad$nfe_diff,2)) %>%
+        rename(AF_NFE = gnomAD3g_AF_NFE) %>%
+        arrange(nfe_diff) 
         )
 ```
 
 
 
 
-```{r echo=FALSE, message=F}
-af_comp %>% 
-  ggplot(aes(y=PL_AF,x=EUR_AF)) + geom_point(col='#27384A') + 
-  geom_smooth(method='lm',se = F,col='#48C095') + theme_classic() + 
-  xlab('AF in 1000 Genomes EUR population') +
-  ylab('AF in PL population') + 
-  ggtitle('Correlation between AF in PL and EUR populations') +
-  theme(plot.title = element_text(hjust = 0.5))
+<!-- ```{r echo=FALSE, message=F} -->
+<!-- af_comp %>%  -->
+<!--   ggplot(aes(y=PL_AF,x=EUR_AF)) + geom_point(col='#27384A') +  -->
+<!--   geom_smooth(method='lm',se = F,col='#48C095') + theme_classic() +  -->
+<!--   xlab('AF in 1000 Genomes EUR population') + -->
+<!--   ylab('AF in PL population') +  -->
+<!--   ggtitle('Polish vs 1000 genomes European') + -->
+<!--   theme(plot.title = element_text(hjust = 0.5)) -->
+<!-- ``` -->
+\newpage
+Polish vs gnomAD Non-Finnish European
 
-af_outlier %>%
-  ggplot(aes(x=eur_diff,y = reorder(Existing_variation,-eur_diff))) + 
+```{r, Polish_gnomADNon-Finnish_scatter_plot, echo=FALSE, message=F}
+af_comp %>% 
+  ggplot(aes(y=PL_AF,x=gnomAD3g_AF_NFE)) + geom_point(col='#27384A') + 
+  geom_smooth(method='lm',se = F,col='#48C095') + theme_classic() + 
+  xlab('gnomAD3g_AF_NFE') +
+  ylab('AF in PL population')
+```
+
+
+
+<!-- af_outlier_1k %>% -->
+<!--   ggplot(aes(x=eur_diff,y = reorder(Existing_variation,-eur_diff))) +  -->
+<!--   geom_bar(stat = 'identity',fill='#48C095') + theme_classic() + -->
+<!--   ylab('rsid ') + xlab('Difference between Polish and 1000 Genomes European populations') + -->
+<!--   ggtitle('Top 10 and bottom 10 between Polish and 1000 Genomes European') + -->
+<!--   theme(plot.title = element_text(hjust = 0.5)) + -->
+<!--   xlim(c(-1,1)) -->
+
+Top 10 and bottom 10 between Polish and gnomAD Non Finnish European
+
+```{r, 10_diff_barplot, echo=FALSE, message=F}
+af_outlier_gnomad %>%
+  ggplot(aes(x=nfe_diff,y = reorder(Existing_variation,-nfe_diff))) + 
   geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
   ylab('rsid ') + xlab('Difference between AF in Polish and European populations') +
-  ggtitle('Top 5 and bottom 5 differences between AF in PL and EUR') +
-  theme(plot.title = element_text(hjust = 0.5)) +
   xlim(c(-1,1))
-
-
 ```

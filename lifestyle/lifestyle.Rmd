@@ -1,5 +1,6 @@
 ---
 title: "Lifestyle_variants"
+subtitle: "Results on 943 unrelated individuals"
 output:
   pdf_document: default
   github_document: default
@@ -16,72 +17,65 @@ suppressMessages(library(knitr))
 ```{r echo=FALSE, message=F}
 suppressMessages(library(tidyverse))
 
-pl <- read.table('../output/lifestyle.variants',sep=' ',header=F)
-pl <- pl %>% unite('Location',V1,V2,remove=T,sep = ':')
-pl$Location <- gsub('chr',pl$Location,replacement = '')
-colnames(pl) <- c('Location',"REF",'ALT','PL_AF')
+lifestyle <- read.table('lifestyle_genes.txt',sep='\t',header=T)
 
-effects <- read.table('../input/lifestyle_effect','\t',header=T)
+af_comp <- lifestyle %>% 
+  select(Existing_variation,effect,Location,SYMBOL,VARIANT_CLASS,Allele,EUR_AF,PL_AF,gnomAD3g_AF,gnomAD3g_AF_NFE, CLIN_SIG,IMPACT) %>%
+  mutate(EUR_AF = as.numeric(as.character(EUR_AF)),
+                                   gnomAD3g_AF = as.numeric(as.character(gnomAD3g_AF)),
+                                   gnomAD3g_AF_NFE = as.numeric(as.character(gnomAD3g_AF))) %>% 
+  na.omit()
 
-vep <- read.csv('../output/lifestyle_id.vep',sep='\t',header = T,skip = 49)
-colnames(vep)[1] <- 'rsid'
-
-lifestyle <- vep %>% right_join(pl) %>% right_join(effects)
-
-af_comp <- lifestyle %>% select(rsid,Location,REF,ALT,AFR_AF:SAS_AF,PL_AF,CLIN_SIG,IMPACT,effect) %>%
-  filter(EUR_AF != '-') %>% mutate(EUR_AF = as.numeric(as.character(EUR_AF)),
-                                   EAS_AF = as.numeric(as.character(EAS_AF)),
-                                   AFR_AF = as.numeric(as.character(AFR_AF)),
-                                   AMR_AF = as.numeric(as.character(AMR_AF)),
-                                   SAS_AF = as.numeric(as.character(SAS_AF))) %>% na.omit()
 af_comp$PL_AF <- round(af_comp$PL_AF,2)
-af_comp$EUR_AF <- round(af_comp$EUR_AF,2)
+af_comp$gnomAD3g_AF_NFE <- round(af_comp$gnomAD3g_AF_NFE,2)
 
-af_comp$eur_diff <- af_comp$PL_AF - af_comp$EUR_AF
+af_comp$eur_diff <- af_comp$PL_AF - af_comp$gnomAD3g_AF_NFE
 
 af_outlier <- af_comp %>% 
-  top_n(-5, eur_diff) %>% rbind( top_n(af_comp,5, eur_diff)) %>% 
-  select(rsid,REF,ALT,effect,CLIN_SIG,IMPACT,PL_AF,EUR_AF,eur_diff) %>% arrange(eur_diff)
+  top_n(-10, eur_diff) %>% rbind( top_n(af_comp,10, eur_diff)) %>% 
+  select(Existing_variation,Allele,effect,CLIN_SIG,IMPACT,PL_AF,gnomAD3g_AF_NFE,eur_diff) %>% arrange(eur_diff)
 ```
 
 
-Top 5 and bottom 5 differences between AF in PL and EUR
+Top 10 and bottom 10 differences between AF in PL and EUR
 
-```{r echo=FALSE}
+```{r, table_outlier, echo=FALSE}
 kable(af_outlier %>% select(-CLIN_SIG,-IMPACT) %>%
         mutate(PL_AF =  round(af_outlier$PL_AF,2),
-               EUR_AF = round(af_outlier$EUR_AF,2),
+               gnomAD3g_AF_NFE = round(af_outlier$gnomAD3g_AF_NFE,2),
                eur_diff = round(af_outlier$eur_diff,2))
         )
 ```
 
+\newpage
 
+Correlation between AF in PL and EUR populations
 
-
-```{r echo=FALSE, message=F}
+```{r, Polish_gnomADNon-Finnish_scatter_plot, echo=FALSE, message=F}
 af_comp %>% 
-  ggplot(aes(y=PL_AF,x=EUR_AF)) + geom_point(col='#27384A') + 
+  ggplot(aes(y=PL_AF,x=gnomAD3g_AF_NFE)) + geom_point(col='#27384A') + 
   geom_smooth(method='lm',se = F,col='#48C095') + theme_classic() + 
-  xlab('AF in 1000 Genomes EUR population') +
-  ylab('AF in PL population') + 
-  ggtitle('Correlation between AF in PL and EUR populations') +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab('gnomAD Non Finnish European AF') +
+  ylab('Polish AF') 
+```
 
-af_outlier %>%
-  ggplot(aes(x=eur_diff,y = reorder(rsid,-eur_diff))) + 
-  geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
-  ylab('rsid ') + xlab('Difference between AF in Polish and European populations') +
-  ggtitle('Top 5 and bottom 5 differences between AF in PL and EUR') +
-  theme(plot.title = element_text(hjust = 0.5))
+\newpage
 
+Top 10 and bottom 10 differences between AF in PL and EUR
 
-af_outlier %>%
-  ggplot(aes(x=eur_diff,y = reorder(effect,-eur_diff))) + 
-  geom_bar(stat = 'identity',fill='#48C095') + 
+```{r, 10_diff_barplot, echo=FALSE,message=F}
+af_outlier %>% 
+  ggplot(aes(x=eur_diff,y = reorder(Existing_variation,-eur_diff))) + 
+  geom_bar(stat = 'identity',fill='#48C095', position = 'dodge') + 
   theme_classic() +
-  ylab('Variant effect') + 
-  xlab('Difference between AF in Polish and European populations') +
-  ggtitle('Top 5 and bottom 5 differences between AF in PL and EUR') +
-  theme(plot.title = element_text(hjust = 0.5))
-
+  ylab('rsid ') + xlab('Difference between AF in Polish and European populations') 
+# 
+# 
+# 
+# af_outlier %>%
+#   ggplot(aes(x=eur_diff,y = reorder(effect,-eur_diff))) +
+#   geom_bar(stat = 'identity',fill='#48C095',position = 'dodge') +
+#   theme_classic() +
+#   ylab('Variant effect') +
+#   xlab('Difference between AF in Polish and European populations')
 ```
