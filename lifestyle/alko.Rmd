@@ -2,8 +2,8 @@
 title: "Alcohol metabolism"
 subtitle: "Results on 943 unrelated individuals"
 output:
-  pdf_document: default
   github_document: default
+  pdf_document: default
 ---
 
 ```{r setup, echo=FALSE}
@@ -63,17 +63,17 @@ Known variants related to alcohol metabolism
 
 ```{r, table_known, echo=FALSE}
 kable(alko_rsid %>% select(-Location,-VARIANT_CLASS,-EUR_AF,-gnomAD3g_AF,-IMPACT,-eur_diff) %>%
-        mutate(PL_AF =  round(alko_rsid$PL_AF,2),
-               gnomAD3g_AF_NFE = round(alko_rsid$gnomAD3g_AF_NFE,2),
-               nfe_diff = round(alko_rsid$nfe_diff,2)) %>% 
+        mutate(PL_AF =  round(alko_rsid$PL_AF,3),
+               gnomAD3g_AF_NFE = round(alko_rsid$gnomAD3g_AF_NFE,3),
+               nfe_diff = round(alko_rsid$nfe_diff,3)) %>% 
         rename(AF_NFE = gnomAD3g_AF_NFE) %>%
-        filter(nfe_diff > 0) %>%
         arrange(nfe_diff) 
         )
 ```
 
 
 
+\newpage
 Top 10 and bottom 10 differences between AF in PL and gnomAD Non Finnish European
 
 ```{r, table_outlier, echo=FALSE}
@@ -118,6 +118,7 @@ af_comp %>%
 <!--   ggtitle('Top 10 and bottom 10 between Polish and 1000 Genomes European') + -->
 <!--   theme(plot.title = element_text(hjust = 0.5)) + -->
 <!--   xlim(c(-1,1)) -->
+\newpage
 
 Top 10 and bottom 10 between Polish and gnomAD Non Finnish European
 

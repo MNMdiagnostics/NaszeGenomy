@@ -15,10 +15,12 @@ Known variants related to alcohol metabolism
 
 | Existing\_variation | SYMBOL | Allele | PL\_AF | AF\_NFE | CLIN\_SIG    | nfe\_diff |
 |:--------------------|:-------|:-------|-------:|--------:|:-------------|----------:|
-| rs11733695          | ADH6   | A      |   0.02 |    0.01 | \-           |      0.01 |
-| rs279871            | GABRA2 | C      |   0.43 |    0.38 | risk\_factor |      0.05 |
-| rs279845            | GABRA2 | A      |   0.47 |    0.41 | risk\_factor |      0.07 |
-| rs279836            | GABRA2 | A      |   0.45 |    0.38 | risk\_factor |      0.07 |
+| rs141973904         | ADH1C  | T      |  0.015 |   0.016 | \-           |    -0.001 |
+| rs3114045           | ADH1B  | C      |  0.867 |   0.863 | \-           |     0.004 |
+| rs11733695          | ADH6   | A      |  0.023 |   0.010 | \-           |     0.014 |
+| rs279871            | GABRA2 | C      |  0.432 |   0.380 | risk\_factor |     0.052 |
+| rs279836            | GABRA2 | A      |  0.446 |   0.381 | risk\_factor |     0.065 |
+| rs279845            | GABRA2 | A      |  0.472 |   0.406 | risk\_factor |     0.066 |
 
 Top 10 and bottom 10 differences between AF in PL and gnomAD Non Finnish
 European
@@ -64,7 +66,6 @@ Polish vs gnomAD Non-Finnish European
 <!--   ggtitle('Top 10 and bottom 10 between Polish and 1000 Genomes European') + -->
 <!--   theme(plot.title = element_text(hjust = 0.5)) + -->
 <!--   xlim(c(-1,1)) -->
-
 Top 10 and bottom 10 between Polish and gnomAD Non Finnish European
 
 ![](alko_files/figure-gfm/10_diff_barplot-1.png)<!-- -->
