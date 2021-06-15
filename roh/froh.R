@@ -8,6 +8,7 @@ mapFile <- as.data.frame(mapFile)
 runs <- 'output/roh/roh.txt'
 runs <- readExternalRuns(inputFile = runs, program = 'BCFtools')
 
+
 froh <- Froh_inbreeding(runs = runs, mapFile = 'input/roh_data.map')
 froh_chr <- Froh_inbreeding(runs = runs, mapFile = 'input/roh_data.map', genome_wide = F)
 

@@ -1,5 +1,5 @@
 ---
-title: "Runs of homozygosity"
+title: "Runs of homozygosity on 1082 individuals"
 output: github_document
 ---
 
@@ -39,54 +39,106 @@ kable(roh %>% select(Length,Number_of_markers,Quality) %>%
 
 ```
 
+ROHs quality histogram
 
+All ROHs with Quality < 25% are removed 
 
 ```{r echo=FALSE}
 roh  %>% ggplot(aes(x=1,y=Quality)) +
     geom_violin(fill='#48C095', col='#27384A') +
   geom_boxplot(width=0.1) +
      theme_classic() + theme(axis.text.x = element_blank()) +
-  ggtitle('ROHs quality histogram') +
-  theme(plot.title = element_text(hjust = 0.5)) +
   xlab('')
 ```
 
+Number of ROHs with length in specific ranges
+
+```{r roh, echo=FALSE}
+ 
+ test1 <- roh$Length > 1e+06
+ test2 <- roh$Length < 25e+03
+
+ roh <- roh %>%
+     mutate(group = case_when(test1 ~ ">1Mb",
+                              (test2) ~ "<25kb" ,
+                              !test1 & !test2 ~ "25kb-1Mb"
+     ))
 
 
- <!-- ```{r roh, echo=FALSE} -->
- <!-- test1 <- roh$Length > 5e+06 -->
- <!-- test2 <- roh$Length < 25000 -->
+roh$group <- factor(roh$group)
+roh$group <- ordered(roh$group, levels = c("<25kb", "25kb-1Mb", ">1Mb"))
+  
+ roh  %>% filter(Quality > 25) %>%
+ ggplot(aes(y=1,x=Length)) +
+ geom_violin(fill='#48C095', col='#27384A') +
+ geom_boxplot(width=0.1) +
+ theme_classic() +
+ ylab('') +
+  theme(axis.text.y = element_blank()) +
+  facet_wrap(~group,scales = 'free',nrow=3)
 
- <!-- roh <- roh %>% -->
- <!--     mutate(group = case_when(test1 ~ ">5Mb", -->
- <!--                              (test2) ~ "<25Kb" , -->
- <!--                              !test1 & !test2 ~ "25Kb-5Mb" -->
- <!--     )) -->
-
- <!-- roh  %>% filter(Length > 25e+03  &  Quality > 90) %>% -->
- <!--   ggplot(aes(Length)) + -->
- <!--     geom_histogram(fill='48C095', col='27384A') + -->
- <!--      theme_classic() + -->
- <!--   ggtitle('Number of ROHs with length in specific ranges') + -->
- <!--   theme(plot.title = element_text(hjust = 0.5)) -->
-
-
- <!-- ``` -->
-
-
-
-```{r echo=FALSE}
-roh$Chromosome <- factor(roh$Chromosome, levels=unique(roh$Chromosome))
-
-roh  %>% filter(Length > 25e+03  &  Quality > 90 & Chromosome != 'chrX' & Chromosome != 'chrY') %>% 
-  ggplot(aes(y=Chromosome, x=log10(Length))) +
-    geom_boxplot(fill='#48C095', col='#27384A') + 
-     theme_classic() + 
-  ggtitle('Autosomes with runs of homozygosity > 25kb') +
-  theme(plot.title = element_text(hjust = 0.5))
 
 ```
+% of ROhs per category in sample (mam problem z nasza paleta kolorow wiec na razie daje domyslna)
 
+
+```{r roh_count, echo=FALSE}
+group.colors <- c(`<25kb` = "#27384A", `>25kb-1Mb` ="#48C095", `>1Mb` = "#B6B6B6")
+
+roh_count <- roh  %>% 
+ filter(Quality > 25) %>%
+ group_by(group,sample_id,.drop = F) %>% 
+ summarise(n=n()) %>% arrange(group,n)
+
+roh_count %>% 
+ ggplot(aes(x=sample_id,y=n,fill=group)) +
+ geom_bar(position="fill", stat="identity",width = 1) +
+ #scale_fill_manual(values=group.colors) +
+ theme_classic() +
+ xlab('Individuals') +
+ ylab('% of ROHs') +
+ theme(axis.text.x = element_blank())
+```
+
+Number of ROHs per sample
+
+```{r roh_count_per_sample, echo=FALSE} 
+roh_avg <- roh %>% group_by(sample_id, group) %>%
+  summarise(avg_length=mean(Length), n=n()) %>%
+  arrange(group,n)
+
+roh_avg %>%
+  ggplot(aes(x=1:3246,y=n)) +
+  geom_point(col='#48C095',alpha=0.5) +
+  facet_wrap(~group, nrow = 3,scales = 'free') + 
+  ylab('Number of ROHs') +
+  xlab('Individual') +
+  theme_classic() +
+  theme(axis.text.x = element_blank())
+ 
+```
+
+
+Average ROHs per sample
+
+
+```{r average_roh_per_sample, echo=FALSE} 
+roh_avg <- roh %>% group_by(sample_id, group) %>%
+  summarise(avg_length=mean(Length), n=n()) %>%
+  arrange(group,avg_length)
+
+roh_avg %>%
+  ggplot(aes(x=1:3246,y=avg_length)) +
+  geom_point(col='#48C095',alpha=0.5) +
+  facet_wrap(~group, nrow = 3,scales = 'free') + 
+  ylab('Mean ROH length') +
+  xlab('Individual') +
+  theme_classic() +
+  theme(axis.text.x = element_blank())
+ 
+```
+
+Cosanguinity in population
 
 ```{r echo=FALSE}
 froh <- read.table('../output/roh/froh.output',header=T,sep='\t')
@@ -95,8 +147,6 @@ froh %>% ggplot(aes(x=1,y=Froh_genome)) +
     geom_violin(fill='#48C095', col='#27384A') +
   geom_boxplot(width=0.1) +
      theme_classic() + theme(axis.text.x = element_blank()) +
-  ggtitle('Cosanguinity in population') +
-  theme(plot.title = element_text(hjust = 0.5)) +
   xlab('')
 
 ```
