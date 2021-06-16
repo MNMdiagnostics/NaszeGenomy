@@ -3,10 +3,12 @@ title: "Runs of homozygosity on 1082 individuals"
 output: github_document
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 suppressMessages(library(knitr))
 ```
+
 
 ```{r, echo=FALSE}
 suppressMessages(library(tidyverse))
@@ -41,8 +43,6 @@ kable(roh %>% select(Length,Number_of_markers,Quality) %>%
 
 ROHs quality histogram
 
-All ROHs with Quality < 25% are removed 
-
 ```{r echo=FALSE}
 roh  %>% ggplot(aes(x=1,y=Quality)) +
     geom_violin(fill='#48C095', col='#27384A') +
@@ -51,66 +51,114 @@ roh  %>% ggplot(aes(x=1,y=Quality)) +
   xlab('')
 ```
 
+## Results
+
+### All results below are ROHs filter for autosomes with Quality > 25% andNumber of markers >= 50
+
 Number of ROHs with length in specific ranges
 
 ```{r roh, echo=FALSE}
- 
- test1 <- roh$Length > 1e+06
- test2 <- roh$Length < 25e+03
+roh <- roh  %>% filter(Quality > 25 & Number_of_markers >= 50 & Length > 2e+06) %>%
+  filter(Chromosome != 'chrX' & Chromosome != 'chrY')
+roh$Range <- ifelse(roh$Length >= 10e+06, '>10Mb','2-10Mb')
+group.colors <- c(`2-10Mb`="#48C095",`>10Mb` ="#27384A")
 
- roh <- roh %>%
-     mutate(group = case_when(test1 ~ ">1Mb",
-                              (test2) ~ "<25kb" ,
-                              !test1 & !test2 ~ "25kb-1Mb"
-     ))
+roh$Range <- factor(roh$Range)
+roh$Range <- ordered(roh$Range, levels = c('2-10Mb','>10Mb'))
 
-
-roh$group <- factor(roh$group)
-roh$group <- ordered(roh$group, levels = c("<25kb", "25kb-1Mb", ">1Mb"))
-  
- roh  %>% filter(Quality > 25) %>%
- ggplot(aes(y=1,x=Length)) +
+roh %>% 
+ ggplot(aes(y=Range,x=Length/1e+06)) +
  geom_violin(fill='#48C095', col='#27384A') +
  geom_boxplot(width=0.1) +
  theme_classic() +
- ylab('') +
-  theme(axis.text.y = element_blank()) +
-  facet_wrap(~group,scales = 'free',nrow=3)
-
+ xlab('Length (Mb)')
+  
 
 ```
-% of ROhs per category in sample (mam problem z nasza paleta kolorow wiec na razie daje domyslna)
 
+% of ROhs per category in sample
 
 ```{r roh_count, echo=FALSE}
-group.colors <- c(`<25kb` = "#27384A", `>25kb-1Mb` ="#48C095", `>1Mb` = "#B6B6B6")
-
 roh_count <- roh  %>% 
- filter(Quality > 25) %>%
- group_by(group,sample_id,.drop = F) %>% 
- summarise(n=n()) %>% arrange(group,n)
+ group_by(Range,sample_id,.drop = F) %>% 
+ summarise(n=n()) %>% arrange(Range,n)
 
 roh_count %>% 
- ggplot(aes(x=sample_id,y=n,fill=group)) +
+ ggplot(aes(x=reorder(sample_id,-n),y=n,fill=Range)) +
  geom_bar(position="fill", stat="identity",width = 1) +
- #scale_fill_manual(values=group.colors) +
+ scale_fill_manual(values=group.colors) +
  theme_classic() +
  xlab('Individuals') +
- ylab('% of ROHs') +
+ ylab('% of ROHs count') +
  theme(axis.text.x = element_blank())
 ```
+
+ROH length sum
+
+```{r roh_sum, echo=FALSE}
+roh_sum <- roh  %>% 
+ group_by(Range,sample_id,.drop = F) %>% 
+ summarise(sum=sum(Length)) %>% arrange(Range,sum)
+
+roh_sum %>% 
+ ggplot(aes(x=reorder(sample_id,-sum),y=sum,fill=Range)) +
+ geom_bar(position="fill", stat="identity",width = 1) +
+ scale_fill_manual(values=group.colors) +
+ theme_classic() +
+ xlab('Individuals') +
+ ylab('% of ROHs length sum') +
+ theme(axis.text.x = element_blank())
+```
+
+Sum of ROH length per range
+
+```{r SROH, echo=FALSE}
+sroh <- roh %>% filter(Chromosome != 'chrX' & Chromosome != 'chrY') %>%
+  filter(Length >= 2e+06 & Length <= 5e+06 | Length >= 10e+06 & Number_of_markers >= 50)
+  
+sroh$Range <- ifelse(sroh$Length >= 10e+06, '>10Mb','2-5Mb')
+
+sroh_sum <- sroh %>% group_by(Range,sample_id) %>% summarise(SROH = sum(Length)/1e+06)
+
+sroh_sum %>% ggplot(aes(y=Range,x=SROH)) +
+ geom_violin(fill='#48C095', col='#27384A') +
+ geom_boxplot(width=0.1) +
+ theme_classic() +
+ ylab('Range') +
+ xlab('SROH (Mb)')
+
+```
+
+Relationship between number of ROHs and total length of genome covered by them
+
+```{r cummulative, echo=FALSE} 
+croh <- roh %>% filter(Chromosome != 'chrX' & Chromosome != 'chrY' & Number_of_markers >= 50) 
+
+croh_sum <- croh %>% group_by(sample_id) %>% 
+  summarise(n = n(), sum = sum(Length)/1e+06)
+
+croh_sum %>% ggplot(aes(y=n,x=sum)) +
+  geom_point(col='#48C095') +
+  theme_classic() +
+  ylab('Number of ROH') +
+  xlab('Total Length in ROH (Mb)')
+
+  
+```
+
+
 
 Number of ROHs per sample
 
 ```{r roh_count_per_sample, echo=FALSE} 
-roh_avg <- roh %>% group_by(sample_id, group) %>%
+roh_avg <- roh %>% group_by(sample_id, Range) %>%
   summarise(avg_length=mean(Length), n=n()) %>%
-  arrange(group,n)
+  arrange(Range,n)
 
 roh_avg %>%
-  ggplot(aes(x=1:3246,y=n)) +
+  ggplot(aes(x=1:nrow(roh_avg),y=n)) +
   geom_point(col='#48C095',alpha=0.5) +
-  facet_wrap(~group, nrow = 3,scales = 'free') + 
+  facet_wrap(~Range, nrow = 3,scales = 'free') + 
   ylab('Number of ROHs') +
   xlab('Individual') +
   theme_classic() +
@@ -118,19 +166,17 @@ roh_avg %>%
  
 ```
 
-
 Average ROHs per sample
 
-
 ```{r average_roh_per_sample, echo=FALSE} 
-roh_avg <- roh %>% group_by(sample_id, group) %>%
+roh_avg <- roh %>% group_by(sample_id, Range) %>%
   summarise(avg_length=mean(Length), n=n()) %>%
-  arrange(group,avg_length)
+  arrange(Range,avg_length)
 
 roh_avg %>%
-  ggplot(aes(x=1:3246,y=avg_length)) +
+  ggplot(aes(x=1:nrow(roh_avg),y=avg_length)) +
   geom_point(col='#48C095',alpha=0.5) +
-  facet_wrap(~group, nrow = 3,scales = 'free') + 
+  facet_wrap(~Range, nrow = 3,scales = 'free') + 
   ylab('Mean ROH length') +
   xlab('Individual') +
   theme_classic() +

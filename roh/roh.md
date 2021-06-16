@@ -9,18 +9,38 @@ Runs of homozygosity on 1082 individuals
 
 ROHs quality histogram
 
-All ROHs with Quality &lt; 25% are removed
-
 ![](roh_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+## Results
+
+### All results below are ROHs filter for autosomes with Quality &gt; 25% andNumber of markers &gt;= 50
 
 Number of ROHs with length in specific ranges
 
-![](roh_files/figure-gfm/roh-1.png)<!-- --> % of ROhs per category in
-sample (mam problem z nasza paleta kolorow wiec na razie daje domyslna)
+![](roh_files/figure-gfm/roh-1.png)<!-- -->
 
-    ## `summarise()` has grouped output by 'group'. You can override using the `.groups` argument.
+% of ROhs per category in sample
+
+    ## `summarise()` has grouped output by 'Range'. You can override using the `.groups` argument.
 
 ![](roh_files/figure-gfm/roh_count-1.png)<!-- -->
+
+ROH length sum
+
+    ## `summarise()` has grouped output by 'Range'. You can override using the `.groups` argument.
+
+![](roh_files/figure-gfm/roh_sum-1.png)<!-- -->
+
+Sum of ROH length per range
+
+    ## `summarise()` has grouped output by 'Range'. You can override using the `.groups` argument.
+
+![](roh_files/figure-gfm/SROH-1.png)<!-- -->
+
+Relationship between number of ROHs and total length of genome covered
+by them
+
+![](roh_files/figure-gfm/cummulative-1.png)<!-- -->
 
 Number of ROHs per sample
 
