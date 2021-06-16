@@ -12,3 +12,5 @@ Allele frequency: https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/varian
 Subpopulation structure: https://github.com/MNMdiagnostics/NaszeGenomy/tree/main/ClusterAnalysis#readme
 
 QC: https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/qc/qc.md
+
+ROHs: https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/roh/roh.md
