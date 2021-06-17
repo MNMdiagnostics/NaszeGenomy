@@ -1,5 +1,5 @@
 ---
-title: "Runs of homozygosity on 1082 individuals"
+title: "Runs of homozygosity on 943 individuals"
 output: github_document
 ---
 
@@ -31,6 +31,12 @@ outlier <- function (x) {
 roh <- fread('../input/roh_concat.txt', showProgress = T)
 colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id')
 roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
+roh$sample_id <-gsub(".norm.roh", "", roh$sample_id)
+to_include <- read.table('../../../genom_polaka/SAMPLES_TO_INCLUDE_210519.txt',sep='\t')
+
+roh <- roh %>% filter(sample_id %in% to_include$V1)
+
+
 
 kable(roh %>% select(Length,Number_of_markers,Quality) %>%
   pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
@@ -64,8 +70,8 @@ roh$Range <- ifelse(roh$Length >= 10e+06, '>10Mb','2-5Mb')
 
 group.colors <- c('2-5Mb' = '#48C095', '>10Mb' = '#27384A')
 
-roh$Chromosome <- gsub('chr','',roh$Chromosome)
-roh$Chromosome <- as.numeric(roh$Chromosome)
+#roh$Chromosome <- gsub('chr','',roh$Chromosome)
+#roh$Chromosome <- as.numeric(roh$Chromosome)
 
 roh$Chromosome <- factor(roh$Chromosome)
 roh$Chromosome <- ordered(roh$Chromosome, levels = unique(roh$Chromosome))
@@ -130,7 +136,29 @@ croh_sum %>% ggplot(aes(y=n,x=sum)) +
   xlab('Total Length in ROH (Mb)')
 ```
 
-4. % of ROhs per category in sample
+
+4. ROH genome coverage with runs > 2Mb
+
+```{r genome_coverage, echo=FALSE}
+#chr <- c('chr22')
+coverage <- roh %>% #filter(Chromosome %in% chr) %>%
+  arrange(Chromosome,Start)
+coverage$Chromosome <- paste(coverage$Chromosome,sep='')
+coverage$x_from <- paste(coverage$Chromosome,coverage$Start,sep='')
+coverage$x_end <- paste(coverage$Chromosome,coverage$End,sep='')
+
+coverage %>% ggplot() +
+  geom_segment(aes(x = x_from, y = sample_id, xend = x_end, 
+                                 yend = sample_id), col='#48C095') +
+  theme_classic() +
+  theme(axis.text.x = element_blank(),axis.text.y = element_blank()) +
+  xlab('Position on genome') +
+  ylab('Individual')
+
+```
+
+
+5. % of ROhs per category in sample
 
 ```{r roh_count, echo=FALSE}
 suppressMessages(
@@ -149,7 +177,7 @@ roh_count %>%
  theme(axis.text.x = element_blank())
 ```
 
-5. ROH length sum
+6. ROH length sum
 
 ```{r roh_sum, echo=FALSE}
 suppressMessages(
@@ -168,7 +196,7 @@ roh_sum %>%
  theme(axis.text.x = element_blank())
 ```
 
-6. Number of ROHs per sample
+7. Number of ROHs per sample
 
 ```{r roh_count_per_sample, echo=FALSE} 
 suppressMessages(
@@ -188,7 +216,7 @@ roh_avg %>%
  
 ```
 
-7. Average ROHs per sample
+8. Average ROHs per sample
 
 ```{r average_roh_per_sample, echo=FALSE} 
 roh_avg <- roh %>% group_by(sample_id, Range) %>%
@@ -206,7 +234,7 @@ roh_avg %>%
  
 ```
 
-8. Cosanguinity in population
+9. Cosanguinity in population
 
 ```{r echo=FALSE}
 froh <- read.table('../output/roh/froh.output',header=T,sep='\t')

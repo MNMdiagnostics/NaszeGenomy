@@ -1,10 +1,10 @@
-Runs of homozygosity on 1082 individuals
+Runs of homozygosity on 943 individuals
 ================
 
 | stat                |  min |  median |      mean |        max |
 |:--------------------|-----:|--------:|----------:|-----------:|
-| Length              | 83.0 | 54628.0 | 124447.48 | 63912719.0 |
-| Number\_of\_markers |  2.0 |   100.0 |    166.01 |    45797.0 |
+| Length              | 83.0 | 54619.0 | 124596.53 | 63912719.0 |
+| Number\_of\_markers |  2.0 |   100.0 |    166.18 |    45797.0 |
 | Quality             |  0.6 |    51.1 |     49.86 |       98.7 |
 
 ROHs quality histogram
@@ -22,10 +22,10 @@ ROHs quality histogram
 |     | mean\_SROH\_Mb  |
 |:----|:----------------|
 |     | Min. : 5.821    |
-|     | 1st Qu.: 29.297 |
-|     | Median : 34.491 |
-|     | Mean : 34.332   |
-|     | 3rd Qu.: 39.067 |
+|     | 1st Qu.: 29.593 |
+|     | Median : 34.647 |
+|     | Mean : 34.556   |
+|     | 3rd Qu.: 39.401 |
 |     | Max. :144.543   |
 
 2.  Sum of ROH length per range
@@ -39,10 +39,10 @@ ROHs quality histogram
 |     | &gt;10Mb       | 2-5Mb          |
 |:----|:---------------|:---------------|
 |     | Min. : 10.00   | Min. : 5.815   |
-|     | 1st Qu.: 15.89 | 1st Qu.:15.387 |
-|     | Median : 16.72 | Median :18.615 |
-|     | Mean : 17.78   | Mean :18.859   |
-|     | 3rd Qu.: 17.17 | 3rd Qu.:21.595 |
+|     | 1st Qu.: 15.89 | 1st Qu.:15.537 |
+|     | Median : 16.76 | Median :18.727 |
+|     | Mean : 17.77   | Mean :19.026   |
+|     | 3rd Qu.: 17.17 | 3rd Qu.:21.975 |
 |     | Max. :104.20   | Max. :42.199   |
 
 3.  Relationship between number of ROHs and total length of genome
@@ -50,19 +50,23 @@ ROHs quality histogram
 
 ![](roh_files/figure-gfm/cummulative-1.png)<!-- -->
 
-4.  % of ROhs per category in sample
+4.  ROH genome coverage with runs &gt; 2Mb
+
+![](roh_files/figure-gfm/genome_coverage-1.png)<!-- -->
+
+5.  % of ROhs per category in sample
 
 ![](roh_files/figure-gfm/roh_count-1.png)<!-- -->
 
-5.  ROH length sum
+6.  ROH length sum
 
 ![](roh_files/figure-gfm/roh_sum-1.png)<!-- -->
 
-6.  Number of ROHs per sample
+7.  Number of ROHs per sample
 
 ![](roh_files/figure-gfm/roh_count_per_sample-1.png)<!-- -->
 
-7.  Average ROHs per sample
+8.  Average ROHs per sample
 
 <!-- -->
 
@@ -70,6 +74,6 @@ ROHs quality histogram
 
 ![](roh_files/figure-gfm/average_roh_per_sample-1.png)<!-- -->
 
-8.  Cosanguinity in population
+9.  Cosanguinity in population
 
 ![](roh_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
