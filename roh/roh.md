@@ -13,47 +13,63 @@ ROHs quality histogram
 
 ## Results
 
-### All results below are ROHs filter for autosomes with Quality &gt; 25% andNumber of markers &gt;= 50
+### All results below are ROHs filter for autosomes with Quality &gt; 25% and Number of markers &gt;= 50
 
-Number of ROHs with length in specific ranges
+1.  Average sum of ROHs
 
-![](roh_files/figure-gfm/roh-1.png)<!-- -->
+![](roh_files/figure-gfm/total_roh-1.png)<!-- -->
 
-% of ROhs per category in sample
+|     | mean\_SROH\_Mb  |
+|:----|:----------------|
+|     | Min. : 5.821    |
+|     | 1st Qu.: 29.297 |
+|     | Median : 34.491 |
+|     | Mean : 34.332   |
+|     | 3rd Qu.: 39.067 |
+|     | Max. :144.543   |
 
-    ## `summarise()` has grouped output by 'Range'. You can override using the `.groups` argument.
+2.  Sum of ROH length per range
 
-![](roh_files/figure-gfm/roh_count-1.png)<!-- -->
-
-ROH length sum
-
-    ## `summarise()` has grouped output by 'Range'. You can override using the `.groups` argument.
-
-![](roh_files/figure-gfm/roh_sum-1.png)<!-- -->
-
-Sum of ROH length per range
+<!-- -->
 
     ## `summarise()` has grouped output by 'Range'. You can override using the `.groups` argument.
 
 ![](roh_files/figure-gfm/SROH-1.png)<!-- -->
 
-Relationship between number of ROHs and total length of genome covered
-by them
+|     | &gt;10Mb       | 2-5Mb          |
+|:----|:---------------|:---------------|
+|     | Min. : 10.00   | Min. : 5.815   |
+|     | 1st Qu.: 15.89 | 1st Qu.:15.387 |
+|     | Median : 16.72 | Median :18.615 |
+|     | Mean : 17.78   | Mean :18.859   |
+|     | 3rd Qu.: 17.17 | 3rd Qu.:21.595 |
+|     | Max. :104.20   | Max. :42.199   |
+
+3.  Relationship between number of ROHs and total length of genome
+    covered by them
 
 ![](roh_files/figure-gfm/cummulative-1.png)<!-- -->
 
-Number of ROHs per sample
+4.  % of ROhs per category in sample
 
-    ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
+![](roh_files/figure-gfm/roh_count-1.png)<!-- -->
+
+5.  ROH length sum
+
+![](roh_files/figure-gfm/roh_sum-1.png)<!-- -->
+
+6.  Number of ROHs per sample
 
 ![](roh_files/figure-gfm/roh_count_per_sample-1.png)<!-- -->
 
-Average ROHs per sample
+7.  Average ROHs per sample
+
+<!-- -->
 
     ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
 
 ![](roh_files/figure-gfm/average_roh_per_sample-1.png)<!-- -->
 
-Cosanguinity in population
+8.  Cosanguinity in population
 
 ![](roh_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
