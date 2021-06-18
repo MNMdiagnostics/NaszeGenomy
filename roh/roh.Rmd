@@ -15,6 +15,7 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(gridExtra))
 suppressMessages(library(grid))
 suppressMessages(library(data.table))
+suppressMessages(library(GenomicRanges))
 
 outlier <- function (x) {
   IQR <- quantile(x)[[4]] - quantile(x)[[2]]
@@ -156,6 +157,27 @@ coverage %>% ggplot() +
   ylab('Individual')
 
 ```
+
+```{r genome_coverage_heatmap, echo=FALSE}
+
+c = coverage(GRanges(seqnames = roh$Chromosome, 
+                     ranges=IRanges(roh$Start, roh$End)))
+
+window.size=1e6
+m = matrix(nrow = 2*length(names(c)), 
+           ncol=sum(runLength(c[[1]]))/window.size)
+
+for (chr in 1:24) { #seqnames(gr)) {
+  max = sum(runLength(c[[chr]]))
+  sampling.points = IRanges(start=c(1:(max/1e6))*1e6, width = 1)  
+  a = aggregate(c[[chr]], sampling.points, mean)
+  m[(chr*2)-1,1:length(a)] = a
+}
+
+image(t(m[dim(m)[1]:1,]), xaxt='n', yaxt='n')
+
+```
+
 
 
 5. % of ROhs per category in sample
