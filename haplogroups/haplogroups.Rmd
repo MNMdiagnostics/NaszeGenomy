@@ -16,6 +16,7 @@ suppressMessages(library(gridExtra))
 
 ```{r, echo=FALSE}
 haplo_input <- read.table('../output/haplogrep/haplo210519.txt',header=T)
+haplo_input$haplo_upper <- substring(haplo_input$Haplogroup,1,1)
 
 haplo_input %>% ggplot(aes(x=1,y=Quality)) + 
   geom_violin(col='#27384A',fill="#48C095") +
@@ -28,7 +29,7 @@ haplo_input %>% ggplot(aes(x=1,y=Quality)) +
   theme(axis.text.x = element_blank())
 
 haplo_summary <- haplo_input %>% filter(Quality > 0.85) %>% 
-  group_by(Haplogroup) %>% 
+  group_by(haplo_upper) %>% 
   summarise(n=n())
 
 haplo_summary %>% ggplot(aes(x=1,y=n)) + 
@@ -36,21 +37,18 @@ haplo_summary %>% ggplot(aes(x=1,y=n)) +
   geom_boxplot(width=0.1) +
   theme_classic() +
   ylab('Number of individuals') +
-  xlab('') +
-  ggtitle('Individuals per haplogroup') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  theme(axis.text.x = element_blank())
+  xlab('Haplogroup') 
+
   
 
 haplo_plot <- haplo_summary %>% filter(n >= 10) %>% arrange(desc(n))
   
-haplo_plot %>% 
-  ggplot(aes(y=reorder(Haplogroup, -n),x=n)) +
+haplo_summary  %>% 
+  ggplot(aes(y=reorder(haplo_upper, -n),x=n)) +
   geom_bar(fill="#48C095",stat='identity') + 
   theme_classic() +
   ylab('Haplogroup') +
-  xlab('Number of individuals') +
-  ggtitle('Haplogroup classificiation') +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab('Number of individuals') 
 
 ```
+

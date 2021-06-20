@@ -13,22 +13,49 @@ ROHs quality histogram
 
 ## Results
 
-### All results below are ROHs filter for autosomes with Quality &gt; 25% and Number of markers &gt;= 50
+### All results below are ROHs filter for autosomes with Quality &gt; 25%
 
-1.  Average sum of ROHs
+1.  Average sum of ROHs per genome
 
 ![](roh_files/figure-gfm/total_roh-1.png)<!-- -->
 
-|     | mean\_SROH\_Mb  |
-|:----|:----------------|
-|     | Min. : 5.821    |
-|     | 1st Qu.: 29.593 |
-|     | Median : 34.647 |
-|     | Mean : 34.556   |
-|     | 3rd Qu.: 39.401 |
-|     | Max. :144.543   |
+|     | mean\_SROH\_Mb |
+|:----|:---------------|
+|     | Min. :266.0    |
+|     | 1st Qu.:394.6  |
+|     | Median :403.9  |
+|     | Mean :403.0    |
+|     | 3rd Qu.:412.1  |
+|     | Max. :521.2    |
 
-2.  Sum of ROH length per range
+| Range    | mean\_length |
+|:---------|-------------:|
+| 25kb-1Mb |    0.1106537 |
+| &gt;1Mb  |    2.5019576 |
+| NA       |    0.0161917 |
+
+2.  Sum of ROHs per chromosome and individual
+
+<!-- -->
+
+    ## `summarise()` has grouped output by 'sample_id', 'Chromosome'. You can override using the `.groups` argument.
+
+![](roh_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+    ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
+
+    ## Adding missing grouping variables: `sample_id`
+
+|     | sample\_id       | mean\_SROH\_Mb |
+|:----|:-----------------|:---------------|
+|     | Length:20746     | Min. : 2.184   |
+|     | Class :character | 1st Qu.:11.107 |
+|     | Mode :character  | Median :18.209 |
+|     | NA               | Mean :18.319   |
+|     | NA               | 3rd Qu.:25.023 |
+|     | NA               | Max. :67.368   |
+
+3.  Sum of ROH length per range
 
 <!-- -->
 
@@ -36,44 +63,81 @@ ROHs quality histogram
 
 ![](roh_files/figure-gfm/SROH-1.png)<!-- -->
 
-|     | &gt;10Mb       | 2-5Mb          |
-|:----|:---------------|:---------------|
-|     | Min. : 10.00   | Min. : 5.815   |
-|     | 1st Qu.: 15.89 | 1st Qu.:15.537 |
-|     | Median : 16.76 | Median :18.727 |
-|     | Mean : 17.77   | Mean :19.026   |
-|     | 3rd Qu.: 17.17 | 3rd Qu.:21.975 |
-|     | Max. :104.20   | Max. :42.199   |
+|     | &gt;1Mb         |
+|:----|:----------------|
+|     | Min. : 5.821    |
+|     | 1st Qu.: 28.883 |
+|     | Median : 33.917 |
+|     | Mean : 33.234   |
+|     | 3rd Qu.: 38.002 |
+|     | Max. :131.589   |
 
-3.  Relationship between number of ROHs and total length of genome
+4.  Relationship between number of ROHs and total length of genome
     covered by them
 
 ![](roh_files/figure-gfm/cummulative-1.png)<!-- -->
 
-4.  ROH genome coverage with runs &gt; 2Mb
+5.  ROH genome coverage
 
 ![](roh_files/figure-gfm/genome_coverage-1.png)<!-- -->
 
-5.  % of ROhs per category in sample
+![](roh_files/figure-gfm/genome_coverage_heatmap-1.png)<!-- -->
+
+6.  % of ROhs per category in sample
+
+<!-- -->
+
+    ## Warning: Removed 1 rows containing missing values (geom_bar).
 
 ![](roh_files/figure-gfm/roh_count-1.png)<!-- -->
 
-6.  ROH length sum
+7.  ROH length sum
+
+<!-- -->
+
+    ## Warning: Removed 1 rows containing missing values (geom_bar).
 
 ![](roh_files/figure-gfm/roh_sum-1.png)<!-- -->
 
-7.  Number of ROHs per sample
+<!-- 7. Number of ROHs per sample -->
+<!-- ```{r roh_count_per_sample, echo=FALSE}  -->
+<!-- suppressMessages( -->
+<!-- roh_avg <- roh %>% group_by(sample_id, Range) %>% -->
+<!--   summarise(avg_length=mean(Length), n=n()) %>% -->
+<!--   arrange(Range,n) -->
+<!-- ) -->
+<!-- roh_avg %>% -->
+<!--   ggplot(aes(x=1:nrow(roh_avg),y=n)) + -->
+<!--   geom_point(col='#48C095',alpha=0.5) + -->
+<!--   facet_wrap(~Range, nrow = 3,scales = 'free') +  -->
+<!--   ylab('Number of ROHs') + -->
+<!--   xlab('Individual') + -->
+<!--   theme_classic() + -->
+<!--   theme(axis.text.x = element_blank()) -->
+<!-- ``` -->
+<!-- 8. Average ROHs per sample -->
+<!-- ```{r average_roh_per_sample, echo=FALSE}  -->
+<!-- roh_avg <- roh %>% group_by(sample_id, Range) %>% -->
+<!--   summarise(avg_length=mean(Length), n=n()) %>% -->
+<!--   arrange(Range,avg_length) -->
+<!-- roh_avg %>% -->
+<!--   ggplot(aes(x=1:nrow(roh_avg),y=avg_length)) + -->
+<!--   geom_point(col='#48C095',alpha=0.5) + -->
+<!--   facet_wrap(~Range, nrow = 3,scales = 'free') +  -->
+<!--   ylab('Mean ROH length') + -->
+<!--   xlab('Individual') + -->
+<!--   theme_classic() + -->
+<!--   theme(axis.text.x = element_blank()) -->
+<!-- ``` -->
 
-![](roh_files/figure-gfm/roh_count_per_sample-1.png)<!-- -->
-
-8.  Average ROHs per sample
+8.  Cummulative sum
 
 <!-- -->
 
     ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
 
-![](roh_files/figure-gfm/average_roh_per_sample-1.png)<!-- -->
+![](roh_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 9.  Cosanguinity in population
 
-![](roh_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](roh_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
