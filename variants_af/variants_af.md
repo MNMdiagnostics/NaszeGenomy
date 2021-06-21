@@ -18,6 +18,10 @@ individuals
 
 ![](variants_af_files/figure-gfm/clinvar-1.png)<!-- -->
 
+    ## 
+    ##   1   2   3   4 
+    ## 700 611  32   2
+
 ### 5. Putative variants
 
 ![](variants_af_files/figure-gfm/putative-1.png)<!-- -->

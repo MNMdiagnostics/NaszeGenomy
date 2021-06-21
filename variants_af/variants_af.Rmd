@@ -109,6 +109,8 @@ comp_clinsig %>% filter(is.na(stars) ==F) %>%
   ylab('Number of gold stars') +
   xlab('Variants count') 
 
+table(comp_clinsig$stars)
+
 ```
 
 ### 5. Putative variants
