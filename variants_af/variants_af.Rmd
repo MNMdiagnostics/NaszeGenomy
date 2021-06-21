@@ -194,6 +194,21 @@ kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill
 
 ```
 
+## 9. NBS
+
+```{r NBS, echo=FALSE}
+nbs <- read.table('nbs.tsv',header = T,sep='\t') %>% select(PL_AF, starts_with('gnomAD_'))
+
+nbs %>% pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>%
+  ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
+  geom_bar(stat = 'identity',fill="#48C095") +
+  theme_classic() +
+  ylab('Population') +
+  xlab('AF [%]')
+
+```
+
+
 
 
 

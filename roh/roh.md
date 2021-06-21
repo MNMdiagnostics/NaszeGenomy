@@ -19,20 +19,19 @@ ROHs quality histogram
 
 ![](roh_files/figure-gfm/total_roh-1.png)<!-- -->
 
-|     | mean\_SROH\_Mb |
-|:----|:---------------|
-|     | Min. :266.0    |
-|     | 1st Qu.:394.6  |
-|     | Median :403.9  |
-|     | Mean :403.0    |
-|     | 3rd Qu.:412.1  |
-|     | Max. :521.2    |
+|     | mean\_SROH\_Mb  |
+|:----|:----------------|
+|     | Min. : 5.821    |
+|     | 1st Qu.: 28.883 |
+|     | Median : 33.855 |
+|     | Mean : 33.207   |
+|     | 3rd Qu.: 37.978 |
+|     | Max. :131.589   |
 
 | Range    | mean\_length |
 |:---------|-------------:|
-| 25kb-1Mb |    0.1106537 |
-| &gt;1Mb  |    2.5019576 |
-| NA       |    0.0161917 |
+| 2Mb-5Mb  |     2.892791 |
+| &gt;10Mb |    16.239240 |
 
 2.  Sum of ROHs per chromosome and individual
 
@@ -48,12 +47,12 @@ ROHs quality histogram
 
 |     | sample\_id       | mean\_SROH\_Mb |
 |:----|:-----------------|:---------------|
-|     | Length:20746     | Min. : 2.184   |
-|     | Class :character | 1st Qu.:11.107 |
-|     | Mode :character  | Median :18.209 |
-|     | NA               | Mean :18.319   |
-|     | NA               | 3rd Qu.:25.023 |
-|     | NA               | Max. :67.368   |
+|     | Length:6575      | Min. : 2.000   |
+|     | Class :character | 1st Qu.: 2.358 |
+|     | Mode :character  | Median : 2.972 |
+|     | NA               | Mean : 4.763   |
+|     | NA               | 3rd Qu.: 3.900 |
+|     | NA               | Max. :38.193   |
 
 3.  Sum of ROH length per range
 
@@ -63,14 +62,14 @@ ROHs quality histogram
 
 ![](roh_files/figure-gfm/SROH-1.png)<!-- -->
 
-|     | &gt;1Mb         |
-|:----|:----------------|
-|     | Min. : 5.821    |
-|     | 1st Qu.: 28.883 |
-|     | Median : 33.917 |
-|     | Mean : 33.234   |
-|     | 3rd Qu.: 38.002 |
-|     | Max. :131.589   |
+|     | 2Mb-5Mb        | &gt;10Mb       |
+|:----|:---------------|:---------------|
+|     | Min. : 5.815   | Min. : 10.00   |
+|     | 1st Qu.:15.537 | 1st Qu.: 15.89 |
+|     | Median :18.727 | Median : 16.76 |
+|     | Mean :19.026   | Mean : 17.77   |
+|     | 3rd Qu.:21.975 | 3rd Qu.: 17.17 |
+|     | Max. :42.199   | Max. :104.20   |
 
 4.  Relationship between number of ROHs and total length of genome
     covered by them
@@ -85,17 +84,9 @@ ROHs quality histogram
 
 6.  % of ROhs per category in sample
 
-<!-- -->
-
-    ## Warning: Removed 1 rows containing missing values (geom_bar).
-
 ![](roh_files/figure-gfm/roh_count-1.png)<!-- -->
 
 7.  ROH length sum
-
-<!-- -->
-
-    ## Warning: Removed 1 rows containing missing values (geom_bar).
 
 ![](roh_files/figure-gfm/roh_sum-1.png)<!-- -->
 
@@ -134,7 +125,9 @@ ROHs quality histogram
 
 <!-- -->
 
-    ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
+    ## `summarise()` has grouped output by 'sample_id', 'Range'. You can override using the `.groups` argument.
+
+    ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 
 ![](roh_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 

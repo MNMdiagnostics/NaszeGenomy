@@ -69,3 +69,7 @@ individuals
 | indel          | &lt;0.1% |    1 |     1 |        4 |     8770 |
 | insertion      | &lt;0.1% | 1252 |   800 |     1015 |  1102882 |
 | SNV            | &lt;0.1% | 5109 | 69962 |   103413 | 19741686 |
+
+## 9. NBS
+
+![](variants_af_files/figure-gfm/NBS-1.png)<!-- -->
