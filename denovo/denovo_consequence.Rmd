@@ -1,0 +1,41 @@
+---
+title: "R Notebook"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r}
+library(dplyr)
+library(knitr)
+t<-read.table('denovo_consequences_per_sample.tsv', stringsAsFactors = T)
+colnames(t)<-c('sample', 'conseq','impact','symbol')
+t['coding'] = t$impact!='MODIFIER'
+```
+
+```{r}
+kable(t %>% count(impact))
+```
+```{r}
+kable(t %>% count(conseq))
+```
+
+Number of rare coding de-novo per-sample
+
+```{r, coding.per.sample}
+t[t$coding,] %>% count(sample, .drop=F) %>% summarize(mean=mean(n), min=min(n), max=max(n))
+```
+```{r, coding.per.sample.hist}
+hist((t[t$coding,] %>% count(sample, .drop=F))$n, 
+     main = '# rare de-novo exonic variants per sample',
+     xlab = '# de-novo', ylab='# samples')
+```
+
+
+```{r, impact.per.sample}
+kable(t %>% count(sample,impact, .drop=F) 
+        %>% group_by(impact) 
+        %>% summarize(mean=mean(n), min=min(n), max=max(n)))
+```
+
+
