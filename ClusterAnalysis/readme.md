@@ -11,7 +11,9 @@ The idea here is as follows:
 7. predict the ancestry in your cohort using that trained random forest and your cohort's projection on 1000G's PCs
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestry.jpeg)
+<object data="https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA.eps" type="application/pdf" width="700px" height="700px">
+</object>
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA.eps)
 
 **One individual (ID=204_20349_20) is from AMR not EUR population**
 
@@ -19,18 +21,18 @@ I choosed only European populations and plot again our cohort across other Eyrop
 
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA.jpeg)
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA2.eps)
 
 I again trained a random forest with 6 principal components on the 1000G dataset and predicted the ancestry in our cohort, but now we checked if people from our came from populations: CEU, FIN, GBR, IBS, TSI or OTHER (AFR, AMR, SAS, EAS). I got the following results:
 
 | Population | Number of people <br /> from our cohort |
 | :---: | :---: |
-| CEU | 2 | 
-| FIN | 927 |
-| GBR | 1 |
-| IBS | 0 |
-| TSI | 9 |
-| OTHER | 4|
+| CEU | 427 | 
+| FIN | 0 |
+| GBR | 496 |
+| IBS | 3 |
+| TSI | 12 |
+| OTHER | 5|
 
 # Fst analysis #
 Fst statistics computed using the method introduced in Weir BS, Cockerham CC (1984) Estimating F-statistics for the analysis of population structure. The results are presented between each population available in the 1000G data. In the brackets is the mean of the weighted Fst statistics.
