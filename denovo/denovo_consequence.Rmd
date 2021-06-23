@@ -5,37 +5,59 @@ output:
     variant: markdown_github
 ---
 
-```{r}
-library(dplyr)
-library(knitr)
+## De-novo variants
+
+Analysis of de-novo variants from 93 child-parents trios
+
+```{r, echo=F}
+suppressMessages(library(dplyr))
+suppressMessages(library(knitr))
 t<-read.table('denovo_consequences_per_sample.tsv', stringsAsFactors = T)
 colnames(t)<-c('sample', 'conseq','impact','symbol')
 t['coding'] = t$impact!='MODIFIER'
 ```
 
-```{r}
+### Impact of the variants
+
+Genic variants fall into LOW, MODERATE, and HIGH categories
+
+```{r, echo=F}
 kable(t %>% count(impact))
 ```
-```{r}
+
+
+Counts per sample
+
+```{r impact.per.sample, echo=F}
+kable(t %>% count(sample,impact, .drop=F) 
+        %>% group_by(impact) 
+        %>% summarize(mean=mean(n), min=min(n), max=max(n)))
+```
+
+### Consequence counts
+
+```{r all.conseq, echo=F}
 kable(t %>% count(conseq))
 ```
 
-Number of rare coding de-novo per-sample
-
-```{r, coding.per.sample}
-t[t$coding,] %>% count(sample, .drop=F) %>% summarize(mean=mean(n), min=min(n), max=max(n))
+```{r genic.conseq, echo=F}
+kable(t[t$coding,] %>% count(conseq))
 ```
-```{r, coding.per.sample.hist}
+
+
+### Rare coding de-novo per-sample
+
+```{r, coding.per.sample, echo=F}
+
+kable(t[t$coding,] 
+      %>% count(sample, .drop=F) 
+      %>% summarize(mean=mean(n), min=min(n), max=max(n)))
+```
+```{r coding.per.sample.hist, echo=F}
 hist((t[t$coding,] %>% count(sample, .drop=F))$n, 
      main = '# rare de-novo exonic variants per sample',
      xlab = '# de-novo', ylab='# samples')
 ```
 
-
-```{r, impact.per.sample}
-kable(t %>% count(sample,impact, .drop=F) 
-        %>% group_by(impact) 
-        %>% summarize(mean=mean(n), min=min(n), max=max(n)))
-```
 
 
