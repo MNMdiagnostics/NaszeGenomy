@@ -2,12 +2,12 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
 
 print('Preparing AF list')
-af <- fread('../input/multisample_20210519.dv.bcfnorm.filtered.AFlist.txt',showProgress=T)
+af <- fread('../input/multisample_20210519.dv.bcfnorm.filtered.AFlist.txt',showProgress=T) %>% filter(V3 > 0 & V4 > 0)
 colnames(af) <- c('Uploaded_variation','PL_AF','PL_AN','PL_AC')
 
 print('Loading VEP file')
 # vep <- fread('/genom_polaka/input/multisample_20210519.dv.bcfnorm.filtered.vep.tsv.gz',
-#              skip=101,showProgress=T)
+#              skip=101,showProgress=T)S
 
 vep <- fread('/genom_polaka/input/multisample_20210519.dv.bcfnorm.filtered.vep_CLINVAR.tsv.gz',skip=120,showProgress=T) %>% filter(PICK == 1)
 
@@ -15,7 +15,7 @@ colnames(vep)[1] <- 'Uploaded_variation'
 
 vep <- vep %>% left_join(af, by = 'Uploaded_variation') 
 
-af_vep <- vep %>% select(PL_AF,PL_AC,IMPACT,Consequence,EXON,INTRON) %>% filter(PL_AF > 0)
+af_vep <- vep %>% select(PL_AF,PL_AC,IMPACT,Consequence,EXON,INTRON) 
 af_vep <- af_vep %>%
   mutate(group = case_when(PL_AF > 0.005~ ">0.5%",
                           PL_AF >0 & PL_AF < 0.001 ~ "<0.1%" ,
