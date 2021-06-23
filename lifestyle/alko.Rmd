@@ -2,8 +2,8 @@
 title: "Alcohol metabolism"
 subtitle: "Results on 943 unrelated individuals"
 output:
-  github_document: default
   pdf_document: default
+  github_document: default
 ---
 
 ```{r setup, echo=FALSE}
@@ -16,57 +16,36 @@ suppressMessages(library(knitr))
 
 ```{r echo=FALSE, message=F, warning=F}
 suppressMessages(library(tidyverse))
+suppressMessages(library(data.table))
 
-lifestyle <- read.table('genes_alko.txt',sep='\t',header=T)
+genes <- fread('alko_genes_vep_input.tsv',header=T)
+rsid <- fread('alko_rsid_vep_input.tsv',header=T)
 
-af_comp <- lifestyle %>% 
-  select(Existing_variation,Location,SYMBOL,VARIANT_CLASS,Allele,EUR_AF,PL_AF,gnomAD3g_AF,gnomAD3g_AF_NFE,
-         CLIN_SIG,IMPACT) %>%
-  filter(EUR_AF != '-') %>% mutate(EUR_AF = as.numeric(as.character(EUR_AF)),
-                                   gnomAD3g_AF = as.numeric(as.character(gnomAD3g_AF)),
-                                   gnomAD3g_AF_NFE = as.numeric(as.character(gnomAD3g_AF))
-                                   ) %>% na.omit()
+rsid_comp <- rsid %>% 
+  select(Existing_variation,Location,PL_AF,gnomADg_AF_NFE ) %>% distinct()
+
+genes_comp <- genes %>% 
+  select(Existing_variation,Location,PL_AF,gnomADg_AF_NFE ) %>% distinct()
+
+alko_df <- rbind(rsid_comp,genes_comp)
+alko_df <- alko_df %>% mutate(Association=ifelse(Existing_variation %in% rsid$Existing_variation,'confirmed',
+                              'unconfirmed')
+                                ) %>% filter(gnomADg_AF_NFE != '-')
+alko_df$gnomADg_AF_NFE <- as.numeric(alko_df$gnomADg_AF_NFE)
 
 
-af_comp$eur_diff <- af_comp$PL_AF - af_comp$EUR_AF
-af_comp$nfe_diff <- af_comp$PL_AF - af_comp$gnomAD3g_AF_NFE
-
-alko_rsid <- read.table('alko_rsid.txt',header=T,sep='\t') %>% left_join(af_comp) %>% 
-  na.omit()
-
-# af_outlier_1k <- af_comp %>% 
-#   top_n(-10, eur_diff) %>% rbind( top_n(af_comp,10, eur_diff)) %>% 
-#   distinct() %>%
-#   select(Existing_variation,SYMBOL,Allele,VARIANT_CLASS,PL_AF,EUR_AF,eur_diff) %>% arrange(eur_diff)
-
-af_outlier_gnomad <- af_comp %>% 
-  top_n(-10, nfe_diff) %>% rbind( top_n(af_comp,10, nfe_diff)) %>% 
-  select(Existing_variation,SYMBOL,Allele,VARIANT_CLASS,PL_AF,gnomAD3g_AF_NFE,nfe_diff) %>%
-  distinct() %>%
-  arrange(nfe_diff)
-
+alko_df$nfe_diff <- alko_df$PL_AF - alko_df$gnomADg_AF_NFE
 ```
-
-
-<!-- Top 10 and bottom 10 differences between AF in PL and 1000 Genomes European -->
-
-<!-- ```{r echo=FALSE} -->
-<!-- kable(af_outlier_1k %>%  -->
-<!--         mutate(PL_AF =  round(af_outlier_1k$PL_AF,2), -->
-<!--                EUR_AF = round(af_outlier_1k$EUR_AF,2), -->
-<!--                eur_diff = round(af_outlier_1k$eur_diff,2)) %>% -->
-<!--         arrange(eur_diff) -->
-<!--         ) -->
-<!-- ``` -->
 
 Known variants related to alcohol metabolism
 
-```{r, table_known, echo=FALSE}
-kable(alko_rsid %>% select(-Location,-VARIANT_CLASS,-EUR_AF,-gnomAD3g_AF,-IMPACT,-eur_diff) %>%
-        mutate(PL_AF =  round(alko_rsid$PL_AF,3),
-               gnomAD3g_AF_NFE = round(alko_rsid$gnomAD3g_AF_NFE,3),
-               nfe_diff = round(alko_rsid$nfe_diff,3)) %>% 
-        rename(AF_NFE = gnomAD3g_AF_NFE) %>%
+```{r, table_confirmedn, echo=FALSE}
+kable(alko_df %>% filter(Location %in% rsid_comp$Location) %>%
+        select(-Association) %>%
+        mutate(PL_AF =  round(PL_AF,3),
+               gnomADg_AF_NFE = round(gnomADg_AF_NFE,3),
+               nfe_diff = round(nfe_diff,3)) %>% 
+        rename(AF_NFE = gnomADg_AF_NFE) %>%
         arrange(nfe_diff) 
         )
 ```
@@ -74,16 +53,14 @@ kable(alko_rsid %>% select(-Location,-VARIANT_CLASS,-EUR_AF,-gnomAD3g_AF,-IMPACT
 
 
 \newpage
+
 Top 10 and bottom 10 differences between AF in PL and gnomAD Non Finnish European
 
 ```{r, table_outlier, echo=FALSE}
-kable(af_outlier_gnomad %>% 
-        mutate(PL_AF =  round(af_outlier_gnomad$PL_AF,2),
-               gnomAD3g_AF_NFE = round(af_outlier_gnomad$gnomAD3g_AF_NFE,2),
-               nfe_diff = round(af_outlier_gnomad$nfe_diff,2)) %>%
-        rename(AF_NFE = gnomAD3g_AF_NFE) %>%
-        arrange(nfe_diff) 
-        )
+af_outlier_gnomad <- alko_df %>% 
+  top_n(-10, nfe_diff) %>% rbind( top_n(alko_df,10, nfe_diff)) %>% 
+  arrange(nfe_diff)
+kable(af_outlier_gnomad)
 ```
 
 
@@ -99,33 +76,66 @@ kable(af_outlier_gnomad %>%
 <!--   theme(plot.title = element_text(hjust = 0.5)) -->
 <!-- ``` -->
 \newpage
-Polish vs gnomAD Non-Finnish European
 
-```{r, Polish_gnomADNon-Finnish_scatter_plot, echo=FALSE, message=F}
-af_comp %>% 
-  ggplot(aes(y=PL_AF,x=gnomAD3g_AF_NFE)) + geom_point(col='#27384A') + 
-  geom_smooth(method='lm',se = F,col='#48C095') + theme_classic() + 
-  xlab('gnomAD3g_AF_NFE') +
-  ylab('AF in PL population')
+1. Polish vs gnomAD Non-Finnish European for 29520 variants in genes:
+
+```{r echo=FALSE}
+kable(
+  genes %>% group_by(SYMBOL) %>% summarise(variants = n()) 
+)
 ```
 
 
+```{r, Polish_gnomADNon-Finnish_scatter_plot, echo=FALSE, message=F}
+group.colors <- c(confirmed = "#BC0020", unconfirmed ="#48C095")
 
-<!-- af_outlier_1k %>% -->
-<!--   ggplot(aes(x=eur_diff,y = reorder(Existing_variation,-eur_diff))) +  -->
-<!--   geom_bar(stat = 'identity',fill='#48C095') + theme_classic() + -->
-<!--   ylab('rsid ') + xlab('Difference between Polish and 1000 Genomes European populations') + -->
-<!--   ggtitle('Top 10 and bottom 10 between Polish and 1000 Genomes European') + -->
-<!--   theme(plot.title = element_text(hjust = 0.5)) + -->
-<!--   xlim(c(-1,1)) -->
+alko_df %>% na.omit() %>%
+  ggplot(aes(y=PL_AF,x=gnomADg_AF_NFE,col=Association)) + 
+  geom_point(alpha=0.5) + 
+  geom_smooth(method = 'lm',se=F,col='#27384A',formula = 'y~x') +
+  theme_classic() + 
+  xlab('gnomAD3g_AF_NFE') +
+  ylab('AF in PL population') +
+  scale_color_manual(values=group.colors)
+```
+
+
+2. Polish vs gnomAD Non-Finnish European for 23 variants with know association:
+
+```{r known_variants_plot, echo=FALSE}
+alko_df %>% filter(Association=='confirmed') %>% na.omit() %>%
+  ggplot(aes(y=PL_AF,x=gnomADg_AF_NFE)) + 
+  geom_point(col="#48C095") + 
+  geom_smooth(method = 'lm',se=F,col='#27384A',formula = 'y~x') +
+  theme_classic() + 
+  xlab('gnomAD3g_AF_NFE') +
+  ylab('AF in PL population') 
+
+```
+
+
 \newpage
 
-Top 10 and bottom 10 between Polish and gnomAD Non Finnish European
+3. Top 10 and bottom 10 between Polish and gnomAD Non Finnish European for all genes
 
 ```{r, 10_diff_barplot, echo=FALSE, message=F}
 af_outlier_gnomad %>%
-  ggplot(aes(x=nfe_diff,y = reorder(Existing_variation,-nfe_diff))) + 
+  ggplot(aes(x=nfe_diff*100,y = reorder(Existing_variation,-nfe_diff*100))) + 
   geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
   ylab('rsid ') + xlab('Difference between AF in Polish and European populations') +
-  xlim(c(-1,1))
+  geom_text(aes(label=paste(round(nfe_diff*100),'%'))) +
+  xlim(c(-100,100))
+```
+
+\newpage
+
+4. Differences between Polish and gnomAD Non Finnish European for associated variants
+
+```{r, known_diff_barplot, echo=FALSE, message=F}
+alko_df%>% filter(Association=='confirmed') %>%
+  ggplot(aes(x=nfe_diff*100,y = reorder(Existing_variation,-nfe_diff*100))) + 
+  geom_bar(stat = 'identity',fill='#48C095') + theme_classic() +
+  ylab('rsid ') + xlab('Difference between AF in Polish and European populations') +
+  geom_text(aes(label=paste(round(nfe_diff*100,2),'%'))) +
+  xlim(c(-10,10))
 ```
