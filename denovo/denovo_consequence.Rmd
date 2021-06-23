@@ -39,6 +39,9 @@ kable(t %>% count(sample,impact, .drop=F)
 ```{r all.conseq, echo=F}
 kable(t %>% count(conseq))
 ```
+Consequences of exonic and splicing variants
+
+
 
 ```{r genic.conseq, echo=F}
 kable(t[t$coding,] %>% count(conseq))
@@ -53,6 +56,14 @@ kable(t[t$coding,]
       %>% count(sample, .drop=F) 
       %>% summarize(mean=mean(n), min=min(n), max=max(n)))
 ```
+
+Rare exonic denovo counts 
+```{r, coding.per.sample.counts, echo=F}
+
+kable(table((t[t$coding,] %>% count(sample, .drop=F))$n))
+```
+
+
 ```{r coding.per.sample.hist, echo=F}
 hist((t[t$coding,] %>% count(sample, .drop=F))$n, 
      main = '# rare de-novo exonic variants per sample',

@@ -51,6 +51,8 @@ Counts per sample
 | TF_binding_site_variant                                            |    75 |
 | upstream_gene_variant                                              |  2216 |
 
+Consequences of exonic and splicing variants
+
 | conseq                                                             |   n |
 |:-------------------------------------------------------------------|----:|
 | missense_variant                                                   | 113 |
@@ -71,5 +73,19 @@ Counts per sample
 |     mean | min | max |
 |---------:|----:|----:|
 | 2.086022 |   0 |   8 |
+
+Rare exonic denovo counts
+
+| Var1 | Freq |
+|:-----|-----:|
+| 0    |   12 |
+| 1    |   25 |
+| 2    |   25 |
+| 3    |   15 |
+| 4    |   12 |
+| 5    |    1 |
+| 6    |    1 |
+| 7    |    1 |
+| 8    |    1 |
 
 ![](denovo_consequence_files/figure-markdown_github/coding.per.sample.hist-1.png)
