@@ -11,15 +11,40 @@ The idea here is as follows:
 7. predict the ancestry in your cohort using that trained random forest and your cohort's projection on 1000G's PCs
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestry.jpeg)
+<object data="https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA.eps" type="application/pdf" width="700px" height="700px">
+</object>
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA.eps)
 
 **One individual (ID=204_20349_20) is from AMR not EUR population**
+
+I choosed only European populations and plot again our cohort across other Eyropean populations (CEU, FIN, GBR, IBS, TSI). 
+
+
+**The results are presented on the following plot:**
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA2.eps)
+
+I again trained a random forest with 6 principal components on the 1000G dataset and predicted the ancestry in our cohort, but now we checked if people from our came from populations: CEU, FIN, GBR, IBS, TSI or OTHER (AFR, AMR, SAS, EAS). I got the following results:
+
+| Population | Number of people <br /> from our cohort |
+| :---: | :---: |
+| CEU | 427 | 
+| FIN | 0 |
+| GBR | 496 |
+| IBS | 3 |
+| TSI | 12 |
+| OTHER | 5|
 
 # Fst analysis #
 Fst statistics computed using the method introduced in Weir BS, Cockerham CC (1984) Estimating F-statistics for the analysis of population structure. The results are presented between each population available in the 1000G data. In the brackets is the mean of the weighted Fst statistics.
 
 **The results are presented on the following plot:**
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/FST2.jpeg)
+
+Comparison of mean weighted Fst statistics within the European subpopulations
+
+| Population | CEU | FIN | GBR | IBS | TSI |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| wFst | 0.012 | 0.015 | 0.012 | 0.014 | 0.015 | 
 
 # Cluster analysis #
 Based on *3 491* genomes (*2 548* from *1000* Human Genomes and *943* from our project) we estimated the first *20* principal component for each of the individual (as presented in description of ancestry analysis). Then we took into account only patients from our cohort we detected possible outliers in the data. Now we can observe one huge cluster with few possible outliers:
@@ -37,3 +62,6 @@ Also I did DBSCAN clustering - Density-Based Spatial Clustering of Applications 
 
 **The results are presented on the following plot:**
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/DBSC.jpeg) 
+
+**Mean weighted Fst statistics between people from cluster (black dots) and outliers (8 red dots) in above plot is equal to 0.003.**
+
