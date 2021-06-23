@@ -11,9 +11,7 @@ The idea here is as follows:
 7. predict the ancestry in your cohort using that trained random forest and your cohort's projection on 1000G's PCs
 
 **The results are presented on the following plot:**
-<object data="https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA.eps" type="application/pdf" width="700px" height="700px">
-</object>
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA.eps)
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestry.jpeg) 
 
 **One individual (ID=204_20349_20) is from AMR not EUR population**
 
@@ -21,7 +19,7 @@ I choosed only European populations and plot again our cohort across other Eyrop
 
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA2.eps)
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA.jpeg) 
 
 I again trained a random forest with 6 principal components on the 1000G dataset and predicted the ancestry in our cohort, but now we checked if people from our came from populations: CEU, FIN, GBR, IBS, TSI or OTHER (AFR, AMR, SAS, EAS). I got the following results:
 
