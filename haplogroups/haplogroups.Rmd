@@ -31,10 +31,9 @@ haplo_input %>% ggplot(aes(x=1,y=Quality)) +
 
 haplo_summary <- haplo_input %>% filter(Quality > 0.80) %>% 
   group_by(Haplogroup) %>% 
-  summarise(n=n())
+  summarise(n=n()) %>% arrange(n)
 
-haplo_summary$n <- (haplo_summary$n/sum(haplo_summary$n)) * 100
-
+haplo_summary$n_perc <- (haplo_summary$n/sum(haplo_summary$n)) * 100
 ```
 
 2. Haplogroups distribution
@@ -57,16 +56,18 @@ write.table(subclad_list,'subclad_list.tsv',sep='\t',col.names = T,row.names = F
 3. % individuals per haplogroup
 
 ```{r percent_haplogroup,echo=FALSE}
+n <- paste('(',haplo_summary$n,')',sep = '')
+labels <- paste(round(haplo_summary$n_perc,2),'%',sep=' ',n)
+
 haplo_summary  %>% 
-  ggplot(aes(y=reorder(Haplogroup, -n),x=n)) +
+  ggplot(aes(y=reorder(Haplogroup, -n_perc),x=n_perc)) +
   geom_bar(fill="#48C095",stat='identity') + 
   theme_classic() +
   ylab('Haplogroup') +
   xlab('% of individuals') +
-  geom_text(aes(label=
-                  paste(round(n,2),'%'),
+  geom_text(aes(label=labels,
                 hjust=-0.3)) +
-  xlim(c(0,50))
+  xlim(c(0,60))
 
 ```
 
