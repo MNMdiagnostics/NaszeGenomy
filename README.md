@@ -9,6 +9,8 @@ Alcohol metabolism: https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/life
 
 Allele frequency: https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/variants_af/variants_af.md
 
+Denovo: https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/denovo/denovo_consequence.md
+
 Subpopulation structure: https://github.com/MNMdiagnostics/NaszeGenomy/tree/main/ClusterAnalysis#readme
 
 QC: https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/qc/qc.md
