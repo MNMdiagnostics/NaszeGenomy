@@ -29,9 +29,11 @@ haplo_input %>% ggplot(aes(x=1,y=Quality)) +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_blank())
 
-haplo_summary <- haplo_input %>% filter(Quality > 0.85) %>% 
+haplo_summary <- haplo_input %>% filter(Quality > 0.80) %>% 
   group_by(Haplogroup) %>% 
   summarise(n=n())
+
+haplo_summary$n <- (haplo_summary$n/sum(haplo_summary$n)) * 100
 
 haplo_summary %>% ggplot(aes(x=1,y=n)) + 
   geom_violin(col='#27384A',fill="#48C095") +
@@ -50,7 +52,11 @@ haplo_summary  %>%
   geom_bar(fill="#48C095",stat='identity') + 
   theme_classic() +
   ylab('Haplogroup') +
-  xlab('Number of individuals') 
+  xlab('% of individuals') +
+  geom_text(aes(label=
+                  paste(round(n,2),'%'),
+                hjust=-0.3)) +
+  xlim(c(0,50))
 
 ```
 
