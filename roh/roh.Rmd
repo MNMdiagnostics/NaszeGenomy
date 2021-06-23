@@ -5,7 +5,7 @@ output: github_document
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,dev = 'jpeg')
 suppressMessages(library(knitr))
 ```
 
@@ -35,9 +35,7 @@ roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
 roh$sample_id <-gsub(".norm.roh", "", roh$sample_id)
 to_include <- read.table('../../../genom_polaka/SAMPLES_TO_INCLUDE_210519.txt',sep='\t')
 
-roh <- roh %>% filter(sample_id %in% to_include$V1)
-
-
+roh <- roh %>% filter(sample_id %in% to_include$V1) %>% filter(Quality > 25 & Number_of_markers >50) 
 
 kable(roh %>% select(Length,Number_of_markers,Quality) %>%
   pivot_longer(cols = everything(), names_to = 'stat',values_to = 'value') %>%
@@ -48,26 +46,132 @@ kable(roh %>% select(Length,Number_of_markers,Quality) %>%
 
 ```
 
-ROHs quality histogram
+<!-- ROHs quality histogram -->
 
-```{r echo=FALSE}
-roh  %>% ggplot(aes(x=1,y=Quality)) +
-    geom_violin(fill='#48C095', col='#27384A') +
-  geom_boxplot(width=0.1) +
-     theme_classic() + theme(axis.text.x = element_blank()) +
-  xlab('')
-```
+<!-- ```{r echo=FALSE} -->
+<!-- roh  %>% ggplot(aes(x=1,y=Quality)) + -->
+<!--     geom_violin(fill='#48C095', col='#27384A') + -->
+<!--   geom_boxplot(width=0.1) + -->
+<!--      theme_classic() + theme(axis.text.x = element_blank()) + -->
+<!--   xlab('') -->
+<!-- ``` -->
 
 ## Results
 
-### All results below are ROHs filter for autosomes with Quality > 25%
+1. Cummulative sum
 
-1. Average sum of ROHs per genome
+```{r Cummulative_sum,echo=FALSE}
+roh_cummulative <- roh %>%
+  filter(Chromosome != 'chrX' & Chromosome != 'chrY')
+
+roh_cummulative <- roh %>% arrange(Length,sample_id) %>%
+  group_by(sample_id) %>%
+  summarise(Length = cumsum(Length)/1e+06)
+
+ranges <- seq(0,600,50)
+ranges <- unique(ranges)
+
+roh_cummulative$Range <- NA
+
+for (i in 1:length(ranges)) {
+  if (ranges[i] != max(ranges)) {
+      roh_cummulative$Range <- ifelse(roh_cummulative$Length > ranges[i] & 
+                                        roh_cummulative$Length < ranges[i+1], paste(
+                                          ranges[i],'-',ranges[i+1],'Mb',sep=''
+                                        ), roh_cummulative$Range) 
+  } else {
+    roh_cummulative$Range <- ifelse(roh_cummulative$Length >= ranges[i], paste('>',ranges[i],'Mb',sep='' ), roh_cummulative$Range) 
+      
+  }
+}
+
+roh_cummulative$Range <- factor(roh_cummulative$Range)
+roh_cummulative$Range <- ordered(roh_cummulative$Range, levels = unique(roh_cummulative$Range))
+
+
+plot_data <- roh_cummulative %>% group_by(Range) %>%
+  summarise(quantiles = scales::percent(c(0.25, 0.5, 0.75)),
+            quantile_length = quantile(Length, c(0.25, 0.5, 0.75))
+            )
+
+q1 <- plot_data %>% filter(quantiles=='25%')
+q3 <- plot_data %>% filter(quantiles=='75%')
+med <- plot_data %>% filter(quantiles=='50%')
+
+ 
+ggplot(med,aes(x=as.numeric(Range),y=quantile_length)) +
+  geom_line(col='#48C095') +
+  geom_line(aes(x=as.numeric(q1$Range),y=q1$quantile_length),col='#27384A',linetype='dashed') +
+  geom_line(aes(x=as.numeric(q3$Range),y=q3$quantile_length),col='#27384A',linetype='dashed') +
+  theme_classic() +
+  scale_x_continuous(breaks=seq(1,length(med$Range),2),labels=med$Range[seq(1,length(med$Range),2)]) +
+  ylab('Median cummulative SROH (Mb)') +
+  xlab('ROH length category (Mb)')
+```
+
+2. Median SROH
+
+```{r Median_SROH,echo=FALSE}
+roh_total <- roh %>%
+  filter(Chromosome != 'chrX' & Chromosome != 'chrY') %>% arrange(Length)
+ranges <- c(0.5,1,2,4,8,16)
+
+roh_total$Range <- NA
+roh_total$Length <- roh_total$Length/1e+06
+roh_total <- roh_total %>% filter(Length >= 0.5)
+
+for (i in 1:length(ranges)) {
+  if (ranges[i] != max(ranges)) {
+      roh_total$Range <- ifelse(roh_total$Length > ranges[i] & 
+                                        roh_total$Length < ranges[i+1], paste(
+                                          ranges[i],'-',ranges[i+1],'Mb',sep=''
+                                        ), roh_total$Range) 
+  } else {
+    roh_total$Range <- ifelse(roh_total$Length >= ranges[i], paste('>',ranges[i],'Mb',sep='' ), roh_total$Range) 
+      
+  }
+}
+
+roh_total$Range <- factor(roh_total$Range)
+roh_total$Range <- ordered(roh_total$Range, levels = c("0.5-1Mb", "1-2Mb", "2-4Mb", "4-8Mb",
+                                                         "8-16Mb", ">16Mb" ))
+
+roh_total <- roh_total %>% group_by(Range,sample_id) %>%
+  summarise(Length = sum(Length))
+
+plot_data <- roh_total %>% group_by(Range) %>%
+  summarise(quantiles = scales::percent(c(0.25, 0.5, 0.75)),
+            quantile_length = quantile(Length, c(0.25, 0.5, 0.75))
+            )
+
+q1 <- plot_data %>% filter(quantiles=='25%')
+q3 <- plot_data %>% filter(quantiles=='75%')
+med <- plot_data %>% filter(quantiles=='50%')
+
+
+ggplot(med,aes(x=as.numeric(Range),y=quantile_length)) +
+  geom_line(col='#48C095') +
+  geom_line(aes(x=as.numeric(q1$Range),y=q1$quantile_length),col='#27384A',linetype='dashed') +
+  geom_line(aes(x=as.numeric(q3$Range),y=q3$quantile_length),col='#27384A',linetype='dashed') +
+  theme_classic() +
+  scale_x_continuous(breaks=seq(1,length(med$Range),1),
+                     labels=med$Range[seq(1,length(med$Range),1)]) + 
+  ylab('Median SROH per individual (Mb)') +
+  xlab('ROH length category (Mb)') +
+  theme(legend.position = "none")
+```
+
+
+
+### All results below are ROHs filter for autosomes with Quality > 25%, Number of markers > 50 and ROH length > 2 Mb
+
+2. Average sum of ROHs per genome
 
 ```{r total_roh, echo=FALSE}
-roh <- roh  %>% filter(Quality > 25 & Number_of_markers >50) %>%
-  filter(Length <= 5e+06 & Length >=2e+06 | Length > 10e+06) %>%
-  filter(Chromosome != 'chrX' & Chromosome != 'chrY')
+roh <- roh  %>%
+  filter(Length <= 5e+06 & Length >=2e+06 | Length > 10e+06) %>% 
+  filter(Chromosome != 'chrX' & Chromosome != 'chrY') %>% arrange(Length)
+
 roh$Range <- NA
 roh$Range <- ifelse(roh$Length <= 5e+06 & roh$Length >=2e+06, '2Mb-5Mb',roh$Range)
 roh$Range <- ifelse(roh$Length > 10e+06, '>10Mb',roh$Range)
@@ -108,7 +212,7 @@ kable(
 )
 ```
 
-2. Sum of ROHs per chromosome and individual
+3. Sum of ROHs per chromosome and individual
 
 ```{r, echo=F}
 roh$Chromosome <- gsub('chr','',roh$Chromosome)
@@ -137,7 +241,7 @@ kable(summary(
 ```
 
 
-3. Sum of ROH length per range
+4. Sum of ROH length per range
 
 ```{r SROH, echo=FALSE}
 sroh <- roh %>% filter(Chromosome != 'chrX' & Chromosome != 'chrY') %>%
@@ -163,9 +267,9 @@ kable(
 ```
 
 
-4. Relationship between number of ROHs and total length of genome covered by them
+5. Relationship between number of ROHs and total length of genome covered by them
 
-```{r cummulative, echo=FALSE} 
+```{r SROH_corr, echo=FALSE} 
 croh <- roh %>% filter(Chromosome != 'chrX' & Chromosome != 'chrY' & Number_of_markers >= 50) 
 
 croh_sum <- croh %>% group_by(sample_id) %>% 
@@ -181,28 +285,29 @@ croh_sum %>% ggplot(aes(y=n,x=sum)) +
 ```
 
 
-5. ROH genome coverage 
+<!-- 6. ROH genome coverage  -->
 
-```{r genome_coverage, echo=FALSE}
-chr <- 'chr1'
-coverage <- roh %>% filter(Chromosome %in% chr) %>%
-  arrange(Chromosome,Start)
-# coverage$Chromosome <- paste(coverage$Chromosome,sep='')
-# coverage$x_from <- paste(coverage$Chromosome,coverage$Start,sep='')
-# coverage$x_end <- paste(coverage$Chromosome,coverage$End,sep='')
-
-
-
-coverage %>% ggplot() +
-  geom_segment(aes(x = Start, y = sample_id, xend = End, 
-                                 yend = sample_id), col='#48C095') +
-  theme_classic() +
-  theme(axis.text.x = element_blank(),axis.text.y = element_blank()) +
-  xlab('Position on chromosome 1') +
-  ylab('Individual')
+<!-- ```{r genome_coverage, echo=FALSE} -->
+<!-- chr <- 'chr1' -->
+<!-- coverage <- roh %>% filter(Chromosome %in% chr) %>% -->
+<!--   arrange(Chromosome,Start) -->
+<!-- # coverage$Chromosome <- paste(coverage$Chromosome,sep='') -->
+<!-- # coverage$x_from <- paste(coverage$Chromosome,coverage$Start,sep='') -->
+<!-- # coverage$x_end <- paste(coverage$Chromosome,coverage$End,sep='') -->
 
 
-```
+
+<!-- coverage %>% ggplot() + -->
+<!--   geom_segment(aes(x = Start, y = sample_id, xend = End,  -->
+<!--                                  yend = sample_id), col='#48C095') + -->
+<!--   theme_classic() + -->
+<!--   theme(axis.text.x = element_blank(),axis.text.y = element_blank()) + -->
+<!--   xlab('Position on chromosome 1') + -->
+<!--   ylab('Individual') -->
+
+<!-- ``` -->
+
+6. Coverage heatmap
 
 ```{r genome_coverage_heatmap, echo=FALSE}
 library(GenomicRanges)
@@ -226,7 +331,7 @@ image(t(m[dim(m)[1]:1,]), xaxt='n', yaxt='n')
 
 
 
-6. % of ROhs per category in sample
+7. % of ROhs per category in sample
 
 ```{r roh_count, echo=FALSE}
 suppressMessages(
@@ -245,7 +350,7 @@ roh_count %>%
  theme(axis.text.x = element_blank())
 ```
 
-7. ROH length sum
+8. ROH length sum
 
 ```{r roh_sum, echo=FALSE}
 suppressMessages(
@@ -302,59 +407,6 @@ roh_sum %>%
 
 <!-- ``` -->
 
-8. Cummulative sum
-
-```{r echo=FALSE}
-roh_cummulative <- roh 
-ranges <- seq(1e+06,20e+06,1e+06)
-
-roh_cummulative$Range <- NA
-roh_cummulative$Range <- ifelse(roh_cummulative$Length < 2e+06, 1,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length > 2e+06 &
-                                  roh_cummulative$Length < 3e+06, 2,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length < 4e+06 & 
-                                  roh_cummulative$Length > 3e+06, 3,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length < 5e+06 &
-                                  roh_cummulative$Length > 4e+06, 4,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length > 5e+06 & 
-                                  roh_cummulative$Length < 6e+06, 5,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length < 7e+06 &
-                                  roh_cummulative$Length > 6e+06, 6,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length < 8e+06 &
-                                  roh_cummulative$Length > 7e+06, 7,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length < 9e+06 &
-                                  roh_cummulative$Length > 8e+06, 8,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length < 10e+06 & 
-                                  roh_cummulative$Length > 9e+06, 9,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length > 10e+06 & 
-                                  roh_cummulative$Length < 11e+06, 10,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length > 11e+06 & 
-                                  roh_cummulative$Length < 12e+06, 11,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length > 12e+06 & 
-                                  roh_cummulative$Length < 13e+06, 12,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length > 13e+06 & 
-                                  roh_cummulative$Length < 14e+06, 13,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length > 14e+06 & 
-                                  roh_cummulative$Length < 15e+06, 14,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length > 15e+06 & 
-                                  roh_cummulative$Length < 16e+06, 15,roh_cummulative$Range)
-roh_cummulative$Range <- ifelse(roh_cummulative$Length > 16e+06 ,16,roh_cummulative$Range)
-
-roh$Range <- factor(roh$Range)
-roh$Range <- ordered(roh$Range, levels = 1:16)
-
-
-plot_data <- roh_cummulative %>% group_by(sample_id,Range) %>%
-  summarise(Length = cumsum(Length)) %>% 
-  group_by(Range) %>%
-  summarise(median_length = median(Length))
-
-plot_data %>%
-  ggplot(aes(x=Range,y=median_length)) +
-  geom_smooth() + 
-  theme_classic()
-
-```
 
 9. Cosanguinity in population
 
