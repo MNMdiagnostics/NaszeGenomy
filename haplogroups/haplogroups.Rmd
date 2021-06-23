@@ -12,7 +12,9 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
 ```
 
-```{r, echo=FALSE}
+1. Classification quality
+
+```{r quality_violin, echo=FALSE}
 haplo_input <- read.table('../output/haplogrep/haplo210519.txt',header=T) 
 haplo_input <- haplo_input %>% rename('subclad'=Haplogroup) 
   
@@ -25,8 +27,6 @@ haplo_input %>% ggplot(aes(x=1,y=Quality)) +
   theme_classic() +
   ylab('Number of individuals') +
   xlab('') +
-  ggtitle('Classification quality') +
-  theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_blank())
 
 haplo_summary <- haplo_input %>% filter(Quality > 0.80) %>% 
@@ -35,18 +35,28 @@ haplo_summary <- haplo_input %>% filter(Quality > 0.80) %>%
 
 haplo_summary$n <- (haplo_summary$n/sum(haplo_summary$n)) * 100
 
+```
+
+2. Haplogroups distribution
+
+```{r haplo_violin, echo=FALSE}
 haplo_summary %>% ggplot(aes(x=1,y=n)) + 
   geom_violin(col='#27384A',fill="#48C095") +
   geom_boxplot(width=0.1) +
   theme_classic() +
   ylab('Number of individuals') +
-  xlab('Haplogroup') 
+  xlab('Haplogroup') +
+  theme(axis.text.x = element_blank())
 
 subclad_list <- haplo_input %>% group_by(Haplogroup,subclad) %>% 
   count() %>% arrange(desc(n))
   
 write.table(subclad_list,'subclad_list.tsv',sep='\t',col.names = T,row.names = F,quote = F)
+```
 
+3. % individuals per haplogroup
+
+```{r percent_haplogroup,echo=FALSE}
 haplo_summary  %>% 
   ggplot(aes(y=reorder(Haplogroup, -n),x=n)) +
   geom_bar(fill="#48C095",stat='identity') + 
