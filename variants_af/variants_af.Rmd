@@ -23,11 +23,10 @@ af <- read.table('../input/multisample_20210519.dv.bcfnorm.filtered.ACgt0.AF_lis
 colnames(af) <- c('AF','id', 'allele_frequency', 'SNP', 'number_of_transitions', 'number_of transversions', 'indel', 'repeat-consistent','repeat-inconsistent', 'not_applicable')
 
 af$allele_frequency[1] <- 0.000530223
-
 af_plot <- af %>% select(allele_frequency,SNP,indel) 
-af_plot$SNP <- cumsum(af_plot$SNP)/1e+06
-af_plot$indel <- cumsum(af_plot$indel)/1e+06
- 
+af_plot$SNP <- cumsum(af_plot$SNP)/1e+6
+af_plot$indel <- cumsum(af_plot$indel)/1e+6
+
 
 type.colors <- c(SNP = "#27384A", indel ="#48C095")
 
@@ -44,6 +43,57 @@ af_plot %>%
   
 
 ```
+
+
+```{r af_hist_pct,echo=FALSE}
+af <- read.table('../input/multisample_20210519.dv.bcfnorm.filtered.ACgt0.AF_list.tsv')
+colnames(af) <- c('AF','id', 'allele_frequency', 'SNP', 'number_of_transitions', 'number_of transversions', 'indel', 'repeat-consistent','repeat-inconsistent', 'not_applicable')
+
+af$allele_frequency[1] <- 0.000530223
+af_plot <- af %>% select(allele_frequency,SNP,indel) 
+af_plot$SNP <- 100*cumsum(af_plot$SNP)/sum(af_plot$SNP)
+af_plot$indel <- 100*cumsum(af_plot$indel)/sum(af_plot$indel)
+
+
+type.colors <- c(SNP = "#27384A", indel ="#48C095")
+
+af_plot %>%
+  pivot_longer(-allele_frequency,names_to = 'Variant class',
+               values_to = 'Cummulative number of variants (millions)') %>%
+  ggplot(aes(allele_frequency,`Cummulative number of variants (millions)`,
+             col=`Variant class`)) +
+  geom_line() +
+  xlab('Allele frequency') +
+  scale_color_manual(values = type.colors) +
+  scale_y_continuous(breaks = seq(0,100,5)) +
+  theme_classic()
+  
+
+```
+
+
+```{r sv.af.hist, echo=F}
+
+sv.af <- read.table('../input/sv_multisample_210519.smoove.square.unrelated.nogt.stats.tsv')
+colnames(sv.af) <- c('chrom','pos', 'svtype', 'len', 'ac', 'an')
+sv.af$af <- sv.af$ac/sv.af$an
+sv.af <- sv.af[order(sv.af$af), ]
+
+sv.af.cs  =  sv.af %>% 
+             group_by(svtype, af) %>%
+             summarise(cnt=n()) %>% 
+             group_by(svtype) %>% 
+             summarise(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt))
+
+ggplot() + 
+  geom_line(aes(x = af, y=cspct, color=svtype), sv.af.cs) +
+  #geom_line(aes(x=allele_frequency, y=SNP), af_plot) + 
+  #geom_line(aes(x=allele_frequency, y=indel), af_plot) + 
+  xlab('Allele frequency') + ylab('% variants')
+
+
+```
+
 
 <!-- ## 2. Allele count -->
 
