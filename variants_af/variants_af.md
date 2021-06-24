@@ -2,17 +2,12 @@ Variants in disease causing genes ewline Results for 943 unrelated
 individuals
 ================
 
-## 1. Allele frequency
+## 1. Cummulative allele frequency
 
-fixing <!-- # ```{r af_hist,echo=FALSE} --> <!-- # library(png) -->
-<!-- # img1_path <- "variants_af_files/figure-gfm/afhist.png" -->
-<!-- # img1 <- readPNG(img1_path, native = TRUE, info = TRUE) -->
-<!-- # include_graphics(img1_path) --> <!-- #  --> <!-- # ``` -->
+![](variants_af_files/figure-gfm/af_hist-1.jpeg)<!-- -->
 
-## 2. Allele count
-
-fixing
-
+<!-- ## 2. Allele count -->
+<!-- fixing -->
 <!-- ```{r ac_hist,echo=FALSE} -->
 <!-- library(png) -->
 <!-- img1_path <- "variants_af_files/figure-gfm/ac_hist.png" -->
@@ -28,9 +23,13 @@ fixing
 
 ![](variants_af_files/figure-gfm/clinvar-1.jpeg)<!-- -->
 
-    ## 
-    ##   1   2   3   4 
-    ## 700 611  32   2
+| stars |   n |
+|:------|----:|
+| 1     | 325 |
+| 2     | 293 |
+| 3     |  22 |
+| 4     |   1 |
+| NA    | 122 |
 
 ### 5. Putative variants
 
@@ -215,10 +214,10 @@ fixing
 <!--         ) -->
 <!-- ``` -->
 
-## 9. NBS
+## 10. NBS
 
 ![](variants_af_files/figure-gfm/NBS-1.jpeg)<!-- -->
 
-## 10. Mucoviscidosis
+## 11. Cystic fybrosis
 
 ![](variants_af_files/figure-gfm/Mucoviscidosis-1.jpeg)<!-- -->

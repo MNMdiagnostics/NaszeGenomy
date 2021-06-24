@@ -15,20 +15,39 @@ library(grid)
 suppressMessages(library(gridExtra))
 ```
 
-## 1. Allele frequency
+## 1. Cummulative allele frequency
 
-fixing
-<!-- # ```{r af_hist,echo=FALSE} -->
-<!-- # library(png) -->
-<!-- # img1_path <- "variants_af_files/figure-gfm/afhist.png" -->
-<!-- # img1 <- readPNG(img1_path, native = TRUE, info = TRUE) -->
-<!-- # include_graphics(img1_path) -->
-<!-- #  -->
-<!-- # ``` -->
 
-## 2. Allele count
+```{r af_hist,echo=FALSE}
+af <- read.table('../input/multisample_20210519.dv.bcfnorm.filtered.ACgt0.AF_list.tsv')
+colnames(af) <- c('AF','id', 'allele_frequency', 'SNP', 'number_of_transitions', 'number_of transversions', 'indel', 'repeat-consistent','repeat-inconsistent', 'not_applicable')
 
-fixing
+af$allele_frequency[1] <- 0.000530223
+
+af_plot <- af %>% select(allele_frequency,SNP,indel) 
+af_plot$SNP <- cumsum(af_plot$SNP)/1e+06
+af_plot$indel <- cumsum(af_plot$indel)/1e+06
+ 
+
+type.colors <- c(SNP = "#27384A", indel ="#48C095")
+
+af_plot %>%
+  pivot_longer(-allele_frequency,names_to = 'Variant class',
+               values_to = 'Cummulative number of variants (millions)') %>%
+  ggplot(aes(allele_frequency,`Cummulative number of variants (millions)`,
+             col=`Variant class`)) +
+  geom_line() +
+  xlab('Allele frequency') +
+  scale_color_manual(values = type.colors) +
+  scale_y_continuous(breaks = seq(0,30,2)) +
+  theme_classic()
+  
+
+```
+
+<!-- ## 2. Allele count -->
+
+<!-- fixing -->
 
 <!-- ```{r ac_hist,echo=FALSE} -->
 <!-- library(png) -->
@@ -49,12 +68,25 @@ group.colors <- c(PL_AF = "#BC0020", AF = "#27384A", gnomAD_FIN_AF ="#48C095", g
 ```{r ACMG, echo=FALSE, warning=FALSE}
 acmg <- read.table('../input/diseases/acmg_ready.tsv',sep='\t',header=T)
 
-comp_acmg <- acmg %>%
-   select(Uploaded_variation, Existing_variation,Location,SYMBOL,Gene,PUBMED,Codons,CLIN_SIG,
-          ClinVar_CLNSIG,ClinVar_CLNREVSTAT,
-          ClinVar_CLNDN, PL_AC, gnomAD3g_AF,PL_AF) %>%
-  mutate(across(gnomAD3g_AF,as.character)) %>%
-   mutate(across(gnomAD3g_AF,as.numeric)) 
+comp_acmg <- acmg %>% 
+    filter(PL_AC > 0) %>%
+   select(Uploaded_variation,Existing_variation,Location,starts_with('ClinVar'), 
+          SYMBOL,Gene, PL_AC, all_of(af_list)) %>%
+  mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
+   mutate(across(PL_AF:gnomADg_AF,as.numeric))
+
+comp_acmg$stars <- NA
+comp_acmg$stars <- ifelse(comp_acmg$ClinVar_CLNREVSTAT == 'practice_guideline',
+                             '4',comp_acmg$stars)
+comp_acmg$stars <- ifelse(comp_acmg$ClinVar_CLNREVSTAT == 'reviewed_by_expert_panel',
+                             '3',comp_acmg$stars)
+comp_acmg$stars <- ifelse(
+  comp_acmg$ClinVar_CLNREVSTAT == 'criteria_provided,_multiple_submitters,_no_conflicts',
+                             '2',comp_acmg$stars)
+comp_acmg$stars <- ifelse(comp_acmg$ClinVar_CLNREVSTAT == '_conflicting_interpretations',
+                             '1',comp_acmg$stars)
+comp_acmg$stars <- ifelse(comp_acmg$ClinVar_CLNREVSTAT == '_single_submitter',
+                             '1',comp_acmg$stars)
 
 
 comp_acmg %>% 
@@ -64,15 +96,14 @@ comp_acmg %>%
   write.table('comp_acmgFINAL.tsv',quote = F,col.names = T,sep='\t',row.names = F)
 
 comp_acmg %>% 
+  group_by(SYMBOL) %>%
+  summarise(PL_AC = sum(PL_AC)) %>%
   ggplot(aes(y=reorder(SYMBOL,-PL_AC),x=PL_AC)) +
   geom_bar(fill="#48C095", stat = 'identity') + 
   theme_classic() +
   ylab('Gene') +
   xlab('Allele count') 
   
-
-
-
 ```
 
 
@@ -81,10 +112,11 @@ comp_acmg %>%
 ```{r clinvar, echo=FALSE, warning=FALSE}
 clinsig <- read.table('../input/diseases/clin_sig_ready.tsv',sep='\t',header=T)
 comp_clinsig <- clinsig %>% 
-   select(Uploaded_variation,Existing_variation,Location,CLIN_SIG,ClinVar_CLNSIG,ClinVar_CLNREVSTAT,
-          ClinVar_CLNDN, SYMBOL, Gene, PL_AC, all_of(af_list)) %>%
+  filter(PL_AC > 0) %>%
+   select(Uploaded_variation,Existing_variation,Location,starts_with('ClinVar'), 
+          Gene, PL_AC, all_of(af_list)) %>%
   mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
-   mutate(across(PL_AF:gnomADg_AF,as.numeric))
+   mutate(across(PL_AF:gnomADg_AF,as.numeric)) 
 
 comp_clinsig$stars <- NA
 comp_clinsig$stars <- ifelse(comp_clinsig$ClinVar_CLNREVSTAT == 'practice_guideline',
@@ -106,13 +138,19 @@ comp_clinsig %>% filter(is.na(stars) ==F) %>%
   write.table('comp_clinsig.tsv',quote = F,col.names = T,sep='\t',row.names = F)
 
 comp_clinsig %>% filter(is.na(stars) ==F) %>%
+  select(Existing_variation,stars) %>% 
+  distinct() %>%
   ggplot(aes(y=stars)) +
-  geom_bar(fill="#48C095") + 
+  geom_bar(fill="#48C095",width=0.5) + 
   theme_classic() +
   ylab('Number of gold stars') +
   xlab('Variants count') 
 
-table(comp_clinsig$stars)
+kable((comp_clinsig %>% 
+        select(Existing_variation,stars) %>% 
+        distinct() %>%
+        group_by(stars) %>%
+        count()))
 
 ```
 
@@ -225,7 +263,7 @@ kable(consequence)
 
 <!-- ``` -->
 
-## 9. NBS 
+## 10. NBS 
 
 ```{r NBS, echo=FALSE}
 nbs <- read.table('nbs.tsv',header = T,sep='\t') 
@@ -246,7 +284,7 @@ nbs %>%
 ```
 
 
-## 10. Mucoviscidosis
+## 11. Cystic fybrosis
 
 ```{r Mucoviscidosis, echo=FALSE}
 muko <- read.table('muko_vep.tsv',header = T,sep='\t') 
