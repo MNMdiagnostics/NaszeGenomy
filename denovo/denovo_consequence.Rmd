@@ -5,13 +5,17 @@ output:
     variant: markdown_github
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,dev = 'jpeg')
+suppressMessages(library(knitr))
+suppressMessages(library(dplyr))
+```
+
 ## De-novo variants
 
 Analysis of de-novo variants from 93 child-parents trios
 
 ```{r, echo=F}
-suppressMessages(library(dplyr))
-suppressMessages(library(knitr))
 t<-read.table('denovo_consequences_per_sample.tsv', stringsAsFactors = T)
 colnames(t)<-c('sample', 'conseq','impact','symbol')
 t['coding'] = t$impact!='MODIFIER'
