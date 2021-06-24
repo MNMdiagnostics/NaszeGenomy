@@ -11,7 +11,7 @@ The idea here is as follows:
 7. predict the ancestry in your cohort using that trained random forest and your cohort's projection on 1000G's PCs
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestry.jpeg) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCA2.jpeg) 
 
 **One individual (ID=204_20349_20) is from AMR not EUR population**
 
@@ -38,6 +38,11 @@ Fst statistics computed using the method introduced in Weir BS, Cockerham CC (19
 **The results are presented on the following plot:**
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/FST2.jpeg)
 
+Fst statistics computed as an average of sliding window of 1 000 SNPs for all populations.
+
+**The results are presented on the following plot:**
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/FST222.jpeg)
+
 Comparison of mean weighted Fst statistics within the European subpopulations
 
 | Population | CEU | FIN | GBR | IBS | TSI |
@@ -59,7 +64,7 @@ So we try to find outliers (marked in red) using two different methods:
 Also I did DBSCAN clustering - Density-Based Spatial Clustering of Applications with Noise. Finds core samples of high density and expands clusters from them. This is very good method for data which contains clusters of similar density. It proves that we have only one cluster and few outliers.
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/DBSC.jpeg) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/clusterPCA.jpeg) 
 
 **Mean weighted Fst statistics between people from cluster (black dots) and outliers (8 red dots) in above plot is equal to 0.003.**
 
