@@ -1,0 +1,117 @@
+Origin	Haplogroup
+Europe	H1
+Europe	H11a
+Europe	H1a
+Europe	H1b
+Europe	H2a
+Europe	H3
+Europe	H5a
+Europe	H6a
+Europe	H7
+Europe	HV0/HV0a/V
+Europe	I4
+Europe	J1c7
+Europe	J2b1
+Europe	T2b*
+Europe	T2b4
+Europe	T2e
+Europe	U4c1
+Europe	U5*
+Europe	U5a
+Europe	U5a1b1
+Europe	U5b*
+Europe	U5b1b*
+Europe	U5b1c
+Europe	U5b3
+Europe	X2c'e
+Middle East	I
+Middle East	A
+Middle East	B
+Middle East	C/Z
+Middle East	D/G/M9/E
+Middle East	F
+Middle East	H*
+Middle East	H13a1
+Middle East	H14a
+Middle East	H20
+Middle East	H2a1
+Middle East	H4
+Middle East	H6b
+Middle East	H8
+Middle East	HV1
+Middle East	I1
+Middle East	J1a
+Middle East	J1b1a1
+Middle East	J1b2a
+Middle East	J1d1
+Middle East	J2a
+Middle East	J2a2a1
+Middle East	K*
+Middle East	K1a*
+Middle East	K1b1*
+Middle East	N1a*
+Middle East	N1b
+Middle East	N1c
+Middle East	N2
+Middle East	N9
+Middle East	R*
+Middle East	R0a
+Middle East	T
+Middle East	T1*
+T1a
+Middle East	T2
+Middle East	T2c
+Middle East	T2i
+Middle East	U1*
+Middle East	U2*
+Middle East	U2e
+Eurasia	U3*
+Middle East	U4
+Middle East	U4a*
+Middle East	U7
+Middle East	U8*
+Middle East	U9a
+Middle East	X
+Middle East	X1a
+Middle East	X2b1
+North Africa	L3e5
+North Africa	M1
+North Africa	M1a1
+North Africa	U6a
+North Africa	U6a1'2'3
+North Africa	U6b'c'd
+East Africa	L0*
+East Africa	L0a1
+East Africa	L0a1b
+East Africa	L0a2*
+East Africa	L3c/L4/M
+East Africa	L3d1a1
+East Africa	L3d1d
+East Africa	L3e1*
+East Africa	L3f*
+East Africa	L3h1b*
+East Africa	L3i*
+East Africa	L3x*
+East Africa	L4a'b*
+East Africa	L5*
+East Africa	L6
+West Africa	L1b*
+West Africa	L1b3
+West Africa	L1c*
+West Africa	L1c2
+West Africa	L2*
+West Africa	L2a
+West Africa	L2a1*
+West Africa	L2a1a2'3'4
+West Africa	L2a1b
+West Africa	L2a1b'f
+West Africa	L2a1c1'2
+West Africa	L2a1(16189)
+West Africa	L2a2
+West Africa	L2b*
+West Africa	L2c1'2
+West Africa	L2d
+West Africa	L2e
+West Africa	L3b
+West Africa	L3b1a3
+West Africa	L3b2a

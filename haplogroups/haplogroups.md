@@ -18,3 +18,12 @@ Haplogroups
 3.  % individuals per haplogroup
 
 ![](haplogroups_files/figure-gfm/percent_haplogroup-1.jpeg)<!-- -->
+
+4.  Subclades
+
+<!-- -->
+
+    ## `summarise()` has grouped output by 'Haplogroup'. You can override using the `.groups` argument.
+    ## `summarise()` has grouped output by 'Haplogroup'. You can override using the `.groups` argument.
+
+![](haplogroups_files/figure-gfm/subclads-1.jpeg)<!-- -->

@@ -2,18 +2,54 @@ Variants in disease causing genes ewline Results for 943 unrelated
 individuals
 ================
 
+### Samples count
+
+    ## Warning: `funs()` was deprecated in dplyr 0.8.0.
+    ## Please use a list of either functions or lambdas: 
+    ## 
+    ##   # Simple named list: 
+    ##   list(mean = mean, median = median)
+    ## 
+    ##   # Auto named with `tibble::lst()`: 
+    ##   tibble::lst(mean, median)
+    ## 
+    ##   # Using lambdas
+    ##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+
+| Variant    | min\_count | mean\_count | max\_count |
+|:-----------|-----------:|------------:|-----------:|
+| Indels     |     751498 |      768905 |     781426 |
+| Singletons |        436 |       16473 |      82329 |
+| SNP        |    3637424 |     3715552 |    3776871 |
+
 ## 1. Cummulative allele frequency
 
-![](variants_af_files/figure-gfm/af_hist-1.jpeg)<!-- -->
-
-<!-- ## 2. Allele count -->
-<!-- fixing -->
-<!-- ```{r ac_hist,echo=FALSE} -->
-<!-- library(png) -->
-<!-- img1_path <- "variants_af_files/figure-gfm/ac_hist.png" -->
-<!-- img1 <- readPNG(img1_path, native = TRUE, info = TRUE) -->
-<!-- include_graphics(img1_path) -->
+<!-- ```{r af_hist,echo=FALSE} -->
+<!-- af <- read.table('../input/multisample_20210519.dv.bcfnorm.filtered.ACgt0.AF_list.tsv') -->
+<!-- colnames(af) <- c('AF','id', 'allele_frequency', 'SNP', 'number_of_transitions', 'number_of transversions', 'indel', 'repeat-consistent','repeat-inconsistent', 'not_applicable') -->
+<!-- af$allele_frequency[1] <- 0.000530223 -->
+<!-- af_plot <- af %>% select(allele_frequency,SNP,indel)  -->
+<!-- af_plot$SNP <- cumsum(af_plot$SNP)/1e+6 -->
+<!-- af_plot$indel <- cumsum(af_plot$indel)/1e+6 -->
+<!-- type.colors <- c(SNP = "#27384A", indel ="#48C095") -->
+<!-- af_plot %>% -->
+<!--   pivot_longer(-allele_frequency,names_to = 'Variant class', -->
+<!--                values_to = 'Cummulative number of variants (millions)') %>% -->
+<!--   ggplot(aes(allele_frequency,`Cummulative number of variants (millions)`, -->
+<!--              col=`Variant class`)) + -->
+<!--   geom_line() + -->
+<!--   xlab('Allele frequency') + -->
+<!--   scale_color_manual(values = type.colors) + -->
+<!--   scale_y_continuous(breaks = seq(0,30,2)) + -->
+<!--   theme_classic() -->
 <!-- ``` -->
+
+![](variants_af_files/figure-gfm/af_hist_pct-1.jpeg)<!-- -->
+
+    ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
+    ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
+
+![](variants_af_files/figure-gfm/sv.af.hist-1.jpeg)<!-- -->
 
 ## 3. ACMG
 
@@ -52,172 +88,35 @@ individuals
 
 ### 6. % IMPACT variants
 
-![](variants_af_files/figure-gfm/unnamed-chunk-2-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/unnamed-chunk-3-1.jpeg)<!-- -->
 
 ### 7. Variants per functional category
 
-![](variants_af_files/figure-gfm/unnamed-chunk-3-1.jpeg)<!-- -->
+## 8. Number of variants per impact
 
-    ## Rows: 296
-    ## Columns: 5
-    ## $ group       <ord> <0.1%, <0.1%, <0.1%, <0.1%, <0.1%, <0.1%, <0.1%, <0.1%, <0…
-    ## $ type        <fct> Exonic, Exonic, Exonic, Exonic, Exonic, Exonic, Exonic, Ex…
-    ## $ IMPACT      <fct> HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH…
-    ## $ Consequence <fct> "frameshift_variant", "frameshift_variant,NMD_transcript_v…
-    ## $ n           <int> 3241, 36, 86, 2, 7, 5, 11, 5, 248, 2, 2, 2, 9, 1, 2, 1, 23…
+| VARIANT\_CLASS | AF       | HIGH |   LOW | MODERATE | MODIFIER |
+|:---------------|:---------|-----:|------:|---------:|---------:|
+| deletion       | &gt;0.5% |  500 |  1090 |      680 |  1697005 |
+| indel          | &gt;0.5% |    0 |     2 |        2 |     4929 |
+| insertion      | &gt;0.5% |  327 |  1280 |      630 |  1934758 |
+| SNV            | &gt;0.5% | 1446 | 45903 |    39096 | 15294308 |
+| deletion       | 0.1-0.5% |  813 |   582 |      859 |   885811 |
+| indel          | 0.1-0.5% |    0 |     1 |        1 |    10935 |
+| insertion      | 0.1-0.5% |  407 |   648 |      573 |  1010671 |
+| SNV            | 0.1-0.5% | 1723 | 32131 |    41239 |  9509163 |
+| deletion       | &lt;0.1% | 2662 |   978 |     1731 |  1423061 |
+| indel          | &lt;0.1% |    1 |     1 |        4 |     8770 |
+| insertion      | &lt;0.1% | 1252 |   800 |     1015 |  1102882 |
+| SNV            | &lt;0.1% | 5109 | 69962 |   103413 | 19741686 |
 
 ### 9. Variants per consequence
 
-![](variants_af_files/figure-gfm/unnamed-chunk-4-1.jpeg)<!-- -->
+### 10. Consequence & frequency
 
-| category                      |  millions |
-|:------------------------------|----------:|
-| downstream gene variant       |  4.197780 |
-| exonic                        |  0.352255 |
-| intergenic variant            | 12.398470 |
-| intron variant                | 14.546413 |
-| non coding transcript variant |  8.306713 |
-| regulatory region variant     |  6.685747 |
-| TF binding site variant       |  1.270847 |
-| upstream gene variant         |  4.180143 |
-| UTR                           |  0.441846 |
-
-| Consequence                                                                           |        n | category                      |
-|:--------------------------------------------------------------------------------------|---------:|:------------------------------|
-| 3 prime UTR variant                                                                   |   365663 | UTR                           |
-| 3 prime UTR variant,NMD transcript variant                                            |     7654 | UTR                           |
-| 5 prime UTR variant                                                                   |    67920 | UTR                           |
-| 5 prime UTR variant,NMD transcript variant                                            |      609 | UTR                           |
-| frameshift variant                                                                    |     4790 | exonic                        |
-| frameshift variant,NMD transcript variant                                             |       47 | exonic                        |
-| frameshift variant,splice region variant                                              |      152 | exonic                        |
-| frameshift variant,splice region variant,intron variant                               |        1 | exonic                        |
-| frameshift variant,splice region variant,NMD transcript variant                       |        3 | exonic                        |
-| frameshift variant,start lost                                                         |       10 | exonic                        |
-| frameshift variant,start lost,start retained variant                                  |       11 | exonic                        |
-| frameshift variant,stop lost                                                          |       21 | exonic                        |
-| frameshift variant,stop retained variant                                              |       11 | exonic                        |
-| inframe deletion                                                                      |     3174 | exonic                        |
-| inframe deletion,NMD transcript variant                                               |       11 | exonic                        |
-| inframe deletion,splice region variant                                                |       33 | exonic                        |
-| inframe insertion                                                                     |     2150 | exonic                        |
-| inframe insertion,NMD transcript variant                                              |        9 | exonic                        |
-| inframe insertion,splice region variant                                               |       11 | exonic                        |
-| inframe insertion,stop retained variant                                               |        1 | exonic                        |
-| missense variant                                                                      |   175557 | exonic                        |
-| missense variant,NMD transcript variant                                               |     1077 | exonic                        |
-| missense variant,splice region variant                                                |     4495 | exonic                        |
-| missense variant,splice region variant,NMD transcript variant                         |       44 | exonic                        |
-| mature miRNA variant                                                                  |      596 | non coding transcript variant |
-| non coding transcript exon variant                                                    |   516086 | non coding transcript variant |
-| non coding transcript variant                                                         |        2 | non coding transcript variant |
-| intron variant,NMD transcript variant                                                 |   408475 | non coding transcript variant |
-| intron variant,non coding transcript variant                                          |  7381554 | non coding transcript variant |
-| regulatory region variant                                                             |  6685747 | regulatory region variant     |
-| intron variant                                                                        | 14546413 | intron variant                |
-| splice acceptor variant                                                               |      831 | exonic                        |
-| splice acceptor variant,3 prime UTR variant,intron variant,NMD transcript variant     |        1 | exonic                        |
-| splice acceptor variant,3 prime UTR variant,NMD transcript variant                    |        1 | exonic                        |
-| splice acceptor variant,5 prime UTR variant                                           |        2 | exonic                        |
-| splice acceptor variant,5 prime UTR variant,intron variant                            |        8 | exonic                        |
-| splice acceptor variant,coding sequence variant                                       |       15 | exonic                        |
-| splice acceptor variant,coding sequence variant,5 prime UTR variant,intron variant    |        1 | exonic                        |
-| splice acceptor variant,coding sequence variant,intron variant                        |       28 | exonic                        |
-| splice acceptor variant,coding sequence variant,intron variant,NMD transcript variant |        1 | exonic                        |
-| splice acceptor variant,frameshift variant                                            |        2 | exonic                        |
-| splice acceptor variant,intron variant                                                |       26 | exonic                        |
-| splice acceptor variant,intron variant,NMD transcript variant                         |        4 | exonic                        |
-| splice acceptor variant,intron variant,non coding transcript variant                  |       24 | exonic                        |
-| splice acceptor variant,NMD transcript variant                                        |       28 | exonic                        |
-| splice acceptor variant,non coding transcript exon variant                            |       19 | exonic                        |
-| splice acceptor variant,non coding transcript exon variant,intron variant             |       32 | exonic                        |
-| splice acceptor variant,non coding transcript variant                                 |      916 | exonic                        |
-| splice donor variant                                                                  |     1170 | exonic                        |
-| splice donor variant,3 prime UTR variant                                              |        1 | exonic                        |
-| splice donor variant,3 prime UTR variant,intron variant,NMD transcript variant        |        2 | exonic                        |
-| splice donor variant,3 prime UTR variant,NMD transcript variant                       |        1 | exonic                        |
-| splice donor variant,5 prime UTR variant                                              |        3 | exonic                        |
-| splice donor variant,5 prime UTR variant,intron variant                               |        6 | exonic                        |
-| splice donor variant,coding sequence variant                                          |       31 | exonic                        |
-| splice donor variant,coding sequence variant,3 prime UTR variant                      |        1 | exonic                        |
-| splice donor variant,coding sequence variant,intron variant                           |       51 | exonic                        |
-| splice donor variant,coding sequence variant,NMD transcript variant                   |        1 | exonic                        |
-| splice donor variant,intron variant                                                   |       45 | exonic                        |
-| splice donor variant,intron variant,NMD transcript variant                            |        2 | exonic                        |
-| splice donor variant,intron variant,non coding transcript variant                     |       36 | exonic                        |
-| splice donor variant,NMD transcript variant                                           |       31 | exonic                        |
-| splice donor variant,non coding transcript exon variant                               |       28 | exonic                        |
-| splice donor variant,non coding transcript exon variant,intron variant                |       34 | exonic                        |
-| splice donor variant,non coding transcript variant                                    |     1216 | exonic                        |
-| splice region variant,3 prime UTR variant                                             |       57 | exonic                        |
-| splice region variant,3 prime UTR variant,NMD transcript variant                      |      101 | exonic                        |
-| splice region variant,5 prime UTR variant                                             |      670 | exonic                        |
-| splice region variant,5 prime UTR variant,NMD transcript variant                      |       11 | exonic                        |
-| splice region variant,intron variant                                                  |    21328 | exonic                        |
-| splice region variant,intron variant,NMD transcript variant                           |      508 | exonic                        |
-| splice region variant,intron variant,non coding transcript variant                    |     7745 | exonic                        |
-| splice region variant,non coding transcript exon variant                              |     3654 | exonic                        |
-| splice region variant,non coding transcript variant                                   |       63 | exonic                        |
-| splice region variant,synonymous variant                                              |     2925 | exonic                        |
-| splice region variant,synonymous variant,NMD transcript variant                       |       22 | exonic                        |
-| start lost                                                                            |      380 | exonic                        |
-| start lost,5 prime UTR variant                                                        |        4 | exonic                        |
-| start lost,inframe deletion                                                           |        5 | exonic                        |
-| start lost,NMD transcript variant                                                     |        3 | exonic                        |
-| start lost,splice region variant                                                      |       12 | exonic                        |
-| start lost,splice region variant,5 prime UTR variant                                  |        1 | exonic                        |
-| start lost,start retained variant                                                     |        1 | exonic                        |
-| start lost,start retained variant,5 prime UTR variant                                 |        3 | exonic                        |
-| start lost,synonymous variant                                                         |        1 | exonic                        |
-| stop gained                                                                           |     3517 | exonic                        |
-| stop gained,frameshift variant                                                        |       76 | exonic                        |
-| stop gained,frameshift variant,splice region variant                                  |        7 | exonic                        |
-| stop gained,inframe deletion                                                          |        2 | exonic                        |
-| stop gained,inframe insertion                                                         |        8 | exonic                        |
-| stop gained,inframe insertion,splice region variant                                   |        2 | exonic                        |
-| stop gained,NMD transcript variant                                                    |       22 | exonic                        |
-| stop gained,protein altering variant                                                  |        1 | exonic                        |
-| stop gained,splice region variant                                                     |      117 | exonic                        |
-| stop gained,splice region variant,NMD transcript variant                              |        2 | exonic                        |
-| stop lost                                                                             |      177 | exonic                        |
-| stop lost,3 prime UTR variant                                                         |       12 | exonic                        |
-| stop lost,3 prime UTR variant,NMD transcript variant                                  |        2 | exonic                        |
-| stop lost,NMD transcript variant                                                      |        3 | exonic                        |
-| stop lost,splice region variant                                                       |        1 | exonic                        |
-| synonymous variant                                                                    |   113773 | exonic                        |
-| synonymous variant,NMD transcript variant                                             |      682 | exonic                        |
-| TF binding site variant                                                               |  1270842 | TF binding site variant       |
-| TFBS ablation,TF binding site variant                                                 |        5 | TF binding site variant       |
-| upstream gene variant                                                                 |  4180143 | upstream gene variant         |
-| downstream gene variant                                                               |  4197780 | downstream gene variant       |
-| intergenic variant                                                                    | 12398470 | intergenic variant            |
-| coding sequence variant                                                               |       11 | exonic                        |
-| coding sequence variant,3 prime UTR variant                                           |        2 | exonic                        |
-| coding sequence variant,5 prime UTR variant                                           |        3 | exonic                        |
-| coding sequence variant,NMD transcript variant                                        |        2 | exonic                        |
-| stop retained variant                                                                 |       91 | exonic                        |
-| stop retained variant,3 prime UTR variant                                             |       13 | exonic                        |
-| stop retained variant,NMD transcript variant                                          |        3 | exonic                        |
-| protein altering variant                                                              |       21 | exonic                        |
-| protein altering variant,splice region variant                                        |        1 | exonic                        |
-| incomplete terminal codon variant,coding sequence variant                             |        4 | exonic                        |
-
-<!-- ## 9. Number of variants per impact -->
-<!-- ```{r AF and IMPACT, echo=FALSE} -->
-<!-- common <- read.table('../output/common_summary.tsv',header = T) -->
-<!-- mediumrare <- read.table('../output/mediumrare_summary.tsv',header = T) -->
-<!-- rare <- read.table('../output/rare_summary.tsv',header=T) -->
-<!-- missing <- read.table('../output/missing_summary.tsv',header=T) -->
-<!-- variants <- rbind(common,mediumrare,rare,missing) -->
-<!-- kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) %>% -->
-<!--         relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%') -->
-<!--         ) -->
-<!-- ``` -->
-
-## 10. NBS
+## 11. NBS
 
 ![](variants_af_files/figure-gfm/NBS-1.jpeg)<!-- -->
 
-## 11. Cystic fybrosis
+## 12. Cystic fybrosis
 
 ![](variants_af_files/figure-gfm/Mucoviscidosis-1.jpeg)<!-- -->
