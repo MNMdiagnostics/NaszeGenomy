@@ -1,13 +1,34 @@
 Runs of homozygosity on 943 individuals
 ================
 
+## Runs of homozygozity (ROH)
+
+#### ROHs quality histogram
+
+``` r
+# Quality filtering: Quality>25 & #markers > 50
+roh <- roh %>% 
+  filter(Quality > 25 & Number_of_markers >50)
+```
+
+#### ROH stats after quality filtering
+
 | stat                |   min |  median |      mean |        max |
 |:--------------------|------:|--------:|----------:|-----------:|
-| Length              | 609.0 | 73043.0 | 159868.28 | 63912719.0 |
-| Number\_of\_markers |  51.0 |   133.0 |    211.22 |    45797.0 |
-| Quality             |  25.1 |    60.5 |     59.46 |       98.7 |
+| Length              | 609.0 | 72459.0 | 123018.00 | 29363916.0 |
+| Number\_of\_markers |  51.0 |   132.0 |    193.66 |    33173.0 |
+| Quality             |  25.1 |    60.4 |     59.40 |       98.7 |
 
-ROHs quality histogram
+Average ROH size per genome (additionally filtered: &gt;100kb)
+
+| stat      |       average |
+|:----------|--------------:|
+| count     |       1124.41 |
+| maxLen    |   14239847.30 |
+| meanLen   |     252746.68 |
+| medianLen |     164071.12 |
+| minLen    |     100073.33 |
+| sumLen    | 284174602\.38 |
 
 ## Results
 
@@ -55,26 +76,28 @@ ROHs quality histogram
 | 2Mb-5Mb  |     2.892791 |
 | &gt;10Mb |    16.239240 |
 
-4.  Sum of ROHs per chromosome and individual
-
-<!-- -->
-
-    ## `summarise()` has grouped output by 'sample_id', 'Chromosome'. You can override using the `.groups` argument.
-
-![](roh_files/figure-gfm/unnamed-chunk-4-1.jpeg)<!-- -->
-
-    ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
-
-    ## Adding missing grouping variables: `sample_id`
-
-|     | sample\_id       | mean\_SROH\_Mb |
-|:----|:-----------------|:---------------|
-|     | Length:6575      | Min. : 2.000   |
-|     | Class :character | 1st Qu.: 2.358 |
-|     | Mode :character  | Median : 2.972 |
-|     | NA               | Mean : 4.763   |
-|     | NA               | 3rd Qu.: 3.900 |
-|     | NA               | Max. :38.193   |
+<!-- 4. Sum of ROHs per chromosome and individual -->
+<!-- ```{r, echo=F} -->
+<!-- roh$Chromosome <- gsub('chr','',roh$Chromosome) -->
+<!-- roh$Chromosome <- as.numeric(roh$Chromosome) -->
+<!-- roh$Chromosome <- factor(roh$Chromosome) -->
+<!-- roh$Chromosome <- ordered(roh$Chromosome, levels = 1:22) -->
+<!-- roh %>% group_by(sample_id,Chromosome,Range) %>% -->
+<!--   arrange(desc(Chromosome)) %>% -->
+<!--   summarise(SROH_Mb = sum(Length)/1e+06) %>% -->
+<!--   ggplot(aes(x=Chromosome,y=SROH_Mb,col=Range)) + -->
+<!--   geom_jitter() + -->
+<!--   theme_classic() + -->
+<!--   ylab('SROH (Mb)') + -->
+<!--   xlab('Chromosome') + -->
+<!--   scale_color_manual(values=group.colors) -->
+<!-- kable(summary( -->
+<!--   roh %>% group_by(sample_id,Chromosome) %>% -->
+<!--   summarise(mean_SROH_Mb = sum(Length)/1e+06) %>% -->
+<!--     select(mean_SROH_Mb) -->
+<!--   ) -->
+<!-- ) -->
+<!-- ``` -->
 
 5.  Sum of ROH length per range
 
