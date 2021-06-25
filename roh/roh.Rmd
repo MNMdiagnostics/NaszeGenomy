@@ -175,6 +175,22 @@ ggplot(med, aes(x=as.numeric(Range), y=quantile_length, col='#48C095', linetype=
 
 ```
 
+```{r lengths_per_chromosome, echo=FALSE, warning=F}
+
+roh_chrom_lengths <- roh %>% 
+  group_by(sample_id, Chromosome) %>% 
+  summarise(cnt=n(), 
+            meanLen=sum(Length)/1e6)
+
+ggplot(roh_chrom_lengths, aes(x=Chromosome, y=meanLen)) + 
+  geom_boxplot() + xlab('Chromosome') + ylab('Mean RoH length (Mb)')
+```
+
+```{r numbers_per_chromosome, echo=FALSE, warning=F}
+ggplot(roh_chrom_lengths, aes(x=Chromosome, y=cnt)) + 
+  geom_boxplot() + xlab('Chromosome') + ylab('Count of RoH')
+```
+
 2. Median SROH
 
 ```{r Median_SROH,echo=FALSE}

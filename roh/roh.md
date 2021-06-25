@@ -43,6 +43,12 @@ Average ROH size per genome (additionally filtered: &gt;100kb)
 
 ![](roh_files/figure-gfm/cummulative_sum-1.jpeg)<!-- -->
 
+    ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
+
+![](roh_files/figure-gfm/lengths_per_chromosome-1.jpeg)<!-- -->
+
+![](roh_files/figure-gfm/numbers_per_chromosome-1.jpeg)<!-- -->
+
 2.  Median SROH
 
 <!-- -->
