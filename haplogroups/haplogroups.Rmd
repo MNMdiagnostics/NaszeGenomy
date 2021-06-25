@@ -110,7 +110,7 @@ sc %>% ggplot(aes(y=reorder(clad, -c.cnt), x=sc.cnt)) +
   geom_bar(stat='identity', colour='black', fill="#48C095") +
   theme_classic() +
   ylab('Haplogroup') +
-  xlab('% of individuals') + 
+  xlab('# individuals') + 
   geom_text(label=sc.labels, size=3, position = position_stack(vjust = 0.5)) + 
   geom_text(data=c.label.xy, aes(x=x, y=y, label=c.labels, hjust=-0.3), size=3) + 
   coord_cartesian(xlim = c(0, 500))
@@ -146,6 +146,6 @@ top_h %>%
   scale_fill_manual(values = mycolors) +
   theme_classic() +
   ylab('Haplogroup') +
-  xlab('% of individuals') 
+  xlab('# individuals') 
 
 ```
