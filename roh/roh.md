@@ -7,14 +7,7 @@ Runs of homozygosity on 943 individuals
 | Number\_of\_markers |  51.0 |   133.0 |    211.22 |    45797.0 |
 | Quality             |  25.1 |    60.5 |     59.46 |       98.7 |
 
-<!-- ROHs quality histogram -->
-<!-- ```{r echo=FALSE} -->
-<!-- roh  %>% ggplot(aes(x=1,y=Quality)) + -->
-<!--     geom_violin(fill='#48C095', col='#27384A') + -->
-<!--   geom_boxplot(width=0.1) + -->
-<!--      theme_classic() + theme(axis.text.x = element_blank()) + -->
-<!--   xlab('') -->
-<!-- ``` -->
+ROHs quality histogram
 
 ## Results
 
@@ -23,10 +16,11 @@ Runs of homozygosity on 943 individuals
 <!-- -->
 
     ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
+    ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
 
     ## `summarise()` has grouped output by 'Range'. You can override using the `.groups` argument.
 
-![](roh_files/figure-gfm/Cummulative_sum-1.jpeg)<!-- -->
+![](roh_files/figure-gfm/cummulative_sum-1.jpeg)<!-- -->
 
 2.  Median SROH
 
@@ -37,9 +31,13 @@ Runs of homozygosity on 943 individuals
 
 ![](roh_files/figure-gfm/Median_SROH-1.jpeg)<!-- -->
 
+2.  Coverage heatmap
+
+![](roh_files/figure-gfm/genome_coverage_heatmap-1.jpeg)<!-- -->
+
 ### All results below are ROHs filter for autosomes with Quality &gt; 25%, Number of markers &gt; 50 and ROH length &gt; 2 Mb
 
-2.  Average sum of ROHs per genome
+3.  Average sum of ROHs per genome
 
 ![](roh_files/figure-gfm/total_roh-1.jpeg)<!-- -->
 
@@ -57,13 +55,13 @@ Runs of homozygosity on 943 individuals
 | 2Mb-5Mb  |     2.892791 |
 | &gt;10Mb |    16.239240 |
 
-3.  Sum of ROHs per chromosome and individual
+4.  Sum of ROHs per chromosome and individual
 
 <!-- -->
 
     ## `summarise()` has grouped output by 'sample_id', 'Chromosome'. You can override using the `.groups` argument.
 
-![](roh_files/figure-gfm/unnamed-chunk-3-1.jpeg)<!-- -->
+![](roh_files/figure-gfm/unnamed-chunk-4-1.jpeg)<!-- -->
 
     ## `summarise()` has grouped output by 'sample_id'. You can override using the `.groups` argument.
 
@@ -78,7 +76,7 @@ Runs of homozygosity on 943 individuals
 |     | NA               | 3rd Qu.: 3.900 |
 |     | NA               | Max. :38.193   |
 
-4.  Sum of ROH length per range
+5.  Sum of ROH length per range
 
 <!-- -->
 
@@ -95,7 +93,7 @@ Runs of homozygosity on 943 individuals
 |     | 3rd Qu.:21.975 | 3rd Qu.: 17.17 |
 |     | Max. :42.199   | Max. :104.20   |
 
-5.  Relationship between number of ROHs and total length of genome
+6.  Relationship between number of ROHs and total length of genome
     covered by them
 
 ![](roh_files/figure-gfm/SROH_corr-1.jpeg)<!-- -->
@@ -116,10 +114,6 @@ Runs of homozygosity on 943 individuals
 <!--   xlab('Position on chromosome 1') + -->
 <!--   ylab('Individual') -->
 <!-- ``` -->
-
-6.  Coverage heatmap
-
-![](roh_files/figure-gfm/genome_coverage_heatmap-1.jpeg)<!-- -->
 
 7.  % of ROhs per category in sample
 
@@ -159,7 +153,6 @@ Runs of homozygosity on 943 individuals
 <!--   theme_classic() + -->
 <!--   theme(axis.text.x = element_blank()) -->
 <!-- ``` -->
-
-9.  Cosanguinity in population
-
-![](roh_files/figure-gfm/unnamed-chunk-4-1.jpeg)<!-- -->
+<!--
+9. Cosanguinity in population
+-->

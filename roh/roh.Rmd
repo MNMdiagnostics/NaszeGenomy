@@ -33,7 +33,7 @@ roh <- fread('../input/roh_concat.txt', showProgress = T)
 colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id')
 roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
 roh$sample_id <-gsub(".norm.roh", "", roh$sample_id)
-to_include <- read.table('../../../genom_polaka/SAMPLES_TO_INCLUDE_210519.txt',sep='\t')
+to_include <- read.table('SAMPLES_TO_INCLUDE_210519.txt',sep='\t')
 
 roh <- roh %>% filter(sample_id %in% to_include$V1) %>% filter(Quality > 25 & Number_of_markers >50) 
 
@@ -46,67 +46,90 @@ kable(roh %>% select(Length,Number_of_markers,Quality) %>%
 
 ```
 
-<!-- ROHs quality histogram -->
+ROHs quality histogram
 
-<!-- ```{r echo=FALSE} -->
-<!-- roh  %>% ggplot(aes(x=1,y=Quality)) + -->
-<!--     geom_violin(fill='#48C095', col='#27384A') + -->
-<!--   geom_boxplot(width=0.1) + -->
-<!--      theme_classic() + theme(axis.text.x = element_blank()) + -->
-<!--   xlab('') -->
-<!-- ``` -->
+```{r echo=FALSE, eval=F}
+roh  %>% ggplot(aes(x=1,y=Quality)) +
+    geom_violin(fill='#48C095', col='#27384A') +
+  geom_boxplot(width=0.1) +
+     theme_classic() + theme(axis.text.x = element_blank()) +
+  xlab('')
+```
 
 ## Results
 
 1. Cummulative sum
 
-```{r Cummulative_sum,echo=FALSE}
-roh_cummulative <- roh %>%
-  filter(Chromosome != 'chrX' & Chromosome != 'chrY')
+```{r cummulative_sum, echo=FALSE, warning=F}
 
-roh_cummulative <- roh %>% arrange(Length,sample_id) %>%
-  group_by(sample_id) %>%
-  summarise(Length = cumsum(Length)/1e+06)
+roh_cummulative <- roh %>% 
+  filter(Chromosome != 'chrX' & Chromosome != 'chrY') %>% 
+  arrange(Length) %>%
+  group_by(sample_id) %>% 
+  summarise(Length, LS = cumsum(Length)/1e6)
 
-ranges <- seq(0,600,50)
-ranges <- unique(ranges)
+ranges <- c(1,
+            1e4,2e4,5e4,
+            1e5,2e5,5e5,
+            1e6,2e6,5e6,
+            1e7,2e7)
 
-roh_cummulative$Range <- NA
+roh_cummulative$Range <- sapply(roh_cummulative$Length, 
+                                function(x) max(ranges[x > ranges]))
+rc.by.range = roh_cummulative %>% 
+              group_by(sample_id, Range) %>%
+              summarize(maxLS=max(LS))
 
-for (i in 1:length(ranges)) {
-  if (ranges[i] != max(ranges)) {
-      roh_cummulative$Range <- ifelse(roh_cummulative$Length > ranges[i] & 
-                                        roh_cummulative$Length < ranges[i+1], paste(
-                                          ranges[i],'-',ranges[i+1],'Mb',sep=''
-                                        ), roh_cummulative$Range) 
-  } else {
-    roh_cummulative$Range <- ifelse(roh_cummulative$Length >= ranges[i], paste('>',ranges[i],'Mb',sep='' ), roh_cummulative$Range) 
-      
-  }
+rc.by.range.full = data.frame(sample_id=c(), Range=c(), maxLS=c())
+css.empty = rep(NA, length(ranges))
+names(css.empty) = ranges 
+for (sample in unique(rc.by.range$sample_id)) {
+  #message(sample)
+  t = rc.by.range %>% filter(sample_id==sample)
+  css = css.empty
+  css[as.character(t$Range)] = t$maxLS
+  for (i in c(1:length(css))) {
+    if (is.na(css[i])) {
+      css[i] = ifelse(i==1, 0, css[i-1])
+    }
+  } 
+  rc.by.range.full <- rbind(rc.by.range.full, data.frame(sample_id=sample, 
+                                                         Range = names(css),
+                                                         maxLS = css))
 }
+       
 
-roh_cummulative$Range <- factor(roh_cummulative$Range)
-roh_cummulative$Range <- ordered(roh_cummulative$Range, levels = unique(roh_cummulative$Range))
+plot_data <- rc.by.range.full %>% 
+              group_by(Range) %>%
+              summarise(quantiles = scales::percent(c(0.1, 0.25, 0.5, 0.75, 0.9)),
+                        quantile_length = quantile(maxLS, c(0.1, 0.25, 0.5, 0.75, 0.9)))
+            
 
-
-plot_data <- roh_cummulative %>% group_by(Range) %>%
-  summarise(quantiles = scales::percent(c(0.25, 0.5, 0.75)),
-            quantile_length = quantile(Length, c(0.25, 0.5, 0.75))
-            )
-
-q1 <- plot_data %>% filter(quantiles=='25%')
-q3 <- plot_data %>% filter(quantiles=='75%')
+q25 <- plot_data %>% filter(quantiles=='25%')
+q75 <- plot_data %>% filter(quantiles=='75%')
+q10 <- plot_data %>% filter(quantiles=='10%')
+q90 <- plot_data %>% filter(quantiles=='90%')
 med <- plot_data %>% filter(quantiles=='50%')
 
- 
-ggplot(med,aes(x=as.numeric(Range),y=quantile_length)) +
-  geom_line(col='#48C095') +
-  geom_line(aes(x=as.numeric(q1$Range),y=q1$quantile_length),col='#27384A',linetype='dashed') +
-  geom_line(aes(x=as.numeric(q3$Range),y=q3$quantile_length),col='#27384A',linetype='dashed') +
-  theme_classic() +
-  scale_x_continuous(breaks=seq(1,length(med$Range),2),labels=med$Range[seq(1,length(med$Range),2)]) +
-  ylab('Median cummulative SROH (Mb)') +
-  xlab('ROH length category (Mb)')
+
+ggplot(med, aes(x=as.numeric(Range), y=quantile_length, col='#48C095', linetype='solid')) + geom_line() +
+  geom_line(aes(x=as.numeric(q25$Range),y=q25$quantile_length, col='#27384A',linetype='dashed')) +
+  geom_line(aes(x=as.numeric(q75$Range),y=q75$quantile_length, col='#27384A',linetype='dashed')) +
+  geom_line(aes(x=as.numeric(q10$Range),y=q10$quantile_length, col='#27384A',linetype='dotted')) +
+  geom_line(aes(x=as.numeric(q90$Range),y=q90$quantile_length, col='#27384A',linetype='dotted')) +
+  scale_x_log10(breaks=c(0.01, 0.1, 0.5, 1, 5, 10)*1e6,
+                labels=c('<10kb', '<100kb', '<500kb', '<1Mb', '<5Mb', '<10Mb'), 
+                limits=c(1e4, 2e7)) + theme(legend.position = 'top') +
+  ylab('Cummulative size of ROH (Mb)') +
+  xlab('ROH length (Mb)') +   scale_color_identity('none') +
+  scale_linetype_identity(name = "",
+                       breaks = c("solid", "dashed", "dotted"),
+                       labels = c("Median", "Quantiles 25 & 75", "Quantiles 10 & 90"),
+                       guide = "legend")+
+  theme(legend.position = c(0.87, 0.25), legend.background = element_rect(fill = "transparent", color = "black"))
+
+
+
 ```
 
 2. Median SROH
@@ -162,10 +185,32 @@ ggplot(med,aes(x=as.numeric(Range),y=quantile_length)) +
 ```
 
 
+2. Coverage heatmap
+
+```{r genome_coverage_heatmap, echo=FALSE}
+library(GenomicRanges)
+c = coverage(GRanges(seqnames = roh$Chromosome, 
+                     ranges=IRanges(roh$Start, roh$End)))
+
+window.size=1e6
+m = matrix(nrow = 2*length(names(c)), 
+           ncol=sum(runLength(c[[1]]))/window.size)
+
+for (chr in 1:22) { #seqnames(gr)) {
+  max = sum(runLength(c[[chr]]))
+  sampling.points = IRanges(start=c(1:(max/1e6))*1e6, width = 1)  
+  a = aggregate(c[[chr]], sampling.points, mean)
+  m[(chr*2)-1,1:length(a)] = a
+}
+
+image(t(m[dim(m)[1]:1,]), xaxt='n', yaxt='n')
+
+```
+
 
 ### All results below are ROHs filter for autosomes with Quality > 25%, Number of markers > 50 and ROH length > 2 Mb
 
-2. Average sum of ROHs per genome
+3. Average sum of ROHs per genome
 
 ```{r total_roh, echo=FALSE}
 roh <- roh  %>%
@@ -212,7 +257,7 @@ kable(
 )
 ```
 
-3. Sum of ROHs per chromosome and individual
+4. Sum of ROHs per chromosome and individual
 
 ```{r, echo=F}
 roh$Chromosome <- gsub('chr','',roh$Chromosome)
@@ -241,7 +286,7 @@ kable(summary(
 ```
 
 
-4. Sum of ROH length per range
+5. Sum of ROH length per range
 
 ```{r SROH, echo=FALSE}
 sroh <- roh %>% filter(Chromosome != 'chrX' & Chromosome != 'chrY') %>%
@@ -267,7 +312,7 @@ kable(
 ```
 
 
-5. Relationship between number of ROHs and total length of genome covered by them
+6. Relationship between number of ROHs and total length of genome covered by them
 
 ```{r SROH_corr, echo=FALSE} 
 croh <- roh %>% filter(Chromosome != 'chrX' & Chromosome != 'chrY' & Number_of_markers >= 50) 
@@ -306,29 +351,6 @@ croh_sum %>% ggplot(aes(y=n,x=sum)) +
 <!--   ylab('Individual') -->
 
 <!-- ``` -->
-
-6. Coverage heatmap
-
-```{r genome_coverage_heatmap, echo=FALSE}
-library(GenomicRanges)
-c = coverage(GRanges(seqnames = roh$Chromosome, 
-                     ranges=IRanges(roh$Start, roh$End)))
-
-window.size=1e6
-m = matrix(nrow = 2*length(names(c)), 
-           ncol=sum(runLength(c[[1]]))/window.size)
-
-for (chr in 1:22) { #seqnames(gr)) {
-  max = sum(runLength(c[[chr]]))
-  sampling.points = IRanges(start=c(1:(max/1e6))*1e6, width = 1)  
-  a = aggregate(c[[chr]], sampling.points, mean)
-  m[(chr*2)-1,1:length(a)] = a
-}
-
-image(t(m[dim(m)[1]:1,]), xaxt='n', yaxt='n')
-
-```
-
 
 
 7. % of ROhs per category in sample
@@ -407,10 +429,10 @@ roh_sum %>%
 
 <!-- ``` -->
 
-
+<!--
 9. Cosanguinity in population
-
-```{r echo=FALSE}
+-->
+```{r, echo=FALSE, eval=F}
 froh <- read.table('../output/roh/froh.output',header=T,sep='\t')
 
 froh %>% ggplot(aes(x=1,y=Froh_genome)) +
