@@ -11,11 +11,15 @@ Haplogroups
 
 ![](haplogroups_files/figure-gfm/quality_violin-1.jpeg)<!-- -->
 
-2.  Haplogroups distribution
+``` r
+haplo_summary <- haplo_input %>% filter(Quality > 0.80) %>% 
+                 group_by(clad) %>% 
+                 summarise(n=n()) %>% arrange(n)
 
-![](haplogroups_files/figure-gfm/haplo_violin-1.jpeg)<!-- -->
+haplo_summary$n_perc <- (haplo_summary$n/sum(haplo_summary$n)) * 100
+```
 
-3.  % individuals per haplogroup
+2.  % individuals per haplogroup
 
 ![](haplogroups_files/figure-gfm/percent_haplogroup-1.jpeg)<!-- -->
 
@@ -23,7 +27,10 @@ Haplogroups
 
 <!-- -->
 
-    ## `summarise()` has grouped output by 'Haplogroup'. You can override using the `.groups` argument.
-    ## `summarise()` has grouped output by 'Haplogroup'. You can override using the `.groups` argument.
+    ## `summarise()` has grouped output by 'subclad'. You can override using the `.groups` argument.
 
-![](haplogroups_files/figure-gfm/subclads-1.jpeg)<!-- -->
+    ## `summarise()` has grouped output by 'clad'. You can override using the `.groups` argument.
+
+    ## `summarise()` has grouped output by 'clad', 'subclad'. You can override using the `.groups` argument.
+
+![](haplogroups_files/figure-gfm/percent_subclads-1.jpeg)<!-- -->
