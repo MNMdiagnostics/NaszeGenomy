@@ -66,7 +66,8 @@ af_plot %>%
   xlab('Allele frequency') +
   scale_color_manual(values = type.colors) +
   scale_y_continuous(breaks = seq(0,100,5)) +
-  theme_classic()
+  scale_x_log10() +
+  theme_minimal()
   
 
 ```
@@ -87,8 +88,8 @@ sv.af.cs  =  sv.af %>%
 
 ggplot() + 
   geom_line(aes(x = af, y=cspct, color=svtype), sv.af.cs) +
-  #geom_line(aes(x=allele_frequency, y=SNP), af_plot) + 
-  #geom_line(aes(x=allele_frequency, y=indel), af_plot) + 
+  geom_line(aes(x=allele_frequency, y=SNP), af_plot) + 
+  geom_line(aes(x=allele_frequency, y=indel), af_plot) + scale_x_log10()+
   xlab('Allele frequency') + ylab('% variants')
 
 
