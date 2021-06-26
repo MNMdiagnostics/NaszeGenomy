@@ -12,7 +12,9 @@ Haplogroups
 ![](haplogroups_files/figure-gfm/quality_violin-1.jpeg)<!-- -->
 
 ``` r
-haplo_summary <- haplo_input %>% filter(Quality > 0.80) %>% 
+haplo_input <- haplo_input %>% filter(Quality > 0.80)
+
+haplo_summary <- haplo_input %>%
                  group_by(clad) %>% 
                  summarise(n=n()) %>% arrange(n)
 

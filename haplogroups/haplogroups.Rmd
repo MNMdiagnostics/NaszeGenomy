@@ -49,7 +49,9 @@ haplo_input %>% ggplot(aes(x=1,y=Quality)) +
 
 ```{r qual.filter, echo=T}
 
-haplo_summary <- haplo_input %>% filter(Quality > 0.80) %>% 
+haplo_input <- haplo_input %>% filter(Quality > 0.80)
+
+haplo_summary <- haplo_input %>%
                  group_by(clad) %>% 
                  summarise(n=n()) %>% arrange(n)
 
