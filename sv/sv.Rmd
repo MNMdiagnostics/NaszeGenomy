@@ -37,6 +37,9 @@ ggplot(sv.af, aes(x=chrom, fill=svtype)) +
 
 ```
 
+Fig. Figure presents counts of four SV types (deletions (DEL), duplications (DUP), inversion (INV), and break-ends (BND)) in autosomal and sex chromosomes.
+
+
 ## Allele frequency of structural variants (SV)
 
 ```{r sv.af.cumsum, echo=F}
@@ -61,6 +64,10 @@ ggplot() +
   theme(legend.position = 'top')
 
 ```
+
+Fig. Cumulative fraction of variants presenting with given allele frequency (on log-scale). Deletions (DEL), duplications (DUP), inversion (INV), and break-ends (BND).
+
+
 ## SV Lengths
 
 ```{r sv.len.hist, echo=F}
@@ -70,7 +77,6 @@ sv.len <- sv.af %>%
   filter(svtype!='BND')
 
 sv.len$len <- abs(as.numeric(sv.len$len))
-
 
 ggplot(sv.len, aes(x=len, fill=svtype)) +
   geom_histogram(position = 'dodge', bins=80) +
@@ -87,6 +93,12 @@ ggplot(sv.len, aes(x=len, fill=svtype)) +
 
 
 ```
+
+Fig1. Distribution of SV lengths (log10 scale) for three SV types: deletions (DEL), duplications (DUP), and inversion (INV)
+
+Fig2. Distribution of SV lengths (log10 scale) presented as density for the three SV types: deletions (DEL), duplications (DUP), and inversion (INV)
+
+Fig3. Distribution of SV lengths in the range 0-1000bp, for the three SV types: deletions (DEL), duplications (DUP), and inversion (INV)
 
 
 ```{r echo=F}
