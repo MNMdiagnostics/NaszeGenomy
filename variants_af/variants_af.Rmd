@@ -94,7 +94,7 @@ af_plot %>%
 
 
 ```{r sv.af.hist, echo=F}
-sv.af <- read.table('../../../genom_polaka/sv/sv_multisample_210519.smoove.square.unrelated.nogt.stats.tsv')
+sv.af <- read.table('../input/sv_multisample_210519.smoove.square.unrelated.nogt.stats.tsv')
 colnames(sv.af) <- c('chrom','pos', 'svtype', 'len', 'ac', 'an')
 sv.af$af <- sv.af$ac/sv.af$an
 sv.af <- sv.af[order(sv.af$af), ]
@@ -116,7 +116,7 @@ sv.af.cs  <-  sv.af %>%
 group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue",
                   SNP = 'darkgoldenrod4', indel='#5F5F5F')
 
-sv.af.cs %>%
+sv.af.cs %>% filter(svtype != 'BND') %>%
 ggplot() + 
   geom_line(aes(x = af, y=cspct, color=svtype)) +
   scale_x_log10()+
@@ -305,7 +305,7 @@ rare <- read.table('../output/rare_summary.tsv',header=T)
 missing <- read.table('../output/missing_summary.tsv',header=T)
 variants <- rbind(common,mediumrare,rare,missing)
 kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) %>%
-        relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%')
+        relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%') %>% filter(VARIANT_CLASS != 'indel')
         )
 
 
