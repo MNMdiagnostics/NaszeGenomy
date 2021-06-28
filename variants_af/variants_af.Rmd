@@ -314,6 +314,32 @@ kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill
 ### 9. Variants per consequence
 
 ```{r, echo=FALSE}
+library(viridis)
+
+consequence <- read.table('plik_do_wykresu_consequence_data.tsv',header=T,
+                          sep='\t')
+
+consequence$group <- factor(
+  consequence$group, levels = c('0 - 0.1%','0.1 - 0.2%', '0.2 - 0.5%',
+                                '0.5 - 1%','1 - 2%','2 - 5%','5 - 10%',
+                                '10 - 50%','50 - 100%'))
+
+consequence$Coding_var_category <- gsub('_',' ',consequence$Coding_var_category)
+
+cons_plot <- consequence %>% group_by(group,Coding_var_category) %>%
+  summarise(n = sum(n)) %>% 
+  filter(Coding_var_category != 'nonexonic') %>%
+  mutate(percentage = n/(sum(n)))
+
+cons_plot %>% 
+  ggplot(aes(x=as.numeric(group),y=percentage,fill=Coding_var_category)) +
+  geom_area(alpha=0.6 , size=.5, colour="white") +
+    scale_fill_viridis(discrete = T) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) +
+xlab('Allele frequency')
+
+
 # consequence <- read.table('../input/diseases/consequence_ready.tsv',header=T,sep='\t')
 # consequence$Consequence <- gsub(',.*','',consequence$Consequence)
 # write.table(consequence,'consequence_list.tsv',quote = F,col.names = T,sep='\t',row.names = F)
@@ -325,31 +351,6 @@ kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill
 # #  scale_fill_manual(values = type.colors) +
 #   xlab('Number of variants (millions)') +
 #   ylab('Consequence')
-# 
-# kable(
-#   consequence %>% group_by(category) %>% summarise(millions = sum(n/1e+06))
-# )
-# 
-# kable(consequence)
-
-
-```
-
-### 10. Consequence & frequency
-
-```{r, echo=FALSE}
-# consequence <- read.csv('consequence_list.csv',header=T)
-# 
-# 
-# 
-# 
-# consequence %>% group_by(group,Consequence)
-#   ggplot(aes(fill=Consequence,y=n,x=group)) +
-#   geom_bar(position="fill", stat="identity") +
-#   theme_classic() +
-#   xlab('Allele frequencies') +
-#   ylab('% of variants') +
-#   theme(legend.position = 'none')
 # 
 # kable(
 #   consequence %>% group_by(category) %>% summarise(millions = sum(n/1e+06))

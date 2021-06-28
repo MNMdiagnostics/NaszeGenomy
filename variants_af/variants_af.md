@@ -111,7 +111,11 @@ individuals
 
 ### 9. Variants per consequence
 
-### 10. Consequence & frequency
+    ## Loading required package: viridisLite
+
+    ## `summarise()` has grouped output by 'group'. You can override using the `.groups` argument.
+
+![](variants_af_files/figure-gfm/unnamed-chunk-5-1.jpeg)<!-- -->
 
 ## 11. NBS
 
