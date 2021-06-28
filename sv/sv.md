@@ -21,6 +21,17 @@ Structural variants. ewline Results for 943 unrelated individuals
 
 ![](sv_files/figure-gfm/sv.len.hist-1.jpeg)<!-- -->![](sv_files/figure-gfm/sv.len.hist-2.jpeg)<!-- -->
 
+    ## Warning: Removed 31406 rows containing non-finite values (stat_bin).
+
+    ## Warning: Removed 4 rows containing missing values (geom_bar).
+
+![](sv_files/figure-gfm/sv.len.hist-3.jpeg)<!-- -->
+
+Majority of deletions ware shortar than 1kb (55.5137096 %) and as much
+as 84.5910072% were below 10kb
+
+Only 9.413239% of duplications were longer than 1Mb.
+
 ### SV sizes
 
 #### Deletions

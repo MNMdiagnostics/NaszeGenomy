@@ -71,8 +71,9 @@ sv.len <- sv.af %>%
 
 sv.len$len <- abs(as.numeric(sv.len$len))
 
+
 ggplot(sv.len, aes(x=len, fill=svtype)) +
-  geom_histogram(position = 'dodge', bins=80) + 
+  geom_histogram(position = 'dodge', bins=80) +
   scale_x_log10() + 
   xlab('Length (log-scale)')
 
@@ -81,7 +82,24 @@ ggplot(sv.len, aes(x=len)) +
   scale_x_log10() + 
   xlab('Length (log-scale)')
 
+ggplot(sv.len, aes(x=len, fill=svtype)) +
+  geom_histogram(position = 'dodge', bins=80) + xlim(0,1000) + xlab('Length (<=1kb)')
+
+
 ```
+
+
+```{r echo=F}
+
+del.cnt = (sv.len %>% filter(svtype == 'DEL') %>% select(len) %>% summarise(n()))
+dup.cnt = (sv.len %>% filter(svtype == 'DUP') %>% select(len) %>% summarise(n()))
+inv.cnt = (sv.len %>% filter(svtype == 'INV') %>% select(len) %>% summarise(n()))
+```
+
+Majority of deletions ware shortar than 1kb (`r 100 * dim(sv.len[sv.len$svtype=='DEL' & sv.len$len<1000,])[1] / del.cnt` %) and as much as `r 100 * dim(sv.len[sv.len$svtype=='DEL' & sv.len$len<1e4,])[1] / del.cnt`% were below 10kb
+
+Only `r 100 * dim(sv.len[sv.len$svtype=='DUP' & sv.len$len>1e6,])[1] / dup.cnt`% of duplications were longer than 1Mb.
+
 
 ### SV sizes
 
