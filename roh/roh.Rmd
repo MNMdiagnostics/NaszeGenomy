@@ -175,6 +175,8 @@ ggplot(med, aes(x=as.numeric(Range), y=quantile_length, col='#48C095', linetype=
 
 ```
 
+Fig. Relation between size of runs of homozygozity and cumulative length of RoHs in an average individual.
+
 ```{r lengths_per_chromosome, echo=FALSE, warning=F}
 
 roh_chrom_lengths <- roh %>% 
@@ -186,10 +188,15 @@ ggplot(roh_chrom_lengths, aes(x=Chromosome, y=meanLen)) +
   geom_boxplot() + xlab('Chromosome') + ylab('Mean RoH length (Mb)')
 ```
 
+Fig. Distribution of mean length of runs of homozygozity per chromosome
+
 ```{r numbers_per_chromosome, echo=FALSE, warning=F}
 ggplot(roh_chrom_lengths, aes(x=Chromosome, y=cnt)) + 
   geom_boxplot() + xlab('Chromosome') + ylab('Count of RoH')
 ```
+
+Fig. Distribution of counts of runs of homozygozity per chromosome
+
 
 2. Median SROH
 
@@ -264,6 +271,8 @@ for (chr in 1:22) { #seqnames(gr)) {
 image(t(m[dim(m)[1]:1,]), xaxt='n', yaxt='n')
 
 ```
+
+Fig. Chromosomal location of run of homozygozity hotspots - regions frequently covered by runs of homozygozity in this cohort. 
 
 ### All results below are ROHs filter for autosomes with Quality > 25%, Number of markers > 50 and ROH length > 2 Mb
 
