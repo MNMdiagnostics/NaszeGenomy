@@ -1,0 +1,109 @@
+---
+title: "Structural variants.\newline Results for 943 unrelated individuals"
+subtitle:
+output: 
+  github_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, echo=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo=FALSE, dev = 'jpeg')
+suppressMessages(library(knitr))
+suppressMessages(library(tidyverse))
+
+sv.af <- read.table('../input/sv_multisample_210519.smoove.square.unrelated.nogt.stats.tsv')
+colnames(sv.af) <- c('chrom','pos', 'svtype', 'len', 'ac', 'an')
+sv.af$chrom = factor(sv.af$chrom, levels = unique(sv.af$chrom))
+sv.af$af <- sv.af$ac/sv.af$an
+
+```
+
+## Counts of structural variants (SV)
+
+```{r sv.af.counts, echo=F}
+
+kable(sv.af %>% group_by(svtype) %>% summarise(count=n()))
+
+```
+
+
+```{r sv.af.count.by.chromosomes, echo=F}
+
+ggplot(sv.af, aes(x=chrom, fill=svtype)) +
+         geom_bar(position = 'dodge') +
+  xlab('Chromosome') +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+## Allele frequency of structural variants (SV)
+
+```{r sv.af.cumsum, echo=F}
+
+sv.af.cs  <-  sv.af %>% 
+             arrange(af) %>%
+             group_by(svtype, af) %>%
+             summarise(cnt=n()) %>% 
+             summarise(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt)) %>% 
+             select(-cs)
+  
+group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue")
+
+sv.af.cs %>%
+ggplot() + 
+  geom_line(aes(x = af, y=cspct, color=svtype)) +
+  scale_x_log10()+
+  xlab('Allele frequency (log-scale)') + ylab('% variants') + 
+  ylim(0,100) +
+  scale_color_manual(values = group.colors,name='') +
+  theme_minimal() +
+  theme(legend.position = 'top')
+
+```
+## SV Lengths
+
+```{r sv.len.hist, echo=F}
+
+sv.len <- sv.af %>% 
+  select(svtype, len) %>% 
+  filter(svtype!='BND')
+
+sv.len$len <- abs(as.numeric(sv.len$len))
+
+ggplot(sv.len, aes(x=len, fill=svtype)) +
+  geom_histogram(position = 'dodge', bins=80) + 
+  scale_x_log10() + 
+  xlab('Length (log-scale)')
+
+ggplot(sv.len, aes(x=len)) +
+  geom_density(aes(color=svtype), stat='density', position='identity')  +
+  scale_x_log10() + 
+  xlab('Length (log-scale)')
+
+```
+
+### SV sizes
+
+#### Deletions
+
+```{r sv.lenstats.del, echo=F}
+kable(summary(sv.len %>% filter(svtype=='DEL') %>% select(len)))
+```
+
+#### Duplications
+
+```{r sv.lenstats.dup, echo=F}
+kable(summary(sv.len %>% filter(svtype=='DUP') %>% select(len)))
+```
+
+#### Inversions
+
+```{r sv.lenstats.inv, echo=F}
+kable(summary(sv.len %>% filter(svtype=='INV') %>% select(len)))
+```
+
+
+
+
+
