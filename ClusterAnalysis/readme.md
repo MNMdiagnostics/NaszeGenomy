@@ -16,6 +16,9 @@ The idea here is as follows:
 **The results are presented on the following plot:**
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULL.jpeg) 
 
+**Version for Paula D.:**
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULLpop.jpeg) 
+
 I again trained a random forest with 6 principal components on the 1000G dataset and predicted the ancestry in our cohort, but now we checked if people from our came from populations: CEU, FIN, GBR, IBS, TSI or OTHER (AFR, AMR, SAS, EAS). I got the following results:
 
 | Population | Number of people <br /> from our cohort |
