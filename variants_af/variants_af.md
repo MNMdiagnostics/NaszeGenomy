@@ -125,13 +125,15 @@ individuals
 
 ![](variants_af_files/figure-gfm/unnamed-chunk-4-2.jpeg)<!-- -->
 
-## NBS
+## NBS: chr8\_89971213\_ATTTGT\_A
 
 ![](variants_af_files/figure-gfm/NBS-1.jpeg)<!-- -->
 
-## Cystic fybrosis
+## Cystic fybrosis: chr7\_117559590\_ATCT\_A
 
 ![](variants_af_files/figure-gfm/Mucoviscidosis-1.jpeg)<!-- -->
+
+## CFTR deletions
 
 ![](variants_af_files/figure-gfm/CFTR-1.jpeg)<!-- -->
 

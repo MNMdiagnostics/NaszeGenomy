@@ -359,7 +359,7 @@ xlab('Allele frequency') +
 
 ```
 
-## NBS 
+## NBS: chr8_89971213_ATTTGT_A 
 
 ```{r NBS, echo=FALSE}
 nbs <- read.table('nbs.tsv',header = T,sep='\t') 
@@ -380,7 +380,7 @@ nbs %>%
 ```
 
 
-## Cystic fybrosis
+## Cystic fybrosis: chr7_117559590_ATCT_A
 
 ```{r Mucoviscidosis, echo=FALSE}
 muko <- read.table('muko_vep.tsv',header = T,sep='\t') 
@@ -399,6 +399,7 @@ muko[1,] %>%
   xlim(c(0,2))
 ```
 
+## CFTR deletions
 
 ```{r CFTR, echo=FALSE}
 muko <- read.table('CFTR.tsv',header = T,sep='\t') %>%
