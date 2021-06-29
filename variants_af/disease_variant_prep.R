@@ -132,7 +132,6 @@ vep %>%
            ) %>% 
   select(Uploaded_variation,Existing_variation,Location,Allele,stars,
          starts_with('ClinVar'),PL_AF,PL_AC,all_of(af_list)) %>% 
-  filter(gnomAD3g_AF < 0.001) %>%
   distinct() %>%
   write.table('../input/diseases/clin_sig_ready.tsv',sep='\t',
               row.names = F,
