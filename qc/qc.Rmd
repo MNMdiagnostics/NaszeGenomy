@@ -66,7 +66,6 @@ p3 <- flagstat %>% ggplot(aes(y=properly.paired_passed,x=1)) + geom_violin(fill=
     theme(axis.text.x = element_blank())
 
 grid.arrange(p1, p2, p3,nrow = 1, 
-             top=textGrob(paste("Reads statistics in cohort of", length(unique(flagstat$sample)), 'individuals',sep=' ')), 
              left = textGrob("Number of individuals", rot = 90, vjust = 1))
 
 ```
@@ -121,7 +120,7 @@ imiss <- fread('../output/plink_stats/plink.imiss')
 colnames(imiss)[2] <- 'sample'
 imiss_out <- imiss %>% select(sample,F_MISS) %>% 
         filter(F_MISS %in% outlier(imiss$F_MISS)) %>% arrange(F_MISS) %>%
-  mutate(sample = as.numeric(as.character(sample)))
+  mutate(sample = as.numeric(factor(sample)))
 
 kable(imiss_out) 
 
@@ -150,7 +149,7 @@ Average depth outliers
 depth_out <- depth %>% select(sample,average_depth) %>% 
         filter(average_depth %in% outlier(depth$average_depth)) %>% 
         arrange(average_depth) %>% 
-  mutate(sample = as.numeric(as.character(sample)))
+  mutate(sample = as.numeric(sample))
 
 kable(depth_out)
 ```
@@ -166,8 +165,7 @@ avg_depth_plot <- depth %>% ggplot(aes(y=average_depth,x=1)) +
   theme_classic() +
   xlab('Average depth') + 
   ylab('') +
-  theme(axis.text.x = element_blank()) + 
-  ggtitle(paste("Average depth per sample", length(unique(depth$sample)), 'unrelated individuals',sep=' ')) + theme(plot.title = element_text(hjust = 0.5))
+  theme(axis.text.x = element_blank()) 
 avg_depth_plot
 ```
 
@@ -179,10 +177,8 @@ depth_percent <- depth_intervals %>% ggplot(aes(x= depth, y=1)) +
     theme_classic() +
     xlab('% coverage') + 
   ylab('') +
-  ggtitle(paste("% of genome coverage in cohort of", length(unique(depth$sample)), 'unrelated individuals',sep=' ')) + 
   facet_wrap(~group, nrow = 3, scales = 'free') +
-  theme(axis.text.y = element_blank()) + 
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(axis.text.y = element_blank()) 
 depth_percent
 ```
 
@@ -222,8 +218,7 @@ p3 <- psc %>% ggplot(aes(x=nHets,y=1)) +
     xlab('Number of heterozygous') + theme_classic() + theme(axis.text.y = element_blank())+
   ylab('')
 
-grid.arrange(p1, p2, p3,ncol = 1, 
-             top=textGrob(paste("Per Sample Count (PSC) in cohort of", length(unique(flagstat$sample)), 'unrelated individuals',sep=' ')))
+grid.arrange(p1, p2, p3,ncol = 1)
 ```
 
 PSC outliers
