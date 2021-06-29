@@ -22,7 +22,7 @@ Variants in disease causing genes Results for 943 unrelated individuals
 
 ![](variants_af_files/figure-gfm/ACMG-1.jpeg)<!-- -->
 
-### ClinVar variants
+### ClinVar variants pathogenic & likely pathogenic filtered with gnomad3g AF &lt; 0.001
 
 ![](variants_af_files/figure-gfm/clinvar-1.jpeg)<!-- -->
 

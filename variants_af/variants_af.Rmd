@@ -151,7 +151,8 @@ comp_acmg %>%
 ```
 
 
-### ClinVar variants
+### ClinVar variants pathogenic & likely pathogenic \n filtered with gnomad3g AF < 0.001
+
 
 ```{r clinvar, echo=FALSE, warning=FALSE}
 clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) #%>% 
