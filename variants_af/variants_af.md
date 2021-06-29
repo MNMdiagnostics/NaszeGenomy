@@ -28,11 +28,10 @@ Variants in disease causing genes Results for 943 unrelated individuals
 
 | stars |   n |
 |------:|----:|
-|     1 | 246 |
-|     2 | 385 |
-|     3 |  18 |
-|     4 |   1 |
-|    NA |  53 |
+|     1 | 141 |
+|     2 | 108 |
+|     3 |   9 |
+|    NA |  68 |
 
 variants with Clinvar stars
 
@@ -71,7 +70,7 @@ variants with Clinvar stars
 
     ## `summarise()` has grouped output by 'noncoding.var_category'. You can override using the `.groups` argument.
 
-![](variants_af_files/figure-gfm/unnamed-chunk-5-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/non-coding%20consequence-1.jpeg)<!-- -->
 
 ## NBS: chr8\_89971213\_ATTTGT\_A
 

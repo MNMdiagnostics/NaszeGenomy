@@ -154,11 +154,9 @@ comp_acmg %>%
 ### ClinVar variants
 
 ```{r clinvar, echo=FALSE, warning=FALSE}
-clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) %>% 
-  mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
-   mutate(across(PL_AF:gnomADg_AF,as.numeric)) %>% 
-  select(-Gene) %>% distinct() %>%
-  filter(is.na(PL_AF)==F)
+clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) #%>% 
+  # mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
+  #  mutate(across(PL_AF:gnomADg_AF,as.numeric)) 
 
 clinsig %>%
   separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
@@ -166,10 +164,10 @@ clinsig %>%
   relocate(Existing_variation, .before = REF) %>%
   write.table('comp_clinsig.tsv',quote = F,col.names = T,sep='\t',row.names = F)
 
-clinsig %>% 
+clinsig %>% na.omit() %>%
   select(Existing_variation,stars) %>% 
   distinct() %>%
-  ggplot(aes(y=stars)) +
+  ggplot(aes(y=factor(stars))) +
   geom_bar(fill="#48C095",width=0.5) + 
   theme_classic() +
   ylab('Number of gold stars') +
@@ -293,8 +291,7 @@ xlab('Allele frequency') +
 
 ### Variants per non-coding consequence
 
-```{r, echo=FALSE}
-
+```{r non-coding consequence, echo=FALSE}
 consequence$noncoding.var_category <- gsub('_',' ',consequence$noncoding.var_category)
 
 cons_plot <- consequence %>% group_by(noncoding.var_category, group) %>%
