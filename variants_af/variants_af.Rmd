@@ -173,7 +173,7 @@ clinsig %>% na.omit() %>%
   ylab('Number of gold stars') +
   xlab('Variants count') 
 
-kable((clinsig %>% 
+kable((clinsig %>% na.omit() %>%
         select(Existing_variation,stars) %>% 
         distinct() %>%
         group_by(stars) %>%

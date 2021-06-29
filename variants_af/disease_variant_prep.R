@@ -41,39 +41,39 @@ vep <- vep %>% left_join(af, by = 'Uploaded_variation')
 # 
 # class.colors <- c(exonic = "#27384A", intronic ="#48C095", noncoding = "#B6B6B6")
 # 
-# consequence_vep <- vep %>% select(Consequence,EXON,INTRON,PL_AF,PL_AC)
-# consequence_vep$type <- NA
-# consequence_vep$type <- ifelse(consequence_vep$EXON != '-','Exonic',consequence_vep$type)
-# consequence_vep$type <- ifelse(consequence_vep$INTRON != '-','Intronic',consequence_vep$type)
-# consequence_vep$type <- ifelse(consequence_vep$INTRON == '-' & consequence_vep$EXON == '-',
-#                                'Noncoding',consequence_vep$type)
-# 
-# consequence_vep$group <- NA
-# consequence_vep$group <- ifelse(consequence_vep$PL_AF <= 0.001, '0 - 0.1%',consequence_vep$group)
-# consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.001 &
-#                                   consequence_vep$PL_AF <= 0.002, '0.1 - 0.2%',consequence_vep$group)
-# consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.002 &
-#                                   consequence_vep$PL_AF <= 0.005, '0.2 - 0.5%',consequence_vep$group)
-# consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.005 &
-#                                   consequence_vep$PL_AF <= 0.01, '0.5 - 1%',consequence_vep$group)
-# consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.01 &
-#                                   consequence_vep$PL_AF <= 0.02, '1 - 2%',consequence_vep$group)
-# consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.02 &
-#                                   consequence_vep$PL_AF <= 0.05, '2 - 5%',consequence_vep$group)
-# consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.05 &
-#                                   consequence_vep$PL_AF <= 0.1, '5 - 10%',consequence_vep$group)
-# consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.1 &
-#                                   consequence_vep$PL_AF <= 0.5, '10 - 50%',consequence_vep$group)
-# consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.5 &
-#                                   consequence_vep$PL_AF <= 1, '50 - 100%',consequence_vep$group)
-# 
-# consequence_vep %>%
-#   group_by(group,type,Consequence) %>%
-#   summarise(n=n()) %>%
-#   write.table('../input/diseases/consequence_ready.tsv',sep='\t',
-#               row.names = F,
-#               col.names = T,
-#               quote = F)
+consequence_vep <- vep %>% select(Consequence,EXON,INTRON,PL_AF,PL_AC)
+consequence_vep$type <- NA
+consequence_vep$type <- ifelse(consequence_vep$EXON != '-','Exonic',consequence_vep$type)
+consequence_vep$type <- ifelse(consequence_vep$INTRON != '-','Intronic',consequence_vep$type)
+consequence_vep$type <- ifelse(consequence_vep$INTRON == '-' & consequence_vep$EXON == '-',
+                               'Noncoding',consequence_vep$type)
+
+consequence_vep$group <- NA
+consequence_vep$group <- ifelse(consequence_vep$PL_AF <= 0.001, '0 - 0.1%',consequence_vep$group)
+consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.001 &
+                                  consequence_vep$PL_AF <= 0.002, '0.1 - 0.2%',consequence_vep$group)
+consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.002 &
+                                  consequence_vep$PL_AF <= 0.005, '0.2 - 0.5%',consequence_vep$group)
+consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.005 &
+                                  consequence_vep$PL_AF <= 0.01, '0.5 - 1%',consequence_vep$group)
+consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.01 &
+                                  consequence_vep$PL_AF <= 0.02, '1 - 2%',consequence_vep$group)
+consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.02 &
+                                  consequence_vep$PL_AF <= 0.05, '2 - 5%',consequence_vep$group)
+consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.05 &
+                                  consequence_vep$PL_AF <= 0.1, '5 - 10%',consequence_vep$group)
+consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.1 &
+                                  consequence_vep$PL_AF <= 0.5, '10 - 50%',consequence_vep$group)
+consequence_vep$group <- ifelse(consequence_vep$PL_AF > 0.5 &
+                                  consequence_vep$PL_AF <= 1, '50 - 100%',consequence_vep$group)
+
+consequence_vep %>%
+  group_by(group,type,Consequence) %>%
+  summarise(n=n()) %>%
+  write.table('../input/diseases/consequence_ready.tsv',sep='\t',
+              row.names = F,
+              col.names = T,
+              quote = F)
 # 
 # 
 # verticals <- c(log10(0.001),log10(0.005))
@@ -124,13 +124,15 @@ vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_conflicting_interpretations',
 vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_single_submitter',
                           '1',vep$stars)
 
-vep  %>% 
-  filter(PL_AF < 0.001 & is.na(stars)==F & PL_AC > 0 &
-           grepl('Pathogenic',ClinVar_CLNSIG) | grepl("Pathogenic/Likely_pathogenic",ClinVar_CLNSIG) |
+af_list <- c('PL_AF',  'gnomAD3g_AF_NFE','gnomAD3g_AF')
+
+vep %>% 
+  filter(grepl('Pathogenic',ClinVar_CLNSIG) | grepl("Pathogenic/Likely_pathogenic",ClinVar_CLNSIG) |
            grepl("Likely_pathogenic",ClinVar_CLNSIG)
            ) %>% 
   select(Uploaded_variation,Existing_variation,Location,Allele,stars,
-         starts_with('ClinVar'),Gene,PL_AF,PL_AC,all_of(af_list)) %>% 
+         starts_with('ClinVar'),PL_AF,PL_AC,all_of(af_list)) %>% 
+  filter(gnomAD3g_AF < 0.001) %>%
   distinct() %>%
   write.table('../input/diseases/clin_sig_ready.tsv',sep='\t',
               row.names = F,
