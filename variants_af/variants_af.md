@@ -28,10 +28,10 @@ Variants in disease causing genes Results for 943 unrelated individuals
 
 | stars |   n |
 |------:|----:|
-|     1 | 141 |
-|     2 | 108 |
-|     3 |   9 |
-|    NA |  68 |
+|     1 |  56 |
+|     2 |  38 |
+|     3 |   3 |
+|    NA |  22 |
 
 variants with Clinvar stars
 

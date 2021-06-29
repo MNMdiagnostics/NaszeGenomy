@@ -158,7 +158,7 @@ clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) #%>%
   # mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
   #  mutate(across(PL_AF:gnomADg_AF,as.numeric)) 
 
-clinsig %>%
+clinsig %>% na.omit() %>%
   separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
   select(-x,-y) %>%
   relocate(Existing_variation, .before = REF) %>%
