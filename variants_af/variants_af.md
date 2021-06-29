@@ -1,20 +1,7 @@
-Variants in disease causing genes ewline Results for 943 unrelated
-individuals
+Variants in disease causing genes Results for 943 unrelated individuals
 ================
 
 ### Samples count
-
-    ## Warning: `funs()` was deprecated in dplyr 0.8.0.
-    ## Please use a list of either functions or lambdas: 
-    ## 
-    ##   # Simple named list: 
-    ##   list(mean = mean, median = median)
-    ## 
-    ##   # Auto named with `tibble::lst()`: 
-    ##   tibble::lst(mean, median)
-    ## 
-    ##   # Using lambdas
-    ##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
 
 | Variant    | min\_count | mean\_count | max\_count |
 |:-----------|-----------:|------------:|-----------:|
@@ -23,26 +10,6 @@ individuals
 | SNP        |    3637424 |     3715552 |    3776871 |
 
 ## Cummulative allele frequency
-
-<!-- ```{r af_hist,echo=FALSE} -->
-<!-- af <- read.table('../input/multisample_20210519.dv.bcfnorm.filtered.ACgt0.AF_list.tsv') -->
-<!-- colnames(af) <- c('AF','id', 'allele_frequency', 'SNP', 'number_of_transitions', 'number_of transversions', 'indel', 'repeat-consistent','repeat-inconsistent', 'not_applicable') -->
-<!-- af$allele_frequency[1] <- 0.000530223 -->
-<!-- af_plot <- af %>% select(allele_frequency,SNP,indel)  -->
-<!-- af_plot$SNP <- cumsum(af_plot$SNP)/1e+6 -->
-<!-- af_plot$indel <- cumsum(af_plot$indel)/1e+6 -->
-<!-- type.colors <- c(SNP = "#27384A", indel ="#48C095") -->
-<!-- af_plot %>% -->
-<!--   pivot_longer(-allele_frequency,names_to = 'Variant class', -->
-<!--                values_to = 'Cummulative number of variants (millions)') %>% -->
-<!--   ggplot(aes(allele_frequency,`Cummulative number of variants (millions)`, -->
-<!--              col=`Variant class`)) + -->
-<!--   geom_line() + -->
-<!--   xlab('Allele frequency') + -->
-<!--   scale_color_manual(values = type.colors) + -->
-<!--   scale_y_continuous(breaks = seq(0,30,2)) + -->
-<!--   theme_classic() -->
-<!-- ``` -->
 
 ![](variants_af_files/figure-gfm/af_hist_pct-1.jpeg)<!-- -->
 
@@ -60,12 +27,14 @@ individuals
 ![](variants_af_files/figure-gfm/clinvar-1.jpeg)<!-- -->
 
 | stars |   n |
-|:------|----:|
-| 1     | 325 |
-| 2     | 293 |
-| 3     |  22 |
-| 4     |   1 |
-| NA    | 122 |
+|------:|----:|
+|     1 | 246 |
+|     2 | 385 |
+|     3 |  18 |
+|     4 |   1 |
+|    NA |  53 |
+
+variants with Clinvar stars
 
 ### Putative variants
 
@@ -73,54 +42,36 @@ individuals
 
 ![](variants_af_files/figure-gfm/unnamed-chunk-3-1.jpeg)<!-- -->
 
-<!-- ### 7. Variants per functional category -->
-<!-- ```{r, echo=FALSE} -->
-<!-- type.colors <- c(Exonic = "#27384A", Intronic ="#48C095", Noncoding = "#B6B6B6") -->
-<!-- # consequence <- read.table('../input/diseases/consequence_ready.tsv',header=T) -->
-<!-- # -->
-<!-- # consequence$group <- factor(consequence$group) -->
-<!-- # consequence$group <- ordered(consequence$group, levels = c("<0.1%", "0.1-0.5%", ">0.5%")) -->
-<!-- # -->
-<!-- # write.table(consequence,'consequence_summary.tsv',quote = F,col.names = T,sep='\t',row.names = F) -->
-<!-- # -->
-<!-- # cons_list <- consequence %>% group_by(Consequence) %>% -->
-<!-- #   summarise(n = sum(n)) -->
-<!-- #   write.table(cons_list,'consequence_list.tsv', quote = F,col.names = T,sep='\t',row.names = F) -->
-<!-- # -->
-<!-- #  consequence %>% -->
-<!-- #   ggplot(aes(fill=type,y=n,x=group)) + -->
-<!-- #   geom_bar(position="fill", stat="identity") + -->
-<!-- #   theme_classic() + -->
-<!-- #   scale_fill_manual(values = type.colors) + -->
-<!-- #   xlab('Allele frequencies') + -->
-<!-- #   ylab('% of variants') -->
-<!-- # -->
-<!-- # glimpse(consequence) -->
-<!-- ``` -->
-
 ## Number of variants per impact
 
 | VARIANT\_CLASS | AF       | HIGH |   LOW | MODERATE | MODIFIER |
 |:---------------|:---------|-----:|------:|---------:|---------:|
 | deletion       | &gt;0.5% |  500 |  1090 |      680 |  1697005 |
+| indel          | &gt;0.5% |    0 |     2 |        2 |     4929 |
 | insertion      | &gt;0.5% |  327 |  1280 |      630 |  1934758 |
 | SNV            | &gt;0.5% | 1446 | 45903 |    39096 | 15294308 |
 | deletion       | 0.1-0.5% |  813 |   582 |      859 |   885811 |
+| indel          | 0.1-0.5% |    0 |     1 |        1 |    10935 |
 | insertion      | 0.1-0.5% |  407 |   648 |      573 |  1010671 |
 | SNV            | 0.1-0.5% | 1723 | 32131 |    41239 |  9509163 |
-| deletion       | &lt;0.1% | 2662 |   978 |     1731 |  1423061 |
-| insertion      | &lt;0.1% | 1252 |   800 |     1015 |  1102882 |
-| SNV            | &lt;0.1% | 5109 | 69962 |   103413 | 19741686 |
+| deletion       | &lt;0.1% | 2600 |   946 |     1684 |  1383954 |
+| indel          | &lt;0.1% |    1 |     1 |        4 |     7822 |
+| insertion      | &lt;0.1% | 1219 |   773 |      983 |  1062161 |
+| SNV            | &lt;0.1% | 4967 | 68293 |   100838 | 19225909 |
 
-### Variants per consequence
+### Variants per coding consequence
 
     ## `summarise()` has grouped output by 'Coding_var_category'. You can override using the `.groups` argument.
 
-![](variants_af_files/figure-gfm/unnamed-chunk-4-1.jpeg)<!-- -->
+    ## `summarise()` has grouped output by 'Konsekwencje'. You can override using the `.groups` argument.
+
+![](variants_af_files/figure-gfm/unnamed-chunk-4-1.jpeg)<!-- -->![](variants_af_files/figure-gfm/unnamed-chunk-4-2.jpeg)<!-- -->
+
+### Variants per non-coding consequence
 
     ## `summarise()` has grouped output by 'noncoding.var_category'. You can override using the `.groups` argument.
 
-![](variants_af_files/figure-gfm/unnamed-chunk-4-2.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/unnamed-chunk-5-1.jpeg)<!-- -->
 
 ## NBS: chr8\_89971213\_ATTTGT\_A
 
