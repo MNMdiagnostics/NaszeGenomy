@@ -11,10 +11,46 @@
 | percentage\_above\_20 | 85.61 |  89.27 | 89.37 | 91.27 |
 | percentage\_above\_30 | 53.66 |  79.59 | 78.41 | 90.00 |
 
-![Mean coverage](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/qc/qc_files/figure-gfm/average_depth-1.png) 
+Supplementary Table 1.1: Coverage statistics for all 1082 samples analysed in the project.
+
+
+![Suppl. Figure 1.1 - Mean coverage](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/qc/qc_files/figure-gfm/average_depth-1.png) 
+
+Supplementary Figure 1.1: Distribution of mean coverage in the cohort.
 
 
 ## 2. Variants
+
+### 2.1 Small variants
+
+### 2.2 Structural variants
+
+#### 2.2.1 Total counts of structural variants (SV)
+
+| svtype | count |
+|:-------|------:|
+| BND    | 18464 |
+| DEL    | 43546 |
+| DUP    | 13566 |
+| INV    |  1811 |
+
+Supplementary Table 2.2.1: Total numbers of structural variants in the dataset. BND-breakend, DEL-deletion, DUP-duplication, INV-inversion
+
+
+#### 2.2.2 Counts of structural variants per individual
+
+| Type   | Genotype |  min |       mean | median |  max |
+|:-------|:----|-----:|-----------:|-------:|-----:|
+| BND    | het | 2174 | 2534.94380 |   2536 | 2904 |
+| BND    | hom |   46 |   77.42100 |     78 |  108 |
+| DEL    | het | 5090 | 5999.10604 |   6003 | 6446 |
+| DEL    | hom | 1319 | 1689.17815 |   1691 | 1866 |
+| DUP    | het | 1855 | 2452.21845 |   2454 | 2687 |
+| DUP    | hom |  586 |  763.65748 |    765 |  949 |
+| INV    | het |  507 |  586.13150 |    587 |  673 |
+| INV    | hom |   20 |   31.47402 |     31 |   43 |
+
+Supplementary Table 2.2.2: Numbers of structural variants per individual. BND-breakend, DEL-deletion, DUP-duplication, INV-inversion, het-heterozygous genotype, hom-homozygous genotype.
 
 
 ## 3. Population analysis
