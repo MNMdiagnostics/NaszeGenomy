@@ -28,20 +28,21 @@ Variants in disease causing genes Results for 943 unrelated individuals
 
 | stars |   n |
 |------:|----:|
-|     1 |  68 |
-|     2 |  41 |
-|     3 |   2 |
+|     1 | 282 |
+|     2 | 432 |
+|     3 |  20 |
+|     4 |   2 |
 
 variants with Clinvar stars
 
-### ClinVar variants pathogenic & likely pathogenic  no AF filtering
+### ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.01
 
 ![](variants_af_files/figure-gfm/clinvar_01-1.jpeg)<!-- -->
 
 | stars |   n |
 |------:|----:|
-|     1 | 301 |
-|     2 | 490 |
+|     1 | 299 |
+|     2 | 487 |
 |     3 |  24 |
 |     4 |   4 |
 

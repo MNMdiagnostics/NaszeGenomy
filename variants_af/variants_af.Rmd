@@ -154,15 +154,19 @@ comp_acmg %>%
 ### ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.001
 
 ```{r clinvar_001, echo=FALSE, warning=FALSE}
-clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) %>%
-  filter(gnomAD3g_AF < 0.001)
+clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) 
+clinsig$gnomAD3g_AF <- ifelse(clinsig$gnomAD3g_AF == '-',0,clinsig$gnomAD3g_AF)
+clinsig$gnomAD3g_AF <-as.numeric(clinsig$gnomAD3g_AF)
+
+clinsig <- clinsig %>%
+  filter(gnomAD3g_AF < 0.001) %>% na.omit()
 
 clinsig %>% na.omit() %>%
   separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
   select(-x,-y,-Allele) %>%
   relocate(Existing_variation, .before = REF) %>%
   arrange(desc(gnomAD3g_AF)) %>%
-  write.table('comp_clinsig.tsv',quote = F,col.names = T,sep='\t',row.names = F)
+  write.table('comp_clinsig001.tsv',quote = F,col.names = T,sep='\t',row.names = F)
 
 clinsig %>% na.omit() %>%
   select(Existing_variation,stars) %>% 
@@ -180,17 +184,22 @@ kable((clinsig %>% na.omit() %>%
 
 ```
 
-### ClinVar variants pathogenic & likely pathogenic \ no AF filtering
+### ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.01
 
 ```{r clinvar_01, echo=FALSE, warning=FALSE}
 clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) 
+clinsig$gnomAD3g_AF <- ifelse(clinsig$gnomAD3g_AF == '-',0,clinsig$gnomAD3g_AF)
+clinsig$gnomAD3g_AF <-as.numeric(clinsig$gnomAD3g_AF)
+
+clinsig <- clinsig %>%
+  filter(gnomAD3g_AF < 0.01) %>% na.omit()
 
 clinsig %>% na.omit() %>%
   separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
-  select(-x,-y) %>%
+  select(-x,-y,-Allele) %>%
   relocate(Existing_variation, .before = REF) %>%
   arrange(desc(gnomAD3g_AF)) %>%
-  write.table('comp_clinsigALL.tsv',quote = F,col.names = T,sep='\t',row.names = F)
+  write.table('comp_clinsig01.tsv',quote = F,col.names = T,sep='\t',row.names = F)
 
 clinsig %>% na.omit() %>%
   select(Existing_variation,stars) %>% 
@@ -205,6 +214,7 @@ kable((clinsig %>% na.omit() %>%
         select(Existing_variation,stars) %>% 
         group_by(stars) %>%
         count()),caption = 'variants with Clinvar stars')
+
 
 ```
 
