@@ -159,13 +159,11 @@ depth_intervals <- depth %>% select(-average_depth) %>% pivot_longer(cols = -sam
                                       names_to = 'group', 
                                       values_to = 'depth'
                                       )
-avg_depth_plot <- depth %>% ggplot(aes(y=average_depth,x=1)) + 
-  geom_violin(fill='#48C095',col='#27384A') + 
-  geom_boxplot(width=0.1) +
+avg_depth_plot <- depth %>% ggplot(aes(average_depth)) + 
+  geom_histogram(fill='#48C095',col='#27384A') + 
   theme_classic() +
-  xlab('Average depth') + 
-  ylab('') +
-  theme(axis.text.x = element_blank()) 
+  ylab('Number of individuals') +
+  xlab('Mean mapping coverage')
 avg_depth_plot
 ```
 

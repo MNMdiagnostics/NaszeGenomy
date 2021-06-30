@@ -121,6 +121,8 @@ Average depth outliers
 |    637 |          43.17 |
 |    614 |          45.75 |
 
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
 ![](qc_files/figure-gfm/average_depth-1.png)<!-- -->
 
 ![](qc_files/figure-gfm/depth_intervals-1.png)<!-- -->
