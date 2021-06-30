@@ -1,7 +1,6 @@
 
-![Suppl. Figure 1.1 - Mean coverage](https://raw.githubusercontent.com/MNMdiagnostics/NaszeGenomy/main/roh/roh_files/figure-gfm/lengths_per_chromosome-1.jpeg)
 
-## Allele grequency table
+## Allele frequency table
 
 | VARIANT\_CLASS | AF       | HIGH |   LOW | MODERATE | MODIFIER |
 |:---------------|:---------|-----:|------:|---------:|---------:|
