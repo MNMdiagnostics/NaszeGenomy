@@ -1,6 +1,6 @@
 ### Distribution of allele frequencies across variants types
 
-![variant_type](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/variants_af/variants_af_files/figure-gfm/unnamed-chunk-4-2.jpeg) 
+![variant_type](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/variants_af/variants_af_files/figure-gfm/sv.af.hist-1.jpeg) 
 
 **Figure X.X. Distribution of variants consequences across allele frequency spectrum.**
 
