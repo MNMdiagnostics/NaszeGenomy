@@ -2,6 +2,7 @@
 ### Variant consequence distribution
 
 ![Suppl. Figure 1.1 - Mean coverage](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/variants_af/variants_af_files/figure-gfm/unnamed-chunk-4-2.jpeg) 
+
 **Figure X.X. Distribution of variants consequences across allele frequency spectrum.**
 
 
