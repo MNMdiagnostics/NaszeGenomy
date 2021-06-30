@@ -1,5 +1,5 @@
 
-![Suppl. Figure 1.1 - Mean coverage]https://raw.githubusercontent.com/MNMdiagnostics/NaszeGenomy/main/roh/roh_files/figure-gfm/lengths_per_chromosome-1.jpeg
+![Suppl. Figure 1.1 - Mean coverage](https://raw.githubusercontent.com/MNMdiagnostics/NaszeGenomy/main/roh/roh_files/figure-gfm/lengths_per_chromosome-1.jpeg)
 
 ## Allele grequency table
 
@@ -18,5 +18,5 @@
 | insertion      | &lt;0.1% | 1219 |   773 |      983 |  1062161 |
 | SNV            | &lt;0.1% | 4967 | 68293 |   100838 | 19225909 |
 
-**Table X.X: Summary of variant counts in three population frequencies **
+**Table X.X: Summary of variant counts in three population frequencies**
 
