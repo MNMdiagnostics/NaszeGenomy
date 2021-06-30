@@ -104,7 +104,7 @@ Fig. Cumulative fraction of variants presenting with given allele frequency (on 
 
 ### Allele frequency per individual
 
-```{r sv.af.individ, echo=F}
+```{r sv.af.individ, echo=F, eval=F}
 
 df <- sv.af.individ %>%
     arrange(af) %>%
@@ -116,7 +116,7 @@ df <- sv.af.individ %>%
   
 group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue")
 
-sv.af.cs %>%
+df %>%
 ggplot() + 
   geom_line(aes(x = af, y=cspct, color=svtype)) +
   scale_x_log10()+

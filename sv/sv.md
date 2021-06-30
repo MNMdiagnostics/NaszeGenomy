@@ -58,10 +58,6 @@ frequency (on log-scale). Deletions (DEL), duplications (DUP), inversion
 
 ### Allele frequency per individual
 
-    ## `summarise()` has grouped output by 'svtype', 'sampleid'. You can override using the `.groups` argument.
-
-![](sv_files/figure-gfm/sv.af.individ-1.jpeg)<!-- -->
-
 ## SV Lengths
 
 ![](sv_files/figure-gfm/sv.len.hist-1.jpeg)<!-- -->![](sv_files/figure-gfm/sv.len.hist-2.jpeg)<!-- -->
