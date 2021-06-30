@@ -266,7 +266,9 @@ kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill
         relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%')
         )
 
-
+variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) %>%
+        relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%') %>%
+  write.table('variants_class.tsv',quote=F,col.names = T,row.names = F,sep='\t')
 ```
 
 ### Variants per coding consequence
@@ -349,6 +351,8 @@ xlab('Allele frequency') +
   ylab('Normalized percentage') 
 
 ```
+
+
 
 ## NBS: chr8_89971213_ATTTGT_A 
 
