@@ -70,13 +70,19 @@ The average Fst between cluster and outliers is equal to 0.012.
 
 ## 4. ROH
 
+### Average sizes of RoH per chromosome
+
 ![ROH mean per chromosome](https://raw.githubusercontent.com/MNMdiagnostics/NaszeGenomy/main/roh/roh_files/figure-gfm/lengths_per_chromosome-1.jpeg) 
 
 **Supplementary Figure 1.1: Average sizes of RoH per chromosome.**
 
+### Count of RoH per chromosome
+
 ![ROH count per chromosome](https://raw.githubusercontent.com/MNMdiagnostics/NaszeGenomy/main/roh/roh_files/figure-gfm/numbers_per_chromosome-1.jpeg) 
 
 **Supplementary Figure 1.2: Number of RoHs per chromosome.**
+
+### Cummulative length
 
 ![RoH cummulative](https://raw.githubusercontent.com/MNMdiagnostics/NaszeGenomy/main/roh/roh_files/figure-gfm/cummulative_sum-1.jpeg)
 
