@@ -2,7 +2,7 @@
 
 ![variant_type](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/variants_af/variants_af_files/figure-gfm/sv.af.hist-1.jpeg) 
 
-**Figure X.X. Distribution of variants consequences across allele frequency spectrum.**
+**Figure X.X. Distribution of allele frequencies across different variants types.**
 
 
 
