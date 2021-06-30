@@ -11,11 +11,22 @@ editor_options:
 knitr::opts_chunk$set(echo=FALSE, dev = 'jpeg')
 suppressMessages(library(knitr))
 suppressMessages(library(tidyverse))
+suppressMessages(library(data.table))
 
 sv.af <- read.table('../input/sv_multisample_210519.smoove.square.unrelated.nogt.stats.tsv')
 colnames(sv.af) <- c('chrom','pos', 'svtype', 'len', 'ac', 'an')
 sv.af$chrom = factor(sv.af$chrom, levels = unique(sv.af$chrom))
 sv.af$af <- sv.af$ac/sv.af$an
+
+sv.af.individ <- fread('../input/sv_multisample_210519.AF_TYPE_GT.tsv.gz', stringsAsFactors = T)
+colnames(sv.af.individ) = c('sampleid','af','svtype','gt')
+if (all(levels(sv.af.individ$gt) == c('0/1','1/1'))) {
+  levels(sv.af.individ$gt) <- c('het','hom')
+} else if (all(levels(sv.af.individ$gt) == c('1/1','0/1'))) {
+  levels(sv.af.individ$gt) <- c('hom','het')
+} else {
+  message(levels(sv.af.individ$gt))
+}
 
 ```
 
@@ -38,6 +49,30 @@ ggplot(sv.af, aes(x=chrom, fill=svtype)) +
 ```
 
 Fig. Figure presents counts of four SV types (deletions (DEL), duplications (DUP), inversion (INV), and break-ends (BND)) in autosomal and sex chromosomes.
+
+
+```{r sv.individual.counts.table, echo=F}
+
+kable(sv.af.individ %>% 
+  group_by(svtype, gt, sampleid) %>% 
+  summarise(cnt=n()) %>% mutate() %>%
+  summarise(min=min(cnt), mean=mean(cnt), median=median(cnt), max=max(cnt)) 
+)
+```
+
+Table. Numbers of structural variant types per sample, with breakdown into homozygous and heterozygous
+
+```{r sv.individual.counts, echo=F}
+
+sv.af.individ %>% 
+  group_by(sampleid, svtype) %>% 
+  summarize(cnt=n()) %>% 
+  ggplot(aes(x=svtype, y=cnt)) + geom_violin(fill='#48C095',col='#27384A') + geom_boxplot(width=0.1) +
+  xlab('SV type') + ylab('Count') + ylim(0,8000)
+
+```
+
+Fig. Distribution of structural variant counts per sample, for the four SV categories.
 
 
 ## Allele frequency of structural variants (SV)
@@ -66,6 +101,32 @@ ggplot() +
 ```
 
 Fig. Cumulative fraction of variants presenting with given allele frequency (on log-scale). Deletions (DEL), duplications (DUP), inversion (INV), and break-ends (BND).
+
+### Allele frequency per individual
+
+```{r sv.af.individ, echo=F}
+
+df <- sv.af.individ %>%
+    arrange(af) %>%
+    group_by(svtype, sampleid, af) %>%
+    summarise(cnt=n()) %>% 
+    mutate(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt)) %>% 
+    mutate(af, min=min(cspct), median=median(cspct), max=max(cspct)) %>% 
+    select(-cs)
+  
+group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue")
+
+sv.af.cs %>%
+ggplot() + 
+  geom_line(aes(x = af, y=cspct, color=svtype)) +
+  scale_x_log10()+
+  xlab('Allele frequency (log-scale)') + ylab('% variants') + 
+  ylim(0,100) +
+  scale_color_manual(values = group.colors,name='') +
+  theme_minimal() +
+  theme(legend.position = 'top')
+
+```
 
 
 ## SV Lengths
