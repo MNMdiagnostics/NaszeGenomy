@@ -1,112 +1,112 @@
-Existing_variation	REF	ALT	Location	Allele	stars	ClinVar	ClinVar_CLNSIG	ClinVar_CLNREVSTAT	ClinVar_CLNDN	PL_AF	PL_AC	gnomAD3g_AF_NFE	gnomAD3g_AF
-rs1419875412,COSM6063586	C	T	chr1:5967298	T	1	974484	Pathogenic	_single_submitter	Nephronophthisis_4	0.000530223	1	-	-
--	C	T	chr1:40831229	T	1	944908	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-rs200178393	C	T	chr1:43443630	T	1	944876	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
--	CCT	C	chr1:45330558-45330559	-	1	660585	Likely_pathogenic	_single_submitter	MYH-associated_polyposis	0.000530223	1	-	-
-rs1553125243,CD073668	AT	A	chr1:45331302	-	2	464690	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	MYH-associated_polyposis|Hereditary_cancer-predisposing_syndrome	0.000530223	1	-	-
-rs875989859,CM970024,COSM6591679,COSM6591680	G	A	chr1:75733588	A	2	226068	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Medium-chain_acyl-coenzyme_A_dehydrogenase_deficiency	0.000530223	1	-	-
-rs778747291	T	G	chr1:94019650	G	1	431800	Likely_pathogenic	_single_submitter	not_provided	0.00106045	2	-	-
-rs61752435,CS033103	T	C	chr1:94025050	C	2	92869	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Retinal_dystrophy|not_provided	0.000530223	1	-	-
-rs869320764	CCT	C	chr1:151405578-151405579	-	2	224726	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	White-sutton_syndrome|not_provided	0.000530223	1	-	-
-rs768849266,COSM1337010,COSM4949217	C	T	chr1:183261260	T	1	520701	Likely_pathogenic	_single_submitter	Inborn_genetic_diseases	0.000530223	1	-	-
-rs199422165,CM032843	G	A	chr1:197104456	A	2	21588	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Primary_autosomal_recessive_microcephaly_5|not_provided	0.000530223	1	-	-
--	G	T	chr1:215675611	T	2	866677	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Retinal_dystrophy|not_provided	0.000530223	1	-	-
-rs1553354522	G	C	chr2:61839799	C	2	546863	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Retinitis_pigmentosa|not_provided	0.000530223	1	-	-
-CM081493,COSM4086545,COSM4086546	G	A	chr2:168935398	A	2	598092	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	not_provided	0.00106045	2	-	-
-CS962445	G	T	chr2:189006260	T	1	626859	Likely_pathogenic	_single_submitter	Familial_thoracic_aortic_aneurysm_and_aortic_dissection	0.000530223	1	-	-
-rs768767763	CCT	C	chr2:190991253-190991254	-	1	961842	Pathogenic	_single_submitter	Mycobacterial_and_viral_infections,_susceptibility_to,_autosomal_recessive|Immunodeficiency_31C|Immunodeficiency_31a	0.000530223	1	-	-
-rs762739726,CM103127,COSM384646	C	T	chr2:218889989	T	2	464181	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Tooth_agenesis,_selective,_4|Schopf-Schulz-Passarge_syndrome|Odonto-onycho-dermal_dysplasia|not_provided	0.000530223	1	-	-
-rs773317939	G	T	chr2:227279874	T	1	870361	Likely_pathogenic	_single_submitter	_autosomal_dominant|Benign_familial_hematuria	0.000530223	1	-	-
--	ACTCCCTGGACTTCCAGGT	A	chr2:227280530-227280547	-	1	556542	Likely_pathogenic	_single_submitter	_autosomal_recessive	0.00053135	1	-	-
-CS138017	C	T	chr3:14165427	T	1	555583	Likely_pathogenic	_single_submitter	_group_C	0.000530223	1	-	-
-rs1172486173	T	C	chr3:49099606	C	1	598953	Likely_pathogenic	_single_submitter	Microcephaly|Strabismus|Cortical_visual_impairment|Impaired_use_of_nonverbal_behaviors|Seizures|Short_foot|Hypoplasia_of_the_corpus_callosum|Heterotopia|Profound_global_developmental_delay|Insomnia|Small_hand	0.000530223	1	-	-
-CM013757,CM150005,COSM7158546,COSM7158547	C	A	chr4:1004329	A	1	1068474	Pathogenic	_single_submitter	Mucopolysaccharidosis_type_1	0.000530223	1	-	-
-rs1175877764	G	A	chr5:13776577	A	1	575414	Pathogenic	_single_submitter	Primary_ciliary_dyskinesia	0.000530223	1	-	-
-rs1170466474,CM123320	G	A	chr5:70925180	A	1	634933	Likely_pathogenic	_single_submitter	not_provided	0.00106952	2	-	-
-rs1196325597,CM940117	C	T	chr5:78969026	T	2	445292	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Mucopolysaccharidosis_type_6	0.000530223	1	-	-
--	G	GAA	chr5:80741542-80741543	AA	2	654940	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Hereditary_cancer-predisposing_syndrome|not_provided	0.000530223	1	-	-
-rs746681765	C	T	chr5:110761543	T	1	372242	Pathogenic	_single_submitter	Neuropathy,_hereditary_motor_and_sensory,_type_6B	0.000530223	1	-	-
-rs1554105045	C	A	chr5:148107087	A	1	523881	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
--	ACAGT	A	chr6:33443782-33443785	-	2	536991	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_autosomal_dominant_5|Inborn_genetic_diseases	0.000530223	1	-	-
-rs1225304963	GA	G	chr6:63720995	-	1	647784	Pathogenic	_single_submitter	not_provided	0.00106045	2	-	-
-rs371374918,CM122903	G	A	chr6:116627775	A	1	409228	Pathogenic	_single_submitter	Primary_ciliary_dyskinesia	0.000530223	1	-	-
-rs1298986609	C	T	chr6:123381391	T	1	647284	Likely_pathogenic	_single_submitter	Catecholaminergic_polymorphic_ventricular_tachycardia	0.000530223	1	-	-
-rs775112258,CM1311877,COSM203768	C	T	chr6:129328299	T	2	557566	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Merosin_deficient_congenital_muscular_dystrophy|Laminin_alpha_2-related_dystrophy	0.000530223	1	-	-
-rs747427602,CM030927,CM085992	C	T	chr6:161785885	T	2	645725	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Parkinson_disease_2|not_provided	0.000530223	1	-	-
-rs201451115,CM083754	T	A	chr7:5986826	A	3	91321	Pathogenic	reviewed_by_expert_panel	Lynch_syndrome|Hereditary_nonpolyposis_colorectal_cancer_type_4|Hereditary_cancer-predisposing_syndrome|Hereditary_nonpolyposis_colorectal_neoplasms|not_specified|not_provided	0.000530223	1	-	-
-rs1482630982,COSM1193500	CG	C	chr7:96193081	-	1	838520	Pathogenic	_single_submitter	Citrin_deficiency	0.000530223	1	-	-
-CM033462	A	C	chr7:107674187	C	1	1067001	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-rs764611160	CAG	C	chr7:107915624-107915625	-	2	424264	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_type_3|not_provided	0.000530223	1	-	-
-rs770247815	C	T	chr7:138107521	T	1	915331	Pathogenic	_single_submitter	Congenital_bile_acid_synthesis_defect_2	0.000530223	1	-	-
--	T	TA	chr7:158887057-158887058	A	1	1076069	Pathogenic	_single_submitter	Short-rib_thoracic_dysplasia_8_with_or_without_polydactyly	0.000530223	1	-	-
-rs181109321,CS971923	C	T	chr8:63065904	T	2	374211	Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Familial_isolated_deficiency_of_vitamin_E|not_provided	0.000530223	1	-	-
-rs774703929	C	T	chr8:67103053	T	1	959219	Pathogenic	_single_submitter	Joubert_syndrome_21	0.000530223	1	-	-
-rs387907213,CM124998	A	G	chr8:116847643	G	1	35460	Pathogenic	_single_submitter	Cornelia_de_Lange_syndrome_4	0.000530223	1	-	-
--	C	A	chr8:144515449	A	1	936133	Pathogenic	_single_submitter	Baller-Gerold_syndrome	0.000530223	1	-	-
-rs111033800,CM910170,CM920297	C	T	chr9:34649502	T	2	3610	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Deficiency_of_UDPglucose-hexose-1-phosphate_uridylyltransferase|not_provided	0.000530223	1	-	-
-rs745517517	G	A	chr9:36246472	A	2	285936	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Sialuria|GNE_myopathy|not_provided	0.000530223	1	-	-
--	T	TC	chr9:78240051-78240052	C	1	938706	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
--	C	CT	chr9:97687178-97687179	T	1	555021	Likely_pathogenic	_single_submitter	Xeroderma_pigmentosum_group_A	0.000530223	1	-	-
-CM060822,COSM6598335	G	C	chr9:101427500	C	1	555545	Pathogenic	_single_submitter	Hereditary_fructosuria	0.000530223	1	-	-
-rs773957702	C	T	chr10:6025990	T	1	802558	Likely_pathogenic	_single_submitter	Interleukin_2_receptor,_alpha,_deficiency_of	0.000530223	1	-	-
--	G	GT	chr10:27985029-27985030	T	1	653813	Pathogenic	_single_submitter	Primary_ciliary_dyskinesia_23	0.000530223	1	-	-
-rs774791374	C	CG	chr10:49482759-49482760	G	2	190159	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Cerebrooculofacioskeletal_syndrome_1|DE_SANCTIS-CACCHIONE_SYNDROME|Cockayne_syndrome_B|not_provided	0.000530223	1	-	-
-rs758921360,CS152221	C	A	chr10:53840319	A	2	370764	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Usher_syndrome_type_1F|not_provided	0.000530223	1	-	-
--	TG	T	chr10:54369228	-	1	664974	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-COSM3967172	G	C	chr10:78026148	C	1	916218	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-CM003471,RAG2base_HSRAG2X:g.2558T>A,RAG2base_RAG2_DNA:g.6425T>A	A	T	chr11:36592812	T	2	496630	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Recombinase_activating_gene_2_deficiency|Primary_immunodeficiency|Combined_cellular_and_humoral_immune_defects_with_granulomas|Severe_combined_immunodeficiency,_autosomal_recessive,_T_cell-negative,_B_cell-negative,_NK_cell-positive|Histiocytic_medullary_reticulosis	0.000530223	1	-	-
-rs397516037,CM014069	G	A	chr11:47332189	A	2	42735	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	See_cases|Cardiomyopathy|Hypertrophic_cardiomyopathy|Left_ventricular_hypertrophy|Familial_hypertrophic_cardiomyopathy_4|Primary_familial_hypertrophic_cardiomyopathy|Cardiovascular_phenotype|not_provided	0.000530223	1	-	-
-rs867091065	CT	C	chr11:102058882	-	1	807552	Pathogenic	_single_submitter	Ciliary_dyskinesia,_primary,_38	0.000530786	1	-	-
-rs755883373	C	T	chr11:103135727	T	1	225345	Likely_pathogenic	_single_submitter	Short-rib_thoracic_dysplasia_3_with_or_without_polydactyly	0.000530223	1	-	-
-rs587781831,CD991593	CA	C	chr11:108235719	-	2	141546	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_susceptibility_to|not_provided	0.000530223	1	-	-
-rs587780624	TATCTC	T	chr11:108235815-108235819	-	2	185501	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Ataxia-telangiectasia_syndrome|Hereditary_cancer-predisposing_syndrome|not_provided	0.000530223	1	-	-
-rs118204101,CM920343	C	T	chr11:119091413	T	2	1456	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Acute_intermittent_porphyria|not_provided	0.000530223	1	-	-
-rs776627170	C	T	chr12:31102270	T	1	806856	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-rs750756707	T	TA	chr12:55698502-55698503	A	1	537990	Pathogenic	_single_submitter	Muscular_dystrophy,_congenital,_due_to_integrin_alpha-7_deficiency	0.000531915	1	-	-
-rs1033594764	ATC	A	chr12:88115142-88115143	-	1	838153	Pathogenic	_single_submitter	Nephronophthisis|Joubert_syndrome|Meckel-Gruber_syndrome	0.000530223	1	-	-
-rs757574720	CTA	C	chr12:101761721-101761722	-	1	963384	Pathogenic	_single_submitter	Mucolipidosis_type_II|Pseudo-Hurler_polydystrophy	0.000530223	1	-	-
-rs199475615,CM961081	C	G	chr12:102846904	G	2	102910	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Phenylketonuria|not_provided	0.000530223	1	-	-
-rs866158774,COSM6074432	G	A	chr13:23874908	A	1	930107	Likely_pathogenic	_single_submitter	Combined_oxidative_phosphorylation_deficiency_31	0.000530223	1	-	-
-CI021893	C	CT	chr13:32339592-32339593	T	3	37954	Pathogenic	reviewed_by_expert_panel	_familial_2|Hereditary_cancer-predisposing_syndrome|Familial_cancer_of_breast|Breast_and/or_ovarian_cancer|not_provided	0.000530223	1	-	-
-rs746286209,CS1110003	A	C	chr13:100157285	C	1	632933	Pathogenic	_single_submitter	Propionic_acidemia	0.000530223	1	-	-
-rs1057516433,CD1212404	CA	C	chr14:87939965	-	2	370366	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Galactosylceramide_beta-galactosidase_deficiency	0.000530223	1	-	-
-rs1403423766	C	T	chr15:40183727	T	1	939671	Pathogenic	_single_submitter	Mosaic_variegated_aneuploidy_syndrome_1	0.000530223	1	-	-
-COSM1209567,COSM1209568	G	A	chr15:63775308	A	1	1074278	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-rs1364301990	CAG	C	chr15:77029527-77029528	-	1	242302	Likely_pathogenic	_single_submitter	not_provided	0.00106045	2	-	-
--	C	T	chr15:89330276	T	1	648373	Pathogenic	_single_submitter	Progressive_sclerosing_poliodystrophy	0.000530223	1	-	-
-rs1555448897	A	T	chr16:8801797	T	1	557010	Likely_pathogenic	_single_submitter	_type_Ia	0.000530223	1	-	-
-rs1060499746,COSM5546367	C	T	chr16:27481179	T	1	402157	Likely_pathogenic	_single_submitter	Abnormality_of_brain_morphology	0.000530223	1	-	-
-rs764164384,CM016220	G	A	chr16:56502799	A	2	552219	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Bardet-Biedl_syndrome_2|Bardet-Biedl_syndrome	0.000530223	1	-	-
-rs777218224	CA	C	chr16:56505980	-	1	854709	Pathogenic	_single_submitter	Bardet-Biedl_syndrome	0.000530223	1	-	-
--	G	A	chr16:56902469	A	2	994771	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	not_provided	0.000534188	1	-	-
-rs749317721,CS993011	G	A	chr17:3656796	A	1	966528	Pathogenic	_single_submitter	Ocular_cystinosis|Juvenile_nephropathic_cystinosis|Inborn_genetic_diseases	0.00106045	2	-	-
-rs917630768,CM031156	G	A	chr17:3659895	A	1	551289	Pathogenic	_single_submitter	Nephropathic_cystinosis	0.000530223	1	-	-
-CM030020	A	G	chr17:4900856	G	1	803298	Pathogenic	_single_submitter	Myasthenic_syndrome,_congenital,_4a,_slow-channel	0.000530223	1	-	-
-rs886044338	G	A	chr17:18144496	A	1	290068	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-rs1221876133	C	CA	chr17:18153812-18153813	A	1	504407	Likely_pathogenic	_single_submitter	_autosomal_recessive_3|not_provided	0.000530223	1	-	-
-rs786202434	T	TA	chr17:35107380-35107381	A	2	185760	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_familial_4|Hereditary_cancer-predisposing_syndrome	0.000530223	1	-	-
-rs747682469	G	A	chr17:38343117	A	2	287851	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	not_provided	0.000530223	1	-	-
-rs141847881	G	A	chr17:41817204	A	1	870118	Pathogenic	_single_submitter	Bruck_syndrome	0.000530223	1	-	-
-rs1445294968,CM094890	G	T	chr17:42536630	T	2	552642	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Mucopolysaccharidosis,_MPS-III-B|Charcot-Marie-Tooth_disease,_axonal_type_2V	0.000530223	1	-	-
--	G	A	chr17:42691512	A	1	934397	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-rs756853299,COSM245699,COSM245700	G	A	chr17:58214748	A	2	235405	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Joubert_syndrome|Meckel_syndrome_type_1|Bardet-Biedl_syndrome_13|Joubert_syndrome_28|Meckel-Gruber_syndrome|not_provided	0.000530223	1	-	-
-rs587781490	A	T	chr17:58696790	T	2	141095	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_complementation_group_O|Hereditary_cancer-predisposing_syndrome|Breast_and/or_ovarian_cancer|not_provided	0.000530223	1	-	-
-rs767723684	TTA	T	chr17:78567157-78567158	-	1	692267	Pathogenic	_single_submitter	SPERMATOGENIC_FAILURE_39	0.000530223	1	-	-
-rs372631124	G	A	chr17:78993644	A	1	548509	Likely_pathogenic	_single_submitter	Desbuquois_dysplasia_1|Epiphyseal_dysplasia,_multiple,_7	0.000530223	1	-	-
-CM082734	C	G	chr17:80112062	G	1	929167	Likely_pathogenic	_single_submitter	_type_II	0.000530223	1	-	-
-rs760635077	C	T	chr17:82932669	T	1	807701	Likely_pathogenic	_single_submitter	Encephalopathy,_progressive,_early-onset,_with_brain_atrophy_and_thin_corpus_callosum	0.000530223	1	-	-
--	TC	T	chr18:46524821	-	1	1069065	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-rs387906381,CS982199	A	G	chr18:57669316	G	1	7265	Pathogenic	_single_submitter	_progressive_familial_intrahepatic_1|not_provided	0.000530786	1	-	-
-rs1057516864	C	CG	chr19:12647460-12647461	G	2	370914	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Deficiency_of_alpha-mannosidase	0.000530223	1	-	-
-rs1008745697,CS124120	C	T	chr19:12649341	T	2	554100	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Deficiency_of_alpha-mannosidase	0.000530223	1	-	-
-rs760155287,COSM1390680,COSM1390681,COSM5158983	G	A	chr19:12897848	A	1	977524	Likely_pathogenic	_single_submitter	_type_1	0.000530223	1	-	-
-rs886039394,CM040755	C	T	chr19:17837150	T	1	265205	Pathogenic	_single_submitter	Adenoid_cystic_carcinoma|not_provided	0.000530223	1	-	-
-rs755135545,HM070026	G	A	chr19:32859857	A	1	871228	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-rs267606919,CM990971	G	A	chr19:35831056	A	2	6873	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Nephrotic_syndrome|Finnish_congenital_nephrotic_syndrome|not_provided	0.000530223	1	-	-
-rs104894708,CM044034	G	A	chr19:40395144	A	2	4794	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Dejerine-Sottas_disease|Charcot-Marie-Tooth_disease,_demyelinating,_type_4F|Charcot-Marie-Tooth_disease_type_4	0.000530223	1	-	-
--	A	T	chr20:35497749	T	1	620661	Likely_pathogenic	_single_submitter	Cone-rod_dystrophy_and_hearing_loss_2	0.000530223	1	-	-
-CM093963	C	G	chr20:36935104	G	1	872202	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
-rs5742905,CM115666,CM920136	A	G	chr21:43063074	G	2	120	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	HYPERHOMOCYSTEINEMIA,_THROMBOTIC,_CBS-RELATED|Intellectual_disability|Homocystinuria|Classic_homocystinuria|Homocystinuria,_pyridoxine-responsive|Cardiovascular_phenotype|none_provided|not_provided	0.00805524	14	-	-
-rs869320686,CM154934,COSM298114	G	A	chr22:20990476	A	2	209088	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Schwannomatosis_2|Noonan_syndrome_10|Rasopathy|Inborn_genetic_diseases|none_provided|not_provided	0.000530223	1	-	-
-CM082475	C	T	chr22:40360425	T	1	803695	Pathogenic	_single_submitter	Adenylosuccinate_lyase_deficiency	0.000530223	1	-	-
-rs1009209509	C	T	chr22:50459254	T	2	807487	Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_type_4B3	0.000530223	1	-	-
+Existing_variation	REF	ALT	Location	stars	ClinVar	ClinVar_CLNSIG	ClinVar_CLNREVSTAT	ClinVar_CLNDN	PL_AF	PL_AC	gnomAD3g_AF_NFE	gnomAD3g_AF
+rs1419875412,COSM6063586	C	T	chr1:5967298	1	974484	Pathogenic	_single_submitter	Nephronophthisis_4	0.000530223	1	-	-
+-	C	T	chr1:40831229	1	944908	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+rs200178393	C	T	chr1:43443630	1	944876	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+-	CCT	C	chr1:45330558-45330559	1	660585	Likely_pathogenic	_single_submitter	MYH-associated_polyposis	0.000530223	1	-	-
+rs1553125243,CD073668	AT	A	chr1:45331302	2	464690	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	MYH-associated_polyposis|Hereditary_cancer-predisposing_syndrome	0.000530223	1	-	-
+rs875989859,CM970024,COSM6591679,COSM6591680	G	A	chr1:75733588	2	226068	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Medium-chain_acyl-coenzyme_A_dehydrogenase_deficiency	0.000530223	1	-	-
+rs778747291	T	G	chr1:94019650	1	431800	Likely_pathogenic	_single_submitter	not_provided	0.00106045	2	-	-
+rs61752435,CS033103	T	C	chr1:94025050	2	92869	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Retinal_dystrophy|not_provided	0.000530223	1	-	-
+rs869320764	CCT	C	chr1:151405578-151405579	2	224726	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	White-sutton_syndrome|not_provided	0.000530223	1	-	-
+rs768849266,COSM1337010,COSM4949217	C	T	chr1:183261260	1	520701	Likely_pathogenic	_single_submitter	Inborn_genetic_diseases	0.000530223	1	-	-
+rs199422165,CM032843	G	A	chr1:197104456	2	21588	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Primary_autosomal_recessive_microcephaly_5|not_provided	0.000530223	1	-	-
+-	G	T	chr1:215675611	2	866677	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Retinal_dystrophy|not_provided	0.000530223	1	-	-
+rs1553354522	G	C	chr2:61839799	2	546863	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Retinitis_pigmentosa|not_provided	0.000530223	1	-	-
+CM081493,COSM4086545,COSM4086546	G	A	chr2:168935398	2	598092	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	not_provided	0.00106045	2	-	-
+CS962445	G	T	chr2:189006260	1	626859	Likely_pathogenic	_single_submitter	Familial_thoracic_aortic_aneurysm_and_aortic_dissection	0.000530223	1	-	-
+rs768767763	CCT	C	chr2:190991253-190991254	1	961842	Pathogenic	_single_submitter	Mycobacterial_and_viral_infections,_susceptibility_to,_autosomal_recessive|Immunodeficiency_31C|Immunodeficiency_31a	0.000530223	1	-	-
+rs762739726,CM103127,COSM384646	C	T	chr2:218889989	2	464181	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Tooth_agenesis,_selective,_4|Schopf-Schulz-Passarge_syndrome|Odonto-onycho-dermal_dysplasia|not_provided	0.000530223	1	-	-
+rs773317939	G	T	chr2:227279874	1	870361	Likely_pathogenic	_single_submitter	_autosomal_dominant|Benign_familial_hematuria	0.000530223	1	-	-
+-	ACTCCCTGGACTTCCAGGT	A	chr2:227280530-227280547	1	556542	Likely_pathogenic	_single_submitter	_autosomal_recessive	0.00053135	1	-	-
+CS138017	C	T	chr3:14165427	1	555583	Likely_pathogenic	_single_submitter	_group_C	0.000530223	1	-	-
+rs1172486173	T	C	chr3:49099606	1	598953	Likely_pathogenic	_single_submitter	Microcephaly|Strabismus|Cortical_visual_impairment|Impaired_use_of_nonverbal_behaviors|Seizures|Short_foot|Hypoplasia_of_the_corpus_callosum|Heterotopia|Profound_global_developmental_delay|Insomnia|Small_hand	0.000530223	1	-	-
+CM013757,CM150005,COSM7158546,COSM7158547	C	A	chr4:1004329	1	1068474	Pathogenic	_single_submitter	Mucopolysaccharidosis_type_1	0.000530223	1	-	-
+rs1175877764	G	A	chr5:13776577	1	575414	Pathogenic	_single_submitter	Primary_ciliary_dyskinesia	0.000530223	1	-	-
+rs1170466474,CM123320	G	A	chr5:70925180	1	634933	Likely_pathogenic	_single_submitter	not_provided	0.00106952	2	-	-
+rs1196325597,CM940117	C	T	chr5:78969026	2	445292	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Mucopolysaccharidosis_type_6	0.000530223	1	-	-
+-	G	GAA	chr5:80741542-80741543	2	654940	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Hereditary_cancer-predisposing_syndrome|not_provided	0.000530223	1	-	-
+rs746681765	C	T	chr5:110761543	1	372242	Pathogenic	_single_submitter	Neuropathy,_hereditary_motor_and_sensory,_type_6B	0.000530223	1	-	-
+rs1554105045	C	A	chr5:148107087	1	523881	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+-	ACAGT	A	chr6:33443782-33443785	2	536991	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_autosomal_dominant_5|Inborn_genetic_diseases	0.000530223	1	-	-
+rs1225304963	GA	G	chr6:63720995	1	647784	Pathogenic	_single_submitter	not_provided	0.00106045	2	-	-
+rs371374918,CM122903	G	A	chr6:116627775	1	409228	Pathogenic	_single_submitter	Primary_ciliary_dyskinesia	0.000530223	1	-	-
+rs1298986609	C	T	chr6:123381391	1	647284	Likely_pathogenic	_single_submitter	Catecholaminergic_polymorphic_ventricular_tachycardia	0.000530223	1	-	-
+rs775112258,CM1311877,COSM203768	C	T	chr6:129328299	2	557566	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Merosin_deficient_congenital_muscular_dystrophy|Laminin_alpha_2-related_dystrophy	0.000530223	1	-	-
+rs747427602,CM030927,CM085992	C	T	chr6:161785885	2	645725	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Parkinson_disease_2|not_provided	0.000530223	1	-	-
+rs201451115,CM083754	T	A	chr7:5986826	3	91321	Pathogenic	reviewed_by_expert_panel	Lynch_syndrome|Hereditary_nonpolyposis_colorectal_cancer_type_4|Hereditary_cancer-predisposing_syndrome|Hereditary_nonpolyposis_colorectal_neoplasms|not_specified|not_provided	0.000530223	1	-	-
+rs1482630982,COSM1193500	CG	C	chr7:96193081	1	838520	Pathogenic	_single_submitter	Citrin_deficiency	0.000530223	1	-	-
+CM033462	A	C	chr7:107674187	1	1067001	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+rs764611160	CAG	C	chr7:107915624-107915625	2	424264	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_type_3|not_provided	0.000530223	1	-	-
+rs770247815	C	T	chr7:138107521	1	915331	Pathogenic	_single_submitter	Congenital_bile_acid_synthesis_defect_2	0.000530223	1	-	-
+-	T	TA	chr7:158887057-158887058	1	1076069	Pathogenic	_single_submitter	Short-rib_thoracic_dysplasia_8_with_or_without_polydactyly	0.000530223	1	-	-
+rs181109321,CS971923	C	T	chr8:63065904	2	374211	Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Familial_isolated_deficiency_of_vitamin_E|not_provided	0.000530223	1	-	-
+rs774703929	C	T	chr8:67103053	1	959219	Pathogenic	_single_submitter	Joubert_syndrome_21	0.000530223	1	-	-
+rs387907213,CM124998	A	G	chr8:116847643	1	35460	Pathogenic	_single_submitter	Cornelia_de_Lange_syndrome_4	0.000530223	1	-	-
+-	C	A	chr8:144515449	1	936133	Pathogenic	_single_submitter	Baller-Gerold_syndrome	0.000530223	1	-	-
+rs111033800,CM910170,CM920297	C	T	chr9:34649502	2	3610	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Deficiency_of_UDPglucose-hexose-1-phosphate_uridylyltransferase|not_provided	0.000530223	1	-	-
+rs745517517	G	A	chr9:36246472	2	285936	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Sialuria|GNE_myopathy|not_provided	0.000530223	1	-	-
+-	T	TC	chr9:78240051-78240052	1	938706	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+-	C	CT	chr9:97687178-97687179	1	555021	Likely_pathogenic	_single_submitter	Xeroderma_pigmentosum_group_A	0.000530223	1	-	-
+CM060822,COSM6598335	G	C	chr9:101427500	1	555545	Pathogenic	_single_submitter	Hereditary_fructosuria	0.000530223	1	-	-
+rs773957702	C	T	chr10:6025990	1	802558	Likely_pathogenic	_single_submitter	Interleukin_2_receptor,_alpha,_deficiency_of	0.000530223	1	-	-
+-	G	GT	chr10:27985029-27985030	1	653813	Pathogenic	_single_submitter	Primary_ciliary_dyskinesia_23	0.000530223	1	-	-
+rs774791374	C	CG	chr10:49482759-49482760	2	190159	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Cerebrooculofacioskeletal_syndrome_1|DE_SANCTIS-CACCHIONE_SYNDROME|Cockayne_syndrome_B|not_provided	0.000530223	1	-	-
+rs758921360,CS152221	C	A	chr10:53840319	2	370764	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Usher_syndrome_type_1F|not_provided	0.000530223	1	-	-
+-	TG	T	chr10:54369228	1	664974	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+COSM3967172	G	C	chr10:78026148	1	916218	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+CM003471,RAG2base_HSRAG2X:g.2558T>A,RAG2base_RAG2_DNA:g.6425T>A	A	T	chr11:36592812	2	496630	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Recombinase_activating_gene_2_deficiency|Primary_immunodeficiency|Combined_cellular_and_humoral_immune_defects_with_granulomas|Severe_combined_immunodeficiency,_autosomal_recessive,_T_cell-negative,_B_cell-negative,_NK_cell-positive|Histiocytic_medullary_reticulosis	0.000530223	1	-	-
+rs397516037,CM014069	G	A	chr11:47332189	2	42735	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	See_cases|Cardiomyopathy|Hypertrophic_cardiomyopathy|Left_ventricular_hypertrophy|Familial_hypertrophic_cardiomyopathy_4|Primary_familial_hypertrophic_cardiomyopathy|Cardiovascular_phenotype|not_provided	0.000530223	1	-	-
+rs867091065	CT	C	chr11:102058882	1	807552	Pathogenic	_single_submitter	Ciliary_dyskinesia,_primary,_38	0.000530786	1	-	-
+rs755883373	C	T	chr11:103135727	1	225345	Likely_pathogenic	_single_submitter	Short-rib_thoracic_dysplasia_3_with_or_without_polydactyly	0.000530223	1	-	-
+rs587781831,CD991593	CA	C	chr11:108235719	2	141546	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_susceptibility_to|not_provided	0.000530223	1	-	-
+rs587780624	TATCTC	T	chr11:108235815-108235819	2	185501	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Ataxia-telangiectasia_syndrome|Hereditary_cancer-predisposing_syndrome|not_provided	0.000530223	1	-	-
+rs118204101,CM920343	C	T	chr11:119091413	2	1456	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Acute_intermittent_porphyria|not_provided	0.000530223	1	-	-
+rs776627170	C	T	chr12:31102270	1	806856	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+rs750756707	T	TA	chr12:55698502-55698503	1	537990	Pathogenic	_single_submitter	Muscular_dystrophy,_congenital,_due_to_integrin_alpha-7_deficiency	0.000531915	1	-	-
+rs1033594764	ATC	A	chr12:88115142-88115143	1	838153	Pathogenic	_single_submitter	Nephronophthisis|Joubert_syndrome|Meckel-Gruber_syndrome	0.000530223	1	-	-
+rs757574720	CTA	C	chr12:101761721-101761722	1	963384	Pathogenic	_single_submitter	Mucolipidosis_type_II|Pseudo-Hurler_polydystrophy	0.000530223	1	-	-
+rs199475615,CM961081	C	G	chr12:102846904	2	102910	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Phenylketonuria|not_provided	0.000530223	1	-	-
+rs866158774,COSM6074432	G	A	chr13:23874908	1	930107	Likely_pathogenic	_single_submitter	Combined_oxidative_phosphorylation_deficiency_31	0.000530223	1	-	-
+CI021893	C	CT	chr13:32339592-32339593	3	37954	Pathogenic	reviewed_by_expert_panel	_familial_2|Hereditary_cancer-predisposing_syndrome|Familial_cancer_of_breast|Breast_and/or_ovarian_cancer|not_provided	0.000530223	1	-	-
+rs746286209,CS1110003	A	C	chr13:100157285	1	632933	Pathogenic	_single_submitter	Propionic_acidemia	0.000530223	1	-	-
+rs1057516433,CD1212404	CA	C	chr14:87939965	2	370366	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Galactosylceramide_beta-galactosidase_deficiency	0.000530223	1	-	-
+rs1403423766	C	T	chr15:40183727	1	939671	Pathogenic	_single_submitter	Mosaic_variegated_aneuploidy_syndrome_1	0.000530223	1	-	-
+COSM1209567,COSM1209568	G	A	chr15:63775308	1	1074278	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+rs1364301990	CAG	C	chr15:77029527-77029528	1	242302	Likely_pathogenic	_single_submitter	not_provided	0.00106045	2	-	-
+-	C	T	chr15:89330276	1	648373	Pathogenic	_single_submitter	Progressive_sclerosing_poliodystrophy	0.000530223	1	-	-
+rs1555448897	A	T	chr16:8801797	1	557010	Likely_pathogenic	_single_submitter	_type_Ia	0.000530223	1	-	-
+rs1060499746,COSM5546367	C	T	chr16:27481179	1	402157	Likely_pathogenic	_single_submitter	Abnormality_of_brain_morphology	0.000530223	1	-	-
+rs764164384,CM016220	G	A	chr16:56502799	2	552219	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Bardet-Biedl_syndrome_2|Bardet-Biedl_syndrome	0.000530223	1	-	-
+rs777218224	CA	C	chr16:56505980	1	854709	Pathogenic	_single_submitter	Bardet-Biedl_syndrome	0.000530223	1	-	-
+-	G	A	chr16:56902469	2	994771	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	not_provided	0.000534188	1	-	-
+rs749317721,CS993011	G	A	chr17:3656796	1	966528	Pathogenic	_single_submitter	Ocular_cystinosis|Juvenile_nephropathic_cystinosis|Inborn_genetic_diseases	0.00106045	2	-	-
+rs917630768,CM031156	G	A	chr17:3659895	1	551289	Pathogenic	_single_submitter	Nephropathic_cystinosis	0.000530223	1	-	-
+CM030020	A	G	chr17:4900856	1	803298	Pathogenic	_single_submitter	Myasthenic_syndrome,_congenital,_4a,_slow-channel	0.000530223	1	-	-
+rs886044338	G	A	chr17:18144496	1	290068	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+rs1221876133	C	CA	chr17:18153812-18153813	1	504407	Likely_pathogenic	_single_submitter	_autosomal_recessive_3|not_provided	0.000530223	1	-	-
+rs786202434	T	TA	chr17:35107380-35107381	2	185760	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_familial_4|Hereditary_cancer-predisposing_syndrome	0.000530223	1	-	-
+rs747682469	G	A	chr17:38343117	2	287851	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	not_provided	0.000530223	1	-	-
+rs141847881	G	A	chr17:41817204	1	870118	Pathogenic	_single_submitter	Bruck_syndrome	0.000530223	1	-	-
+rs1445294968,CM094890	G	T	chr17:42536630	2	552642	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Mucopolysaccharidosis,_MPS-III-B|Charcot-Marie-Tooth_disease,_axonal_type_2V	0.000530223	1	-	-
+-	G	A	chr17:42691512	1	934397	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+rs756853299,COSM245699,COSM245700	G	A	chr17:58214748	2	235405	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Joubert_syndrome|Meckel_syndrome_type_1|Bardet-Biedl_syndrome_13|Joubert_syndrome_28|Meckel-Gruber_syndrome|not_provided	0.000530223	1	-	-
+rs587781490	A	T	chr17:58696790	2	141095	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_complementation_group_O|Hereditary_cancer-predisposing_syndrome|Breast_and/or_ovarian_cancer|not_provided	0.000530223	1	-	-
+rs767723684	TTA	T	chr17:78567157-78567158	1	692267	Pathogenic	_single_submitter	SPERMATOGENIC_FAILURE_39	0.000530223	1	-	-
+rs372631124	G	A	chr17:78993644	1	548509	Likely_pathogenic	_single_submitter	Desbuquois_dysplasia_1|Epiphyseal_dysplasia,_multiple,_7	0.000530223	1	-	-
+CM082734	C	G	chr17:80112062	1	929167	Likely_pathogenic	_single_submitter	_type_II	0.000530223	1	-	-
+rs760635077	C	T	chr17:82932669	1	807701	Likely_pathogenic	_single_submitter	Encephalopathy,_progressive,_early-onset,_with_brain_atrophy_and_thin_corpus_callosum	0.000530223	1	-	-
+-	TC	T	chr18:46524821	1	1069065	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+rs387906381,CS982199	A	G	chr18:57669316	1	7265	Pathogenic	_single_submitter	_progressive_familial_intrahepatic_1|not_provided	0.000530786	1	-	-
+rs1057516864	C	CG	chr19:12647460-12647461	2	370914	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Deficiency_of_alpha-mannosidase	0.000530223	1	-	-
+rs1008745697,CS124120	C	T	chr19:12649341	2	554100	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Deficiency_of_alpha-mannosidase	0.000530223	1	-	-
+rs760155287,COSM1390680,COSM1390681,COSM5158983	G	A	chr19:12897848	1	977524	Likely_pathogenic	_single_submitter	_type_1	0.000530223	1	-	-
+rs886039394,CM040755	C	T	chr19:17837150	1	265205	Pathogenic	_single_submitter	Adenoid_cystic_carcinoma|not_provided	0.000530223	1	-	-
+rs755135545,HM070026	G	A	chr19:32859857	1	871228	Pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+rs267606919,CM990971	G	A	chr19:35831056	2	6873	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Nephrotic_syndrome|Finnish_congenital_nephrotic_syndrome|not_provided	0.000530223	1	-	-
+rs104894708,CM044034	G	A	chr19:40395144	2	4794	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Dejerine-Sottas_disease|Charcot-Marie-Tooth_disease,_demyelinating,_type_4F|Charcot-Marie-Tooth_disease_type_4	0.000530223	1	-	-
+-	A	T	chr20:35497749	1	620661	Likely_pathogenic	_single_submitter	Cone-rod_dystrophy_and_hearing_loss_2	0.000530223	1	-	-
+CM093963	C	G	chr20:36935104	1	872202	Likely_pathogenic	_single_submitter	not_provided	0.000530223	1	-	-
+rs5742905,CM115666,CM920136	A	G	chr21:43063074	2	120	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	HYPERHOMOCYSTEINEMIA,_THROMBOTIC,_CBS-RELATED|Intellectual_disability|Homocystinuria|Classic_homocystinuria|Homocystinuria,_pyridoxine-responsive|Cardiovascular_phenotype|none_provided|not_provided	0.00805524	14	-	-
+rs869320686,CM154934,COSM298114	G	A	chr22:20990476	2	209088	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Schwannomatosis_2|Noonan_syndrome_10|Rasopathy|Inborn_genetic_diseases|none_provided|not_provided	0.000530223	1	-	-
+CM082475	C	T	chr22:40360425	1	803695	Pathogenic	_single_submitter	Adenylosuccinate_lyase_deficiency	0.000530223	1	-	-
+rs1009209509	C	T	chr22:50459254	2	807487	Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_type_4B3	0.000530223	1	-	-

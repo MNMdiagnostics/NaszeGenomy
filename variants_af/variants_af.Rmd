@@ -159,7 +159,7 @@ clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) %>%
 
 clinsig %>% na.omit() %>%
   separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
-  select(-x,-y) %>%
+  select(-x,-y,-Allele) %>%
   relocate(Existing_variation, .before = REF) %>%
   arrange(desc(gnomAD3g_AF)) %>%
   write.table('comp_clinsig.tsv',quote = F,col.names = T,sep='\t',row.names = F)
@@ -175,7 +175,6 @@ clinsig %>% na.omit() %>%
 
 kable((clinsig %>% na.omit() %>%
         select(Existing_variation,stars) %>% 
-        distinct() %>%
         group_by(stars) %>%
         count()),caption = 'variants with Clinvar stars')
 
@@ -204,7 +203,6 @@ clinsig %>% na.omit() %>%
 
 kable((clinsig %>% na.omit() %>%
         select(Existing_variation,stars) %>% 
-        distinct() %>%
         group_by(stars) %>%
         count()),caption = 'variants with Clinvar stars')
 
