@@ -14,7 +14,7 @@
 
 
 
-## Allele frequency table
+### Allele frequency table
 
 | VARIANT\_CLASS | AF       | HIGH |   LOW | MODERATE | MODIFIER |
 |:---------------|:---------|-----:|------:|---------:|---------:|
