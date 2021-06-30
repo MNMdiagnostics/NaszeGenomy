@@ -1,4 +1,4 @@
-### Distribution of allele frequencies across variants types
+## Distribution of allele frequencies across variants types
 
 ![variant_type](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/variants_af/variants_af_files/figure-gfm/sv.af.hist-1.jpeg) 
 
@@ -6,7 +6,7 @@
 
 
 
-### Variant consequence distribution
+## Variant consequence distribution
 
 ![consequence](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/variants_af/variants_af_files/figure-gfm/unnamed-chunk-4-2.jpeg) 
 
@@ -14,7 +14,7 @@
 
 
 
-### Allele frequency table
+## Allele frequency table
 
 | VARIANT\_CLASS | AF       | HIGH |   LOW | MODERATE | MODIFIER |
 |:---------------|:---------|-----:|------:|---------:|---------:|
