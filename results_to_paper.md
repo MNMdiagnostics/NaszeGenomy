@@ -1,3 +1,27 @@
+## Samples count
+
+| Variant    | min\_count | mean\_count | max\_count |
+|:-----------|-----------:|------------:|-----------:|
+| Indels     |     751498 |      768905 |     781426 |
+| Singletons |        436 |       16473 |      82329 |
+| SNP        |    3637424 |     3715552 |    3776871 |
+
+**Table X.X. Average SNV count per individual.**
+
+## Distribution of allele frequencies across variants types
+
+![variant_type](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/variants_af/variants_af_files/figure-gfm/sv.af.hist-1.jpeg) 
+
+**Figure X.X. Distribution of allele frequencies across different variants types.**
+
+
+
+## Variant consequence distribution
+
+![consequence](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/variants_af/variants_af_files/figure-gfm/unnamed-chunk-4-2.jpeg) 
+
+**Figure X.X. Distribution of variants consequences across allele frequency spectrum.**
+
 
 
 ## Allele frequency table
