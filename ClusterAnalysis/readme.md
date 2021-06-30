@@ -14,10 +14,11 @@ The idea here is as follows:
 **One individual (ID=204_20349_20) is from AMR not EUR population**
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULL.jpeg) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULLv2.jpeg) 
 
 **Version for Paula D.:**
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULLpop.jpeg) 
+Na podstawie wspólnych markerów genetycznych dla populacji polskiej oraz danych dostepnych w ramach projektu 1000G zostały wyznaczone współczynniki charakteryzujące genetyczną strukturę sześciu populacji (5 populacji dostępnych w ramach projektu 1000G oraz populacja polska). Następnie dane dla populacji polskiej zostały naniesione na dane z projektu 1000G. Okazało się, że struktura populacji polskiej jest jednorodna i pokrywa się kontynentalnie z populacją europejską. Najbliżej populacji polskiej są subpopulacje europejskie GBR i CEU do których należy 923 (98% populacji polskiej) pacjentów.
 
 I again trained a random forest with 6 principal components on the 1000G dataset and predicted the ancestry in our cohort, but now we checked if people from our came from populations: CEU, FIN, GBR, IBS, TSI or OTHER (AFR, AMR, SAS, EAS). I got the following results:
 
