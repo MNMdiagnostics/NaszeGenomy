@@ -52,6 +52,25 @@ Supplementary Table 2.2.1: Total numbers of structural variants in the dataset. 
 
 Supplementary Table 2.2.2: Numbers of structural variants per individual. BND-breakend, DEL-deletion, DUP-duplication, INV-inversion, het-heterozygous genotype, hom-homozygous genotype.
 
+#### 2.2.3 SV lengths
+
+![](sv/sv_files/figure-gfm/sv.len.hist-1.jpeg)<!-- -->
+
+Supplementary Figure 2.2.3A Distribution of SV lengths (log10 scale) for three SV types:
+deletions (DEL), duplications (DUP), and inversion (INV)
+
+
+![](sv/sv_files/figure-gfm/sv.len.hist-2.jpeg)<!-- -->
+
+Supplementary Figure 2.2.3B Distribution of SV lengths (log10 scale) presented as density for
+the three SV types: deletions (DEL), duplications (DUP), and inversion
+(INV)
+
+
+![](sv/sv_files/figure-gfm/sv.len.hist-3.jpeg)<!-- -->
+
+Supplementary Figure 2.2.3C Distribution of SV lengths in the range 0-1000bp, for the three SV
+types: deletions (DEL), duplications (DUP), and inversion (INV)
 
 ## 3. Population analysis
 
