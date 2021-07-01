@@ -367,7 +367,7 @@ nbs <- nbs %>%
 nbs$pop <- ifelse(nbs$pop == 'PL_AF','POL',nbs$pop)
 nbs$pop <- gsub('_',' ',nbs$pop)
 
-nbs %>% 
+nbs_plot <- nbs %>% 
   ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
   geom_bar(stat = 'identity',fill="#48C095") +
   theme_classic() +
@@ -376,7 +376,7 @@ nbs %>%
   geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
   xlim(c(0,0.4))
-
+nbs_plot
 ```
 
 
@@ -394,7 +394,7 @@ muko <- muko %>%
 muko$pop <- ifelse(muko$pop == 'PL_AF','POL',muko$pop)
 muko$pop <- gsub('_',' ',muko$pop)
 
-muko  %>%
+muko_plot <- muko  %>%
   ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
   geom_bar(stat = 'identity',fill="#48C095") +
   theme_classic() +
@@ -403,7 +403,38 @@ muko  %>%
     geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
   xlim(c(0,2))
+muko_plot
 ```
+
+
+
+## DHCR7
+
+```{r DHCR7, echo=FALSE}
+dh <- clinsig %>% filter(grepl('rs11555217',Existing_variation))
+rsid <- dh$Existing_variation
+
+dh <- dh %>% 
+  select(PL_AF, starts_with('gnomAD_')) %>%
+  mutate_if(is.character,as.numeric) %>%
+  pivot_longer(everything(),names_to = 'pop',values_to = 'AF')  
+  
+
+dh$pop <- ifelse(dh$pop == 'PL_AF','POL',dh$pop)
+dh$pop <- gsub('_',' ',dh$pop)
+
+dh_plot <- dh %>% 
+  ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
+  geom_bar(stat = 'identity',fill="#48C095") +
+  theme_classic() +
+  ylab('Population') +
+  xlab('AF [%]') +
+  geom_text(aes(label=paste(round(AF*100,2),'%'),
+                hjust=-0.3)) +
+  xlim(c(0,2))
+dh_plot
+```
+
 
 ## CFTR deletions
 

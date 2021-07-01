@@ -93,6 +93,10 @@ variants with Clinvar stars
 
 ![](variants_af_files/figure-gfm/Mucoviscidosis-1.jpeg)<!-- -->
 
+## DHCR7
+
+![](variants_af_files/figure-gfm/DHCR7-1.jpeg)<!-- -->
+
 ## CFTR deletions
 
 ![](variants_af_files/figure-gfm/CFTR-1.jpeg)<!-- -->
