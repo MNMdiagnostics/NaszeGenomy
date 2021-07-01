@@ -4,6 +4,7 @@
 #### 1.1 Depth statistics
 
 
+**Supplementary Table 1.1: Coverage statistics for all 1082 samples analysed in the project.**
 | stat                  |   min | median |  mean |   max |
 |:----------------------|------:|-------:|------:|------:|
 | average\_depth        | 29.09 |  35.75 | 35.72 | 45.75 |
@@ -11,22 +12,26 @@
 | percentage\_above\_20 | 85.61 |  89.27 | 89.37 | 91.27 |
 | percentage\_above\_30 | 53.66 |  79.59 | 78.41 | 90.00 |
 
-Supplementary Table 1.1: Coverage statistics for all 1082 samples analysed in the project.
 
-
+**Supplementary Figure 1.1: Distribution of mean coverage in the cohort.**
 ![Suppl. Figure 1.1 - Mean coverage](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/qc/qc_files/figure-gfm/average_depth-1.png) 
 
-Supplementary Figure 1.1: Distribution of mean coverage in the cohort.
+
 
 
 ## 2. Variants
 
 ### 2.1 Small variants
 
+
+
+**Supplementary Figure 2.1.2: Distribution of variant consequences across the allele-frequency spectrum**
+![](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/variants_af/variants_af_files/figure-gfm/non-coding%20consequence-1.jpeg)<!-- -->
+
+
 ### 2.2 Structural variants
 
-#### 2.2.1 Total counts of structural variants (SV)
-
+**Supplementary Table 2.2.1: Total numbers of structural variants in the dataset. BND-breakend, DEL-deletion, DUP-duplication, INV-inversion**
 | svtype | count |
 |:-------|------:|
 | BND    | 18464 |
@@ -34,10 +39,8 @@ Supplementary Figure 1.1: Distribution of mean coverage in the cohort.
 | DUP    | 13566 |
 | INV    |  1811 |
 
-Supplementary Table 2.2.1: Total numbers of structural variants in the dataset. BND-breakend, DEL-deletion, DUP-duplication, INV-inversion
 
-
-#### 2.2.2 Counts of structural variants per individual
+**Supplementary Table 2.2.2: Numbers of structural variants per individual. BND-breakend, DEL-deletion, DUP-duplication, INV-inversion, het-heterozygous genotype, hom-homozygous genotype.**
 
 | Type   | Genotype |  min |       mean | median |  max |
 |:-------|:----|-----:|-----------:|-------:|-----:|
@@ -50,38 +53,34 @@ Supplementary Table 2.2.1: Total numbers of structural variants in the dataset. 
 | INV    | het |  507 |  586.13150 |    587 |  673 |
 | INV    | hom |   20 |   31.47402 |     31 |   43 |
 
-Supplementary Table 2.2.2: Numbers of structural variants per individual. BND-breakend, DEL-deletion, DUP-duplication, INV-inversion, het-heterozygous genotype, hom-homozygous genotype.
 
-#### 2.2.3 SV lengths
-
+**Supplementary Figure 2.2.3A Distribution of SV lengths (log10 scale) for three SV types:
+deletions (DEL), duplications (DUP), and inversion (INV)**
 ![](sv/sv_files/figure-gfm/sv.len.hist-1.jpeg)<!-- -->
 
-Supplementary Figure 2.2.3A Distribution of SV lengths (log10 scale) for three SV types:
-deletions (DEL), duplications (DUP), and inversion (INV)
 
-
+**Supplementary Figure 2.2.3B Distribution of SV lengths (log10 scale) presented as density for
+the three SV types: deletions (DEL), duplications (DUP), and inversion
+(INV)**
 ![](sv/sv_files/figure-gfm/sv.len.hist-2.jpeg)<!-- -->
 
-Supplementary Figure 2.2.3B Distribution of SV lengths (log10 scale) presented as density for
-the three SV types: deletions (DEL), duplications (DUP), and inversion
-(INV)
 
-
+**Supplementary Figure 2.2.3C Distribution of SV lengths in the range 0-1000bp, for the three SV
+types: deletions (DEL), duplications (DUP), and inversion (INV)**
 ![](sv/sv_files/figure-gfm/sv.len.hist-3.jpeg)<!-- -->
 
-Supplementary Figure 2.2.3C Distribution of SV lengths in the range 0-1000bp, for the three SV
-types: deletions (DEL), duplications (DUP), and inversion (INV)
 
 ### 2.3 Runs of homozygosity
 
+**Supplementary Figure 2.3.1 Distribution of average lengths of RoH per chromosome.**
 ![](roh/roh_files/figure-gfm/lengths_per_chromosome-1.jpeg)<!-- -->
 
-Supplementary Figure 2.3.1 Distribution of average lengths of RoH per chromosome.
-
-
+**Supplementary Figure 2.3.2 Distribution of counts of runs of homozygosity per chromosome.**
 ![](roh/roh_files/figure-gfm/numbers_per_chromosome-1.jpeg)<!-- -->
 
-Supplementary Figure 2.3.2 Distribution of counts of runs of homozygosity per chromosome.
+**Supplementary Figure 2.3.3. Cummulative length of runs of homozygozity in single individuals.**
+![RoH cummulative](roh/roh_files/figure-gfm/cummulative_sum-1.jpeg)
+
 
 
 ## 3. Population analysis
@@ -99,23 +98,4 @@ The average Fst between cluster and outliers is equal to 0.012.
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/clusterPCA.jpeg) 
 **Figure 3.2. Cluster analysis based on Density-Based Spatial method.**
 
-## 4. ROH
-
-### Average sizes of RoH per chromosome
-
-![ROH mean per chromosome](https://raw.githubusercontent.com/MNMdiagnostics/NaszeGenomy/main/roh/roh_files/figure-gfm/lengths_per_chromosome-1.jpeg) 
-
-**Supplementary Figure 1.1: Average sizes of RoH per chromosome.**
-
-### Count of RoH per chromosome
-
-![ROH count per chromosome](https://raw.githubusercontent.com/MNMdiagnostics/NaszeGenomy/main/roh/roh_files/figure-gfm/numbers_per_chromosome-1.jpeg) 
-
-**Supplementary Figure 1.2: Number of RoHs per chromosome.**
-
-### Cummulative length
-
-![RoH cummulative](https://raw.githubusercontent.com/MNMdiagnostics/NaszeGenomy/main/roh/roh_files/figure-gfm/cummulative_sum-1.jpeg)
-
-**Supplementary Figure 1.3: Cummulative length of RoHs.**
 
