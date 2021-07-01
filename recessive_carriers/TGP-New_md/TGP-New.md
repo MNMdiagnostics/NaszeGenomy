@@ -790,6 +790,16 @@ tgp_clinvar$[which(tgp_clinvar$Symbol == "DDX11")]
 </ol>
 
 
+### ClinVar AR genes enrichment in polish cohort
+* XPA is the gene with highest fold change in Polish population that causes Xeroderma Pigmentosum,  rare autosomal recessive syndrome. There are several genes which mutations are the couse of this syndrome, and based on that patients are classified to complemenattion groups from A to G and V (POLH gene). The prevalence of germline XPA mutations in XP patients varies, accounting for 55% of all Japanese XP cases and 9% of United States XP patient (1). It seems that XPA variant is the most prelevant in Polish population. In Europe the XPC and XPD gene mutations are the most common cause of XP (2 - musze poszukać lepszego źródła tych informacji).
+* Second higest fold change in Polish cohort is ABCB11 gene which mutations are the cause of cholestais. Progressive familial intrahepatic cholestasis (PFIC) is a heterogeneous group of rare autosomal recessive liver disorders.Three main subtypes of PFIC (PFIC1, PFIC2, PFIC3) have been identified, and PFIC2 is casued by ABCB11 mutations (3). Of the three main PFIC subtypes, PFIC2 was generally more common than PFIC1 and PFIC3 in studies conducted in the USA and Europe - systematic review (21–91% of patients) (4).
+* Third highest fold change in Polish pop. is PIGV gene which disorders cause Hyperphosphatasia with mental retardation syndrome-1 is an autosomal recessive disorder. (musze doszukac info o częstości w populacji, zdaje sie że nie ma dużo danych)
+* Odnośnie CNGB3 musze sprawdzić częstość jednej mutacji z artykułu (10.1007/s00439-006-0314-y) p.T383fsX - founder effect
+
+1. 10.3390/ijms16048988 
+2. Przemęcka et al. - Nowotwory złośliwe w przebiegu xeroderma pigmentosum — opis przypadku i przegląd piśmiennictwa
+3. 10.1016/j.jceh.2013.10.005
+4. 10.1016/j.clinre.2018.07.010
 
 ### Cum frequency differences
 * Difference of cumulative frequencies between Polish and GnomAD (first column) and Polish and NFE  (second columns)
