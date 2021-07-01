@@ -360,9 +360,14 @@ xlab('Allele frequency') +
 nbs <- read.table('nbs.tsv',header = T,sep='\t') 
 rsid <- nbs$Existing_variation
 
-nbs %>% 
+nbs <- nbs %>% 
   select(PL_AF, starts_with('gnomAD_')) %>%
-  pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>%
+  pivot_longer(everything(),names_to = 'pop',values_to = 'AF')
+
+nbs$pop <- ifelse(nbs$pop == 'PL_AF','POL',nbs$pop)
+nbs$pop <- gsub('_',' ',nbs$pop)
+
+nbs %>% 
   ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
   geom_bar(stat = 'identity',fill="#48C095") +
   theme_classic() +
@@ -381,9 +386,15 @@ nbs %>%
 muko <- read.table('muko_vep.tsv',header = T,sep='\t') 
 rsid <- muko$Existing_variation
 
-muko[1,] %>%
+muko <- muko[1,]
+muko <- muko %>% 
   select(PL_AF, starts_with('gnomAD_')) %>%
-  pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>%
+  pivot_longer(everything(),names_to = 'pop',values_to = 'AF')
+
+muko$pop <- ifelse(muko$pop == 'PL_AF','POL',muko$pop)
+muko$pop <- gsub('_',' ',muko$pop)
+
+muko  %>%
   ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
   geom_bar(stat = 'identity',fill="#48C095") +
   theme_classic() +
