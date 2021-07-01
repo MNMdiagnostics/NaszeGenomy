@@ -1,0 +1,47 @@
+---
+title: "Dopamine"
+subtitle: "Results on 943 unrelated individuals"
+output:
+  pdf_document: default
+  github_document: default
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+suppressMessages(library(knitr))
+```
+
+
+```{r echo=FALSE, message=F, warning=F}
+suppressMessages(library(tidyverse))
+suppressMessages(library(data.table))
+
+genes <- fread('dopamine_genes.tsv',header=T)
+
+genes_comp <- genes %>% 
+  select(gnomAD3g,Location,Allele,PL_AF,gnomADg_AF_NFE,SYMBOL,IMPACT, ClinVar_CLNSIG ) %>%
+  filter(IMPACT == 'HIGH' | IMPACT == 'MODERATE') %>% 
+  distinct()
+
+genes_comp$gnomADg_AF_NFE <- ifelse(genes_comp$gnomADg_AF_NFE == '-',0,genes_comp$gnomADg_AF_NFE)
+genes_comp$gnomADg_AF_NFE <- as.numeric(genes_comp$gnomADg_AF_NFE)
+
+genes_comp$nfe_diff <- genes_comp$PL_AF - genes_comp$gnomADg_AF_NFE
+
+kable(genes_comp %>% arrange(IMPACT) %>% filter(gnomAD3g == 'rs587776842') %>%
+        mutate(PL_AF = round(PL_AF,3),
+               gnomADg_AF_NFE = round(gnomADg_AF_NFE,3),
+               nfe_diff = round(nfe_diff,4))
+        )
+```
+
+
+
+
+
+
+
+
+
+
+
