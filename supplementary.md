@@ -72,6 +72,18 @@ the three SV types: deletions (DEL), duplications (DUP), and inversion
 Supplementary Figure 2.2.3C Distribution of SV lengths in the range 0-1000bp, for the three SV
 types: deletions (DEL), duplications (DUP), and inversion (INV)
 
+### 2.3 Runs of homozygosity
+
+![](roh/roh_files/figure-gfm/lengths_per_chromosome-1.jpeg)<!-- -->
+
+Supplementary Figure 2.3.1 Distribution of average lengths of RoH per chromosome.
+
+
+![](roh/roh_files/figure-gfm/numbers_per_chromosome-1.jpeg)<!-- -->
+
+Supplementary Figure 2.3.2 Distribution of counts of runs of homozygosity per chromosome.
+
+
 ## 3. Population analysis
 
 An average Fst statistics over each sliding window built from 1,000 neighbouring SNPs is presented on Figure 3.1. This results prove that samples from our cohort are 
