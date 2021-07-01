@@ -1,5 +1,5 @@
 ---
-title: "Variants in disease causing genes \newline Results for 943 unrelated individuals"
+title: "Variants in disease causing genes \n Results for 943 unrelated individuals"
 subtitle:
 output: 
   github_document: default
@@ -11,46 +11,39 @@ knitr::opts_chunk$set(echo=FALSE, dev = 'jpeg')
 suppressMessages(library(knitr))
 suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
-library(grid)
+suppressMessages(library(viridis))
 suppressMessages(library(gridExtra))
 ```
 
-## 1. Cummulative allele frequency
+### Samples count
 
+```{r echo=FALSE,warning=FALSE}
+psc <- read.table('../input/psc.txt',sep='\t',header=T)
 
-```{r af_hist,echo=FALSE}
-af <- read.table('../input/multisample_20210519.dv.bcfnorm.filtered.ACgt0.AF_list.tsv')
-colnames(af) <- c('AF','id', 'allele_frequency', 'SNP', 'number_of_transitions', 'number_of transversions', 'indel', 'repeat-consistent','repeat-inconsistent', 'not_applicable')
-
-af$allele_frequency[1] <- 0.000530223
-af_plot <- af %>% select(allele_frequency,SNP,indel) 
-af_plot$SNP <- cumsum(af_plot$SNP)/1e+6
-af_plot$indel <- cumsum(af_plot$indel)/1e+6
-
-
-type.colors <- c(SNP = "#27384A", indel ="#48C095")
-
-af_plot %>%
-  pivot_longer(-allele_frequency,names_to = 'Variant class',
-               values_to = 'Cummulative number of variants (millions)') %>%
-  ggplot(aes(allele_frequency,`Cummulative number of variants (millions)`,
-             col=`Variant class`)) +
-  geom_line() +
-  xlab('Allele frequency') +
-  scale_color_manual(values = type.colors) +
-  scale_y_continuous(breaks = seq(0,30,2)) +
-  theme_classic()
+psc_summary <- psc %>% mutate(SNP = nNonRefHom + nHets) %>%
+  select(sample,SNP,nIndels,Singletons) %>%
+  rename(Indels = nIndels) %>%
+  pivot_longer(-sample,names_to = 'Variant',values_to = 'count') %>%
+  group_by(Variant) %>%
+  summarise(min_count = min(count),mean_count = mean(count),max_count = max(count),
+            
+            ) %>%
+  mutate_at(
+    vars(ends_with('count')), funs(round(.)))
   
-
+kable(psc_summary)
 ```
 
 
-```{r af_hist_pct,echo=FALSE}
+## Cummulative allele frequency
+
+
+```{r af_hist_pct,echo=FALSE,warning=FALSE}
 af <- read.table('../input/multisample_20210519.dv.bcfnorm.filtered.ACgt0.AF_list.tsv')
 colnames(af) <- c('AF','id', 'allele_frequency', 'SNP', 'number_of_transitions', 'number_of transversions', 'indel', 'repeat-consistent','repeat-inconsistent', 'not_applicable')
 
 af$allele_frequency[1] <- 0.000530223
-af_plot <- af %>% select(allele_frequency,SNP,indel) 
+af_plot <- af %>% select(allele_frequency,SNP,indel)
 af_plot$SNP <- 100*cumsum(af_plot$SNP)/sum(af_plot$SNP)
 af_plot$indel <- 100*cumsum(af_plot$indel)/sum(af_plot$indel)
 
@@ -63,50 +56,50 @@ af_plot %>%
   ggplot(aes(allele_frequency,`Cummulative number of variants (millions)`,
              col=`Variant class`)) +
   geom_line() +
-  xlab('Allele frequency') +
+  xlab('log10 Allele frequency') +
   scale_color_manual(values = type.colors) +
   scale_y_continuous(breaks = seq(0,100,5)) +
   scale_x_log10() +
   theme_minimal()
-  
+
 
 ```
 
 
-```{r sv.af.hist, echo=F}
-
-sv.af <- read.table('../input/sv_multisample_210519.smoove.square.unrelated.nogt.stats.tsv')
+```{r sv.af.hist, echo=F,warning=FALSE}
+sv.af <- read.table('../../../genom_polaka/sv/sv_multisample_210519.smoove.square.unrelated.nogt.stats.tsv')
 colnames(sv.af) <- c('chrom','pos', 'svtype', 'len', 'ac', 'an')
 sv.af$af <- sv.af$ac/sv.af$an
 sv.af <- sv.af[order(sv.af$af), ]
 
-sv.af.cs  =  sv.af %>% 
+colnames(af_plot)[1] <- 'af'
+
+af_perc_plot <- af_plot %>% 
+  pivot_longer(-af,names_to = 'svtype',values_to = 'cspct') %>%
+  relocate(svtype, .before = af) %>% 
+  mutate(svtype = as.factor(svtype))
+
+sv.af.cs  <-  sv.af %>% 
              group_by(svtype, af) %>%
              summarise(cnt=n()) %>% 
              group_by(svtype) %>% 
-             summarise(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt))
+             summarise(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt)) %>%
+  select(-cs) %>% bind_rows(af_perc_plot)
+  
+group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue",
+                  SNP = 'darkgoldenrod4', indel='#5F5F5F')
 
+sv.af.cs %>%
 ggplot() + 
-  geom_line(aes(x = af, y=cspct, color=svtype), sv.af.cs) +
-  geom_line(aes(x=allele_frequency, y=SNP), af_plot) + 
-  geom_line(aes(x=allele_frequency, y=indel), af_plot) + scale_x_log10()+
-  xlab('Allele frequency') + ylab('% variants')
+  geom_line(aes(x = af, y=cspct, color=svtype)) +
+  scale_x_log10()+
+  xlab('log10 Allele frequency') + ylab('% variants') +
+  scale_color_viridis(discrete = T, 'Coding consequence') +
+  theme_minimal() +
+  theme(legend.position = 'top')
 
 
 ```
-
-
-<!-- ## 2. Allele count -->
-
-<!-- fixing -->
-
-<!-- ```{r ac_hist,echo=FALSE} -->
-<!-- library(png) -->
-<!-- img1_path <- "variants_af_files/figure-gfm/ac_hist.png" -->
-<!-- img1 <- readPNG(img1_path, native = TRUE, info = TRUE) -->
-<!-- include_graphics(img1_path) -->
-
-<!-- ``` -->
 
 ```{r, echo=FALSE, warning=FALSE}
 af_list <- c('PL_AF',  'gnomADg_AF_NFE','gnomADg_AF')
@@ -114,7 +107,7 @@ group.colors <- c(PL_AF = "#BC0020", AF = "#27384A", gnomAD_FIN_AF ="#48C095", g
 
 ```
 
-## 3. ACMG
+## ACMG
 
 ```{r ACMG, echo=FALSE, warning=FALSE}
 acmg <- read.table('../input/diseases/acmg_ready.tsv',sep='\t',header=T)
@@ -158,54 +151,76 @@ comp_acmg %>%
 ```
 
 
-### 4. ClinVar variants
+### ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.001
 
-```{r clinvar, echo=FALSE, warning=FALSE}
-clinsig <- read.table('../input/diseases/clin_sig_ready.tsv',sep='\t',header=T)
-comp_clinsig <- clinsig %>% 
-  filter(PL_AC > 0) %>%
-   select(Uploaded_variation,Existing_variation,Location,starts_with('ClinVar'), 
-          Gene, PL_AC, all_of(af_list)) %>%
-  mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
-   mutate(across(PL_AF:gnomADg_AF,as.numeric)) 
+```{r clinvar_001, echo=FALSE, warning=FALSE}
+clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) 
+clinsig$gnomAD3g_AF <- ifelse(clinsig$gnomAD3g_AF == '-',0,clinsig$gnomAD3g_AF)
+clinsig$gnomAD3g_AF <-as.numeric(clinsig$gnomAD3g_AF)
 
-comp_clinsig$stars <- NA
-comp_clinsig$stars <- ifelse(comp_clinsig$ClinVar_CLNREVSTAT == 'practice_guideline',
-                             '4',comp_clinsig$stars)
-comp_clinsig$stars <- ifelse(comp_clinsig$ClinVar_CLNREVSTAT == 'reviewed_by_expert_panel',
-                             '3',comp_clinsig$stars)
-comp_clinsig$stars <- ifelse(
-  comp_clinsig$ClinVar_CLNREVSTAT == 'criteria_provided,_multiple_submitters,_no_conflicts',
-                             '2',comp_clinsig$stars)
-comp_clinsig$stars <- ifelse(comp_clinsig$ClinVar_CLNREVSTAT == '_conflicting_interpretations',
-                             '1',comp_clinsig$stars)
-comp_clinsig$stars <- ifelse(comp_clinsig$ClinVar_CLNREVSTAT == '_single_submitter',
-                             '1',comp_clinsig$stars)
+clinsig <- clinsig %>%
+  filter(gnomAD3g_AF < 0.001) %>% na.omit()
 
-comp_clinsig %>% filter(is.na(stars) ==F) %>%
+clinsig %>% na.omit() %>%
   separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
-  select(-x,-y) %>%
+  select(-x,-y,-Allele) %>%
   relocate(Existing_variation, .before = REF) %>%
-  write.table('comp_clinsig.tsv',quote = F,col.names = T,sep='\t',row.names = F)
+  arrange(desc(gnomAD3g_AF)) %>%
+  write.table('comp_clinsig001.tsv',quote = F,col.names = T,sep='\t',row.names = F)
 
-comp_clinsig %>% filter(is.na(stars) ==F) %>%
+clinsig %>% na.omit() %>%
   select(Existing_variation,stars) %>% 
   distinct() %>%
-  ggplot(aes(y=stars)) +
+  ggplot(aes(y=factor(stars))) +
   geom_bar(fill="#48C095",width=0.5) + 
   theme_classic() +
   ylab('Number of gold stars') +
   xlab('Variants count') 
 
-kable((comp_clinsig %>% 
+kable((clinsig %>% na.omit() %>%
         select(Existing_variation,stars) %>% 
-        distinct() %>%
         group_by(stars) %>%
-        count()))
+        count()),caption = 'variants with Clinvar stars')
 
 ```
 
-### 5. Putative variants
+### ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.01
+
+```{r clinvar_01, echo=FALSE, warning=FALSE}
+clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) 
+clinsig$gnomAD3g_AF <- ifelse(clinsig$gnomAD3g_AF == '-',0,clinsig$gnomAD3g_AF)
+clinsig$gnomAD3g_AF <-as.numeric(clinsig$gnomAD3g_AF)
+
+clinsig <- clinsig %>%
+  filter(gnomAD3g_AF < 0.01) %>% na.omit()
+
+clinsig %>% na.omit() %>%
+  separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
+  select(-x,-y,-Allele) %>%
+  relocate(Existing_variation, .before = REF) %>%
+  arrange(desc(gnomAD3g_AF)) %>%
+  write.table('comp_clinsig01.tsv',quote = F,col.names = T,sep='\t',row.names = F)
+
+clinsig %>% na.omit() %>%
+  select(Existing_variation,stars) %>% 
+  distinct() %>%
+  ggplot(aes(y=factor(stars))) +
+  geom_bar(fill="#48C095",width=0.5) + 
+  theme_classic() +
+  ylab('Number of gold stars') +
+  xlab('Variants count') 
+
+kable((clinsig %>% na.omit() %>%
+        select(Existing_variation,stars) %>% 
+        group_by(stars) %>%
+        count()),caption = 'variants with Clinvar stars')
+
+
+```
+
+
+
+### Putative variants
 
 ```{r putative, echo=FALSE, warning=FALSE}
 putative <- fread('../input/diseases/putative_ready.tsv',header=T)
@@ -216,23 +231,11 @@ comp_putative <- putative %>%
    mutate(across(PL_AF:gnomADg_AF,as.numeric)) %>%
   filter(ClinVar_CLNSIG != '-') 
 
-comp_putative %>% select(all_of(af_list)) %>%
-  pivot_longer(everything(), names_to = 'group',values_to = 'AF') %>%
-  filter(AF != 0) %>%
-  ggplot(aes(x=group,y=log10(AF))) +
-  geom_boxplot(fill="#48C095") +
-  theme_classic() +
-  xlab('') +
-  ylab('log10 AF') +
-  ggtitle('Allele frequency of putative variants') +
-  theme(plot.title = element_text(hjust = 0.5))
-  
-glimpse(comp_putative)
 ```
 
-### 6. % IMPACT variants
+### % IMPACT variants
 
-```{r echo=FALSE}
+```{r echo=FALSE,warning=FALSE}
 group.colors <- c(HIGH = "#27384A", MODERATE ="#48C095", LOW = "#B6B6B6")
 stacked <- read.table('../input/diseases/impact_stacked_ready.tsv',sep='\t',header=T)
 stacked$group <- factor(stacked$group)
@@ -249,72 +252,109 @@ ylab('% of variants')
 
 ```
 
-### 7. Variants per functional category
 
-```{r, echo=FALSE}
-type.colors <- c(Exonic = "#27384A", Intronic ="#48C095", Noncoding = "#B6B6B6")
-consequence <- read.table('../input/diseases/consequence_ready.tsv',header=T)
 
-consequence$group <- factor(consequence$group)
-consequence$group <- ordered(consequence$group, levels = c("<0.1%", "0.1-0.5%", ">0.5%"))
+## Number of variants per impact
 
-write.table(consequence,'consequence_summary.tsv',quote = F,col.names = T,sep='\t',row.names = F)
+```{r AF and IMPACT, echo=FALSE}
+common <- read.table('../output/common_summary.tsv',header = T)
+mediumrare <- read.table('../output/mediumrare_summary.tsv',header = T)
+rare <- read.table('../output/rare_summary.tsv',header=T)
+missing <- read.table('../output/missing_summary.tsv',header=T)
+variants <- rbind(common,mediumrare,rare,missing)
+kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) %>%
+        relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%')
+        )
 
-cons_list <- consequence %>% group_by(Consequence) %>% 
-  summarise(n = sum(n))
-  write.table(cons_list,'consequence_list.tsv', quote = F,col.names = T,sep='\t',row.names = F)
-
- consequence %>% 
-  ggplot(aes(fill=type,y=n,x=group)) +
-  geom_bar(position="fill", stat="identity") +
-  theme_classic() +
-  scale_fill_manual(values = type.colors) +
-  xlab('Allele frequencies') +
-  ylab('% of variants')
-
- 
-glimpse(consequence)
+variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) %>%
+        relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%') %>%
+  write.table('variants_class.tsv',quote=F,col.names = T,row.names = F,sep='\t')
 ```
 
-### 9. Variants per consequence
+### Variants per coding consequence
 
-```{r, echo=FALSE}
-consequence <- read.table('consequence_final_summary.tsv',header=T)
-consequence$category <- gsub('_',' ',consequence$category)
-consequence$Consequence <- gsub('_',' ',consequence$Consequence)
+```{r, echo=FALSE,warning=F}
+consequence <- read.table('plik_do_wykresu_consequence_data.tsv',header=T,
+                          sep='\t')
 
-consequence %>% 
-  ggplot(aes(x=n/1e+06,y=reorder(category,-n))) +
-  geom_bar(stat="identity",fill="#48C095") +
-  theme_classic() +
-#  scale_fill_manual(values = type.colors) +
-  xlab('Number of variants (millions)') +
-  ylab('Consequence')
+consequence$group <- factor(
+  consequence$group, levels = c('0 - 0.1%','0.1 - 0.2%', '0.2 - 0.5%',
+                                '0.5 - 1%','1 - 2%','2 - 5%','5 - 10%',
+                                '10 - 50%','50 - 100%'))
 
-kable(
-  consequence %>% group_by(category) %>% summarise(millions = sum(n/1e+06))
-)
+consequence$Konsekwencje <- consequence$Coding_var_category
+levels(consequence$Konsekwencje) <-list(`wariant w regionie 3'UTR` = '3utr_variant', 
+                                        `wariant w regionie 5'UTR` = '5utr_variant',
+                                        `przesunięcie ramki odczytu` = 'frameshift_variant',
+                                        `insercja/delecja` = 'inframe_indel',
+                                        `wariant synonimiczny` = 'missense_variant',
+                                        `wariant niekodujący` = 'nonexonic',
+                                        inne = 'other',
+                                        `wariant splicingowy`='splicing_variant',
+                                        `wariant w kodonie start/stop` = 'start_stop_variant',
+                                        `wariant synonimiczny` = 'synonymous_variant')
 
-kable(consequence)
+consequence$Coding_var_category <- gsub('_',' ',consequence$Coding_var_category)
 
+cons_plot <- consequence %>% group_by(Coding_var_category, group) %>%
+  summarise(n = sum(n)) %>% 
+  mutate(percentage = n/(sum(n)),
+         minmax = (n - min(n))/(max(n)-min(n))
+           )
+
+cons_plot_pl <- consequence %>% group_by(Konsekwencje, group) %>%
+  summarise(n = sum(n)) %>% 
+  mutate(percentage = n/(sum(n)),
+         minmax = (n - min(n))/(max(n)-min(n))
+           )
+
+cons_plot_pl %>% filter(Konsekwencje != 'inne') %>%
+  ggplot(aes(x=as.numeric(group),y=percentage,fill=Konsekwencje)) +
+  geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') +
+    scale_fill_viridis(discrete = T,'Typ wariantu') +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) +
+  scale_y_continuous(breaks = seq(0,1,0.25),labels = c('0%','25%','50%','75%','100%')) +
+xlab('Przedziały częstości alleli') +
+  ylab('Procentowy udział wariantów w danym przedziale') 
+
+cons_plot %>% filter(Coding_var_category != 'other') %>%
+  ggplot(aes(x=as.numeric(group),y=percentage,fill=Coding_var_category)) +
+  geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') +
+    scale_fill_viridis(discrete = T,'Coding consequence') +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) +
+  scale_y_continuous(breaks = seq(0,1,0.25),labels = c('0%','25%','50%','75%','100%')) +
+xlab('Allele frequency') +
+  ylab('Normalized percentage') 
 
 ```
-<!-- ## 9. Number of variants per impact -->
 
-<!-- ```{r AF and IMPACT, echo=FALSE} -->
-<!-- common <- read.table('../output/common_summary.tsv',header = T) -->
-<!-- mediumrare <- read.table('../output/mediumrare_summary.tsv',header = T) -->
-<!-- rare <- read.table('../output/rare_summary.tsv',header=T) -->
-<!-- missing <- read.table('../output/missing_summary.tsv',header=T) -->
+### Variants per non-coding consequence
 
-<!-- variants <- rbind(common,mediumrare,rare,missing) -->
-<!-- kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) %>% -->
-<!--         relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%') -->
-<!--         ) -->
+```{r non-coding consequence, echo=FALSE}
+consequence$noncoding.var_category <- gsub('_',' ',consequence$noncoding.var_category)
 
-<!-- ``` -->
+cons_plot <- consequence %>% group_by(noncoding.var_category, group) %>%
+  summarise(n = sum(n)) %>% 
+  mutate(percentage = n/(sum(n)),
+         minmax = (n - min(n))/(max(n)-min(n))
+           )
 
-## 10. NBS 
+cons_plot %>% 
+  ggplot(aes(x=as.numeric(group),y=percentage,fill=noncoding.var_category)) +
+  geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') +
+    scale_fill_viridis(discrete = T, 'Coding consequence') +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) +
+xlab('Allele frequency') +
+  ylab('Normalized percentage') 
+
+```
+
+
+
+## NBS: chr8_89971213_ATTTGT_A 
 
 ```{r NBS, echo=FALSE}
 nbs <- read.table('nbs.tsv',header = T,sep='\t') 
@@ -335,7 +375,7 @@ nbs %>%
 ```
 
 
-## 11. Cystic fybrosis
+## Cystic fybrosis: chr7_117559590_ATCT_A
 
 ```{r Mucoviscidosis, echo=FALSE}
 muko <- read.table('muko_vep.tsv',header = T,sep='\t') 
@@ -352,9 +392,28 @@ muko[1,] %>%
     geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
   xlim(c(0,2))
+```
 
+## CFTR deletions
 
+```{r CFTR, echo=FALSE}
+muko <- read.table('CFTR.tsv',header = T,sep='\t') %>%
+  select(Uploaded_variation,PL_AF, starts_with('gnomAD_'),VARIANT_CLASS)
 
+dels <- muko %>% filter(VARIANT_CLASS == 'deletion', gnomAD_AF != '-') 
+dels[,3:11] <- dels[,3:11] %>% mutate_if(is.factor,as.character) 
+dels[,3:11] <- dels[,3:11] %>% mutate_if(is.character,as.numeric) 
+
+dels %>% select(-VARIANT_CLASS)  %>%
+  pivot_longer(-Uploaded_variation,names_to = 'pop',values_to = 'AF') %>%
+  ggplot(aes(x=AF*100,y=reorder(pop,-AF),fill=Uploaded_variation)) +
+  geom_bar(stat = 'identity',position = 'fill') +
+  scale_fill_viridis(discrete = T, 'Variant') +
+  theme_classic() +
+  ylab('Population') +
+  xlab('AF [%]') 
+
+kable(dels %>% select(-VARIANT_CLASS))
 ```
 
 

@@ -12,15 +12,32 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
 ```
 
+
+```{r load, echo=FALSE}
+haplo_input <- read.table('../output/haplogrep/haplo210519.txt',header=T) 
+to_include <- read.table('../input/SAMPLES_TO_INCLUDE_210519.txt',sep='\t')
+
+haplo_input = haplo_input %>% filter(SampleID %in% to_include$V1)
+haplo_input$clad <- substring(haplo_input$Haplogroup,1,1)
+
+# infer subclads
+subclads = sapply(haplo_input$Haplogroup, function(x) unlist(strsplit(x,'[a-z]'))[1])
+plus_sc = grepl("+", subclads, fixed=T)
+subclads[plus_sc] = sapply(subclads, 
+                           function(x) paste0(unlist(strsplit(x,'+', fixed=T))[1],'+'))[plus_sc]
+haplo_input$subclad <- subclads
+
+subclad_list <- haplo_input %>% 
+                group_by(clad, subclad) %>% 
+                count() %>% 
+                arrange(desc(n))
+  
+#write.table(subclad_list,'subclad_list.tsv',sep='\t',col.names = T,row.names = F,quote = F)
+```
+
 1. Classification quality
 
-```{r quality_violin, echo=FALSE}
-haplo_input <- read.table('../output/haplogrep/haplo210519.txt',header=T) 
-haplo_input <- haplo_input %>% rename('subclad'=Haplogroup) 
-  
-
-haplo_input$Haplogroup <- substring(haplo_input$subclad,1,1)
-
+```{r quality_violin, echo=F}
 haplo_input %>% ggplot(aes(x=1,y=Quality)) + 
   geom_violin(col='#27384A',fill="#48C095") +
   geom_boxplot(width=0.1) +
@@ -28,40 +45,30 @@ haplo_input %>% ggplot(aes(x=1,y=Quality)) +
   ylab('Number of individuals') +
   xlab('') +
   theme(axis.text.x = element_blank())
+```
 
-haplo_summary <- haplo_input %>% filter(Quality > 0.80) %>% 
-  group_by(Haplogroup) %>% 
-  summarise(n=n()) %>% arrange(n)
+```{r qual.filter, echo=T}
+
+haplo_input <- haplo_input %>% filter(Quality > 0.80)
+
+haplo_summary <- haplo_input %>%
+                 group_by(clad) %>% 
+                 summarise(n=n()) %>% arrange(n)
 
 haplo_summary$n_perc <- (haplo_summary$n/sum(haplo_summary$n)) * 100
+
 ```
 
-2. Haplogroups distribution
 
-```{r haplo_violin, echo=FALSE}
-haplo_summary %>% ggplot(aes(x=1,y=n)) + 
-  geom_violin(col='#27384A',fill="#48C095") +
-  geom_boxplot(width=0.1) +
-  theme_classic() +
-  ylab('Number of individuals') +
-  xlab('Haplogroup') +
-  theme(axis.text.x = element_blank())
+2. % individuals per haplogroup
 
-subclad_list <- haplo_input %>% group_by(Haplogroup,subclad) %>% 
-  count() %>% arrange(desc(n))
-  
-write.table(subclad_list,'subclad_list.tsv',sep='\t',col.names = T,row.names = F,quote = F)
-```
-
-3. % individuals per haplogroup
-
-```{r percent_haplogroup,echo=FALSE}
+```{r percent_haplogroup, echo=FALSE}
 n <- paste('(',haplo_summary$n,')',sep = '')
 labels <- paste(round(haplo_summary$n_perc,2),'%',sep=' ',n)
 
 haplo_summary  %>% 
-  ggplot(aes(y=reorder(Haplogroup, -n_perc),x=n_perc)) +
-  geom_bar(fill="#48C095",stat='identity') + 
+  ggplot(aes(y=reorder(clad, -n_perc),x=n_perc)) +
+  geom_bar(fill="#48C095", stat='identity') + 
   theme_classic() +
   ylab('Haplogroup') +
   xlab('% of individuals') +
@@ -69,5 +76,78 @@ haplo_summary  %>%
                 hjust=-0.3)) +
   xlim(c(0,60))
 
+
 ```
 
+4. Subclades
+
+```{r percent_subclads, echo=FALSE}
+sc = haplo_input %>% 
+     select(clad, subclad) %>% 
+     group_by(subclad) %>% summarise(clad, sc.cnt=n()) %>% 
+     group_by(clad) %>% summarise(clad, subclad, sc.cnt, c.cnt=n()) %>% 
+     unique()
+
+# drop rare subclads
+rare.sc = sc$sc.cnt<20
+sc[rare.sc, 'subclad'] <- paste0(sc$clad[rare.sc],'*')
+sc <- sc %>% 
+  group_by(clad, subclad) %>% 
+  summarise(c.cnt, sc.cnt=sum(sc.cnt)) %>% 
+  unique()
+
+# subclad labels
+tbl = table(sc$clad)
+sc.labels = sc$subclad
+sc.labels[sc$clad %in% names(tbl)[which(tbl==1)]] <- '' # empty labels if no subclads
+
+# clad labels
+tmp <- sc %>% ungroup() %>% select(clad, c.cnt) %>% unique() %>% arrange(-c.cnt)
+n <- paste('(',tmp$c.cnt,')',sep = '')
+c.labels <- paste(round(100*tmp$c.cnt/sum(tmp$c.cnt),2),'%', n, sep=' ')                      
+c.label.xy = data=data.frame(x=tmp$c.cnt, 
+                             y=1:length(c.labels))
+
+sc %>% ggplot(aes(y=reorder(clad, -c.cnt), x=sc.cnt)) +
+  geom_bar(stat='identity', colour='black', fill="#48C095") +
+  theme_classic() +
+  ylab('Haplogroup') +
+  xlab('# individuals') + 
+  geom_text(label=sc.labels, size=3, position = position_stack(vjust = 0.5)) + 
+  geom_text(data=c.label.xy, aes(x=x, y=y, label=c.labels, hjust=-0.3), size=3) + 
+  coord_cartesian(xlim = c(0, 500))
+
+```
+
+
+```{r subclads,echo=FALSE, eval=F}
+# n <- paste('(',h_summary$n,')',sep = '')
+# labels <- paste(round(h_summary$n_perc,2),'%',sep=' ',n)
+# 
+h_summary <- haplo_input 
+h_summary$subclad <- substring(h_summary$subclad,1,3)
+h_summary$subclad <- gsub('[a-zA-Z]$','',h_summary$subclad)
+
+h_summary <- h_summary %>% group_by(Haplogroup,subclad) %>% summarise(n=n())
+h_summary$subclad <- ifelse(h_summary$n < 7, 'other',h_summary$subclad)
+h_summary <- h_summary %>% group_by(Haplogroup,subclad) %>% summarise(n=sum(n))
+h_summary$n_perc <- (h_summary$n/sum(h_summary$n)) * 100
+
+top <- haplo_summary %>% top_n(n = 5,n) %>% select(Haplogroup)
+
+top_h <- h_summary  %>% filter(Haplogroup %in% top$Haplogroup) 
+top_h[1,2] <- 'H'
+
+library(RColorBrewer)
+nb.cols <- 25
+mycolors <- colorRampPalette(brewer.pal(9, "Set1"))(nb.cols)
+
+top_h %>%
+  ggplot(aes(y=reorder(Haplogroup, -n),x=n,fill=subclad)) +
+  geom_bar(position="fill", stat="identity") +
+  scale_fill_manual(values = mycolors) +
+  theme_classic() +
+  ylab('Haplogroup') +
+  xlab('# individuals') 
+
+```

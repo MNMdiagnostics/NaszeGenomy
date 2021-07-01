@@ -8,6 +8,7 @@
 prefix=${1%".vcf.gz"}
 
 bcftools view -f "PASS,." -S SAMPLES_TO_INCLUDE_210519.txt -Ou ${1} \
+	| bcftools view -e "INFO/AC < 1" -Ou \
 	| bcftools +fill-tags -Ou -- -t AF \
 	| bcftools view -e 'F_MISSING > 0.1' -Oz -o ${prefix}.filtered.vcf.gz
 

@@ -1,0 +1,200 @@
+---
+title: "Structural variants.\newline Results for 943 unrelated individuals"
+subtitle:
+output: 
+  github_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, echo=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo=FALSE, dev = 'jpeg')
+suppressMessages(library(knitr))
+suppressMessages(library(tidyverse))
+suppressMessages(library(data.table))
+
+sv.af <- read.table('../input/sv_multisample_210519.smoove.square.unrelated.nogt.stats.tsv')
+colnames(sv.af) <- c('chrom','pos', 'svtype', 'len', 'ac', 'an')
+sv.af$chrom = factor(sv.af$chrom, levels = unique(sv.af$chrom))
+sv.af$af <- sv.af$ac/sv.af$an
+
+sv.af.individ <- fread('../input/sv_multisample_210519.AF_TYPE_GT.tsv.gz', stringsAsFactors = T)
+colnames(sv.af.individ) = c('sampleid','af','svtype','gt')
+if (all(levels(sv.af.individ$gt) == c('0/1','1/1'))) {
+  levels(sv.af.individ$gt) <- c('het','hom')
+} else if (all(levels(sv.af.individ$gt) == c('1/1','0/1'))) {
+  levels(sv.af.individ$gt) <- c('hom','het')
+} else {
+  message(levels(sv.af.individ$gt))
+}
+
+```
+
+## Counts of structural variants (SV)
+
+```{r sv.af.counts, echo=F}
+
+kable(sv.af %>% group_by(svtype) %>% summarise(count=n()))
+
+```
+
+
+```{r sv.af.count.by.chromosomes, echo=F}
+
+ggplot(sv.af, aes(x=chrom, fill=svtype)) +
+         geom_bar(position = 'dodge') +
+  xlab('Chromosome') +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+Fig. Figure presents counts of four SV types (deletions (DEL), duplications (DUP), inversion (INV), and break-ends (BND)) in autosomal and sex chromosomes.
+
+
+```{r sv.individual.counts.table, echo=F}
+
+kable(sv.af.individ %>% 
+  group_by(svtype, gt, sampleid) %>% 
+  summarise(cnt=n()) %>% mutate() %>%
+  summarise(min=min(cnt), mean=mean(cnt), median=median(cnt), max=max(cnt)) 
+)
+```
+
+Table. Numbers of structural variant types per sample, with breakdown into homozygous and heterozygous
+
+```{r sv.individual.counts, echo=F}
+
+sv.af.individ %>% 
+  group_by(sampleid, svtype) %>% 
+  summarize(cnt=n()) %>% 
+  ggplot(aes(x=svtype, y=cnt)) + geom_violin(fill='#48C095',col='#27384A') + geom_boxplot(width=0.1) +
+  xlab('SV type') + ylab('Count') + ylim(0,8000)
+
+```
+
+Fig. Distribution of structural variant counts per sample, for the four SV categories.
+
+
+## Allele frequency of structural variants (SV)
+
+```{r sv.af.cumsum, echo=F}
+
+sv.af.cs  <-  sv.af %>% 
+             arrange(af) %>%
+             group_by(svtype, af) %>%
+             summarise(cnt=n()) %>% 
+             summarise(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt)) %>% 
+             select(-cs)
+  
+group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue")
+
+sv.af.cs %>%
+ggplot() + 
+  geom_line(aes(x = af, y=cspct, color=svtype)) +
+  scale_x_log10()+
+  xlab('Allele frequency (log-scale)') + ylab('% variants') + 
+  ylim(0,100) +
+  scale_color_manual(values = group.colors,name='') +
+  theme_minimal() +
+  theme(legend.position = 'top')
+
+```
+
+Fig. Cumulative fraction of variants presenting with given allele frequency (on log-scale). Deletions (DEL), duplications (DUP), inversion (INV), and break-ends (BND).
+
+### Allele frequency per individual
+
+```{r sv.af.individ, echo=F, eval=F}
+
+df <- sv.af.individ %>%
+    arrange(af) %>%
+    group_by(svtype, sampleid, af) %>%
+    summarise(cnt=n()) %>% 
+    mutate(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt)) %>% 
+    mutate(af, min=min(cspct), median=median(cspct), max=max(cspct)) %>% 
+    select(-cs)
+  
+group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue")
+
+df %>%
+ggplot() + 
+  geom_line(aes(x = af, y=cspct, color=svtype)) +
+  scale_x_log10()+
+  xlab('Allele frequency (log-scale)') + ylab('% variants') + 
+  ylim(0,100) +
+  scale_color_manual(values = group.colors,name='') +
+  theme_minimal() +
+  theme(legend.position = 'top')
+
+```
+
+
+## SV Lengths
+
+```{r sv.len.hist, echo=F}
+
+sv.len <- sv.af %>% 
+  select(svtype, len) %>% 
+  filter(svtype!='BND')
+
+sv.len$len <- abs(as.numeric(sv.len$len))
+
+ggplot(sv.len, aes(x=len, fill=svtype)) +
+  geom_histogram(position = 'dodge', bins=80) +
+  scale_x_log10() + 
+  xlab('Length (log-scale)')
+
+ggplot(sv.len, aes(x=len)) +
+  geom_density(aes(color=svtype), stat='density', position='identity')  +
+  scale_x_log10() + 
+  xlab('Length (log-scale)')
+
+ggplot(sv.len, aes(x=len, fill=svtype)) +
+  geom_histogram(position = 'dodge', bins=80) + xlim(0,1000) + xlab('Length (<=1kb)')
+
+
+```
+
+Fig1. Distribution of SV lengths (log10 scale) for three SV types: deletions (DEL), duplications (DUP), and inversion (INV)
+
+Fig2. Distribution of SV lengths (log10 scale) presented as density for the three SV types: deletions (DEL), duplications (DUP), and inversion (INV)
+
+Fig3. Distribution of SV lengths in the range 0-1000bp, for the three SV types: deletions (DEL), duplications (DUP), and inversion (INV)
+
+
+```{r echo=F}
+
+del.cnt = (sv.len %>% filter(svtype == 'DEL') %>% select(len) %>% summarise(n()))
+dup.cnt = (sv.len %>% filter(svtype == 'DUP') %>% select(len) %>% summarise(n()))
+inv.cnt = (sv.len %>% filter(svtype == 'INV') %>% select(len) %>% summarise(n()))
+```
+
+Majority of deletions ware shortar than 1kb (`r 100 * dim(sv.len[sv.len$svtype=='DEL' & sv.len$len<1000,])[1] / del.cnt` %) and as much as `r 100 * dim(sv.len[sv.len$svtype=='DEL' & sv.len$len<1e4,])[1] / del.cnt`% were below 10kb
+
+Only `r 100 * dim(sv.len[sv.len$svtype=='DUP' & sv.len$len>1e6,])[1] / dup.cnt`% of duplications were longer than 1Mb.
+
+
+### SV sizes
+
+#### Deletions
+
+```{r sv.lenstats.del, echo=F}
+kable(summary(sv.len %>% filter(svtype=='DEL') %>% select(len)))
+```
+
+#### Duplications
+
+```{r sv.lenstats.dup, echo=F}
+kable(summary(sv.len %>% filter(svtype=='DUP') %>% select(len)))
+```
+
+#### Inversions
+
+```{r sv.lenstats.inv, echo=F}
+kable(summary(sv.len %>% filter(svtype=='INV') %>% select(len)))
+```
+
+
+
+
+
