@@ -1,0 +1,34 @@
+variant,pop,AF
+DHCR7,non-Finnish European,0.001308
+DHCR7,Other,0.0009560
+DHCR7,Ashkenazi Jewish,0.0002880
+DHCR7,Latino/Admixed American,0.0002617
+DHCR7,African/African-American,0.0001448
+DHCR7,European (Finnish),0.00009414
+DHCR7,Amish,0.000
+DHCR7,East Asian,0.000
+DHCR7,Middle Eastern,0.000
+DHCR7,South Asian,0.000
+DHCR7,gnomAD AF,0.0006768
+NBS,non-Finnish European,0.0003969
+NBS,European (Finnish),0.00009409
+NBS,African/African-American,0.00004825
+NBS,Other,0.000
+NBS,Latino/Admixed American,0.000
+NBS,Amish,0.000
+NBS,East Asian,0.000
+NBS,Middle Eastern,0.000
+NBS,South Asian,0.000
+NBS,Ashkenazi Jewish,0.000
+NBS,gnomAD AF,0.0001971
+CFTR,non-Finnish European,0.01430
+CFTR,Other,0.007663
+CFTR,Ashkenazi Jewish,0.004032
+CFTR,Latino/Admixed American,0.003733
+CFTR,Middle Eastern,0.003165
+CFTR,South Asian,0.003106
+CFTR,African/African-American,0.002607
+CFTR,European (Finnish),0.001508
+CFTR,Amish,0.001096
+CFTR,East Asian,0.000
+CFTR,gnomAD AF,0.007890

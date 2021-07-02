@@ -97,16 +97,20 @@ variants with Clinvar stars
 
 ![](variants_af_files/figure-gfm/DHCR7-1.jpeg)<!-- -->
 
-## CFTR deletions
-
-![](variants_af_files/figure-gfm/CFTR-1.jpeg)<!-- -->
-
-| Uploaded\_variation       |    PL\_AF | gnomAD\_AF | gnomAD\_AFR\_AF | gnomAD\_AMR\_AF | gnomAD\_ASJ\_AF | gnomAD\_EAS\_AF | gnomAD\_FIN\_AF | gnomAD\_NFE\_AF | gnomAD\_OTH\_AF | gnomAD\_SAS\_AF |
-|:--------------------------|----------:|-----------:|----------------:|----------------:|----------------:|----------------:|----------------:|----------------:|----------------:|----------------:|
-| chr7\_117536514\_AGATT\_A | 0.1935310 |  0.2696000 |       0.2159000 |        0.384300 |        0.170500 |       0.4153000 |        0.300100 |       0.1875000 |        0.245500 |       0.3452000 |
-| chr7\_117548606\_ATG\_A   | 0.2500000 |  0.2222000 |       0.4383000 |        0.144200 |        0.159400 |       0.0236600 |        0.260300 |       0.2703000 |        0.222900 |       0.1627000 |
-| chr7\_117548606\_ATGTG\_A | 0.0005519 |  0.0013450 |       0.0056910 |        0.001099 |        0.000312 |       0.0000694 |        0.001146 |       0.0014410 |        0.001383 |       0.0003595 |
-| chr7\_117548628\_GTT\_G   | 0.0282818 |  0.0223100 |       0.0669800 |        0.011230 |        0.017300 |       0.0014670 |        0.028040 |       0.0283400 |        0.022420 |       0.0063610 |
-| chr7\_117548834\_TG\_T    | 0.0005308 |  0.0000085 |       0.0000000 |        0.000000 |        0.000000 |       0.0000000 |        0.000000 |       0.0000191 |        0.000000 |       0.0000000 |
-| chr7\_117559590\_ATCT\_A  | 0.0095440 |  0.0070680 |       0.0029540 |        0.003673 |        0.005557 |       0.0000000 |        0.002222 |       0.0122700 |        0.006856 |       0.0019930 |
-| chr7\_117666871\_CT\_C    | 0.0005302 |  0.0009436 |       0.0000617 |        0.000116 |        0.019400 |       0.0000000 |        0.000000 |       0.0002149 |        0.001802 |       0.0000000 |
+<!-- ## CFTR deletions -->
+<!-- ```{r CFTR, echo=FALSE} -->
+<!-- muko <- read.table('CFTR.tsv',header = T,sep='\t') %>% -->
+<!--   select(Uploaded_variation,PL_AF, starts_with('gnomAD_'),VARIANT_CLASS) -->
+<!-- dels <- muko %>% filter(VARIANT_CLASS == 'deletion', gnomAD_AF != '-')  -->
+<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.factor,as.character)  -->
+<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.character,as.numeric)  -->
+<!-- dels %>% select(-VARIANT_CLASS)  %>% -->
+<!--   pivot_longer(-Uploaded_variation,names_to = 'pop',values_to = 'AF') %>% -->
+<!--   ggplot(aes(x=AF*100,y=reorder(pop,-AF),fill=Uploaded_variation)) + -->
+<!--   geom_bar(stat = 'identity',position = 'fill') + -->
+<!--   scale_fill_viridis(discrete = T, 'Variant') + -->
+<!--   theme_classic() + -->
+<!--   ylab('Population') + -->
+<!--   xlab('AF [%]')  -->
+<!-- kable(dels %>% select(-VARIANT_CLASS)) -->
+<!-- ``` -->
