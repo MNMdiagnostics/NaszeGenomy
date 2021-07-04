@@ -67,7 +67,7 @@ af_plot %>%
 
 
 ```{r sv.af.hist, echo=F,warning=FALSE}
-sv.af <- read.table('../../../genom_polaka/input/sv_multisample_210519.smoove.square.unrelated.af_stats_PASS.tsv', header=T)
+sv.af <- read.table('../../../genom_polaka/sv/sv_multisample_210519.smoove.square.unrelated.af_stats_PASS.tsv', header=T)
 sv.af <- sv.af[order(sv.af$af), ]
 
 colnames(af_plot)[1] <- 'af'
