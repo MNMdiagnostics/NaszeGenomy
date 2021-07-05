@@ -53,17 +53,10 @@ roh %>% ggplot(aes(x=1,y=Quality)) +
 ```
 
 ```{r}
-# Quality filtering: Quality>25 & markers > 50 & removing all centromer regions
+# Quality filtering: Quality>25 & markers > 50
 roh <- roh %>% 
   filter(Quality > 25 & Number_of_markers >50)
 
-cent <- fread('cytoBand.txt') %>% select(-V4)
-colnames(cent) <- c('Chromosome','start','end','stain')
-roh <- roh %>% left_join(cent,by='Chromosome')
-roh <- roh %>% mutate(start = Start-start, end = End-end)
-roh$cent <- ifelse(roh$start > 0 & roh$end < 0, 'cent',NA)
-roh <- roh %>% filter(is.na(cent) == T) %>% 
-  select(Chromosome:sample_id)
 
 ```
 

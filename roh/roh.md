@@ -6,37 +6,29 @@ Runs of homozygosity on 943 individuals
 #### ROHs quality histogram
 
 ``` r
-# Quality filtering: Quality>25 & markers > 50 & removing all centromer regions
+# Quality filtering: Quality>25 & markers > 50
 roh <- roh %>% 
   filter(Quality > 25 & Number_of_markers >50)
-
-cent <- fread('cytoBand.txt') %>% select(-V4)
-colnames(cent) <- c('Chromosome','start','end','stain')
-roh <- roh %>% left_join(cent,by='Chromosome')
-roh <- roh %>% mutate(start = Start-start, end = End-end)
-roh$cent <- ifelse(roh$start > 0 & roh$end < 0, 'cent',NA)
-roh <- roh %>% filter(is.na(cent) == T) %>% 
-  select(Chromosome:sample_id)
 ```
 
 #### ROH stats after quality filtering
 
 | stat                |   min |  median |      mean |        max |
 |:--------------------|------:|--------:|----------:|-----------:|
-| Length              | 609.0 | 71653.0 | 113793.15 | 29363916.0 |
-| Number\_of\_markers |  51.0 |   131.0 |    185.94 |    33173.0 |
-| Quality             |  25.1 |    60.5 |     59.50 |       98.7 |
+| Length              | 609.0 | 72459.0 | 123018.00 | 29363916.0 |
+| Number\_of\_markers |  51.0 |   132.0 |    193.66 |    33173.0 |
+| Quality             |  25.1 |    60.4 |     59.40 |       98.7 |
 
 Average ROH size per genome (additionally filtered: &gt;100kb)
 
 | stat      |       average |
 |:----------|--------------:|
-| count     |       1082.49 |
-| maxLen    |   14040018.37 |
-| meanLen   |     229953.03 |
-| medianLen |     161764.60 |
-| minLen    |     100073.90 |
-| sumLen    | 248954186\.30 |
+| count     |       1124.41 |
+| maxLen    |   14239847.30 |
+| meanLen   |     252746.68 |
+| medianLen |     164071.12 |
+| minLen    |     100073.33 |
+| sumLen    | 284174602\.38 |
 
 ## Results
 
@@ -92,16 +84,16 @@ frequently covered by runs of homozygozity in this cohort.
 
 |     | mean\_SROH\_Mb  |
 |:----|:----------------|
-|     | Min. : 2.016    |
-|     | 1st Qu.: 17.179 |
-|     | Median : 20.304 |
-|     | Mean : 20.350   |
-|     | 3rd Qu.: 24.015 |
-|     | Max. :125.382   |
+|     | Min. : 5.821    |
+|     | 1st Qu.: 28.883 |
+|     | Median : 33.855 |
+|     | Mean : 33.207   |
+|     | 3rd Qu.: 37.978 |
+|     | Max. :131.589   |
 
 | Range    | mean\_length |
 |:---------|-------------:|
-| 2Mb-5Mb  |     2.717998 |
+| 2Mb-5Mb  |     2.892791 |
 | &gt;10Mb |    16.239240 |
 
 5.  Sum of ROH length per range
@@ -114,12 +106,12 @@ frequently covered by runs of homozygozity in this cohort.
 
 |     | 2Mb-5Mb        | &gt;10Mb       |
 |:----|:---------------|:---------------|
-|     | Min. : 2.000   | Min. : 10.03   |
-|     | 1st Qu.: 2.932 | 1st Qu.: 15.89 |
-|     | Median : 5.236 | Median : 16.76 |
-|     | Mean : 6.239   | Mean : 17.87   |
-|     | 3rd Qu.: 8.106 | 3rd Qu.: 17.17 |
-|     | Max. :25.865   | Max. :104.20   |
+|     | Min. : 5.815   | Min. : 10.00   |
+|     | 1st Qu.:15.537 | 1st Qu.: 15.89 |
+|     | Median :18.727 | Median : 16.76 |
+|     | Mean :19.026   | Mean : 17.77   |
+|     | 3rd Qu.:21.975 | 3rd Qu.: 17.17 |
+|     | Max. :42.199   | Max. :104.20   |
 
 6.  Relationship between number of ROHs and total length of genome
     covered by them
