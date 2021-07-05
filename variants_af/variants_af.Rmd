@@ -84,15 +84,16 @@ sv.af.cs  <-  sv.af %>% filter(svtype!='BND') %>%
              summarise(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt)) %>%
   select(-cs) %>% bind_rows(af_perc_plot)
   
-group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue",
-                  SNP = 'darkgoldenrod4', indel='#5F5F5F')
+group.colors <- c(BND = "#27384A", DEL = "#48C095", DUP ="orange", INV = "magenta",
+                  SNP = '#BC0020', indel='blue')
 
 sv.af.cs %>%
 ggplot() + 
   geom_line(aes(x = af, y=cspct, color=svtype)) +
   scale_x_log10()+
   xlab('log10 Allele frequency') + ylab('% variants') +
-  scale_color_viridis(discrete = T, 'Coding consequence') +
+  scale_color_manual(values = group.colors) +
+  #scale_color_viridis(discrete = T, 'Coding consequence') +
   theme_minimal() + ylim(0,100) + 
   theme(legend.position = 'top')
 
