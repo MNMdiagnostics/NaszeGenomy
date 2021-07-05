@@ -34,9 +34,10 @@ roh <- fread('../input/roh_concat.txt', showProgress = T)
 colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id')
 roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
 roh$sample_id <-gsub(".norm.roh", "", roh$sample_id)
-to_include <- read.table('SAMPLES_TO_INCLUDE_210519.txt',sep='\t')
+to_include <- read.table('../input/SAMPLES_TO_INCLUDE_210519.txt',sep='\t')
 
 roh <- roh %>% filter(sample_id %in% to_include$V1) %>% filter(Chromosome != 'chrX' & Chromosome != 'chrY')
+roh$Chromosome <- factor(roh$Chromosome, levels = paste('chr',1:22,sep=''))
 
 ```
 
@@ -52,9 +53,17 @@ roh %>% ggplot(aes(x=1,y=Quality)) +
 ```
 
 ```{r}
-# Quality filtering: Quality>25 & #markers > 50
+# Quality filtering: Quality>25 & markers > 50 & removing all centromer regions
 roh <- roh %>% 
   filter(Quality > 25 & Number_of_markers >50)
+
+cent <- fread('cytoBand.txt') %>% select(-V4)
+colnames(cent) <- c('Chromosome','start','end','stain')
+roh <- roh %>% left_join(cent,by='Chromosome')
+roh <- roh %>% mutate(start = Start-start, end = End-end)
+roh$cent <- ifelse(roh$start > 0 & roh$end < 0, 'cent',NA)
+roh <- roh %>% filter(is.na(cent) == T) %>% 
+  select(Chromosome:sample_id)
 
 ```
 
@@ -145,7 +154,8 @@ for (sample in unique(rc.by.range$sample_id)) {
 plot_data <- rc.by.range.full %>% 
               group_by(Range) %>%
               summarise(quantiles = scales::percent(c(0.1, 0.25, 0.5, 0.75, 0.9)),
-                        quantile_length = quantile(maxLS, c(0.1, 0.25, 0.5, 0.75, 0.9)))
+                        quantile_length = quantile(maxLS, c(0.1, 0.25, 0.5, 0.75, 0.9))) %>%
+  mutate(Range = as.numeric(as.character(Range)))
             
 
 q25 <- plot_data %>% filter(quantiles=='25%')
@@ -161,7 +171,7 @@ ggplot(med, aes(x=as.numeric(Range), y=quantile_length, col='#48C095', linetype=
   geom_line(aes(x=as.numeric(q10$Range),y=q10$quantile_length, col='#27384A',linetype='dotted')) +
   geom_line(aes(x=as.numeric(q90$Range),y=q90$quantile_length, col='#27384A',linetype='dotted')) +
   scale_x_log10(breaks=c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10)*1e6,
-                labels=c('<10kb', '<20kb', '<50kb', '<100kb', '<200kb', '<500kb', '<1Mb', '<2Mb','<5Mb', '<10Mb'), 
+                labels=c('<10kb', '<20kb', '<50kb', '<100kb', '<200kb', '<500kb', '<1Mb', '<2Mb','<5Mb', '<10Mb'),
                 limits=c(1e4, 2e7)) + theme(legend.position = 'top') +
   ylab('Cummulative size of ROH (Mb)') +
   xlab('ROH length (Mb)') +   scale_color_identity('none') +
@@ -169,7 +179,9 @@ ggplot(med, aes(x=as.numeric(Range), y=quantile_length, col='#48C095', linetype=
                        breaks = c("solid", "dashed", "dotted"),
                        labels = c("Median", "Quantiles 25 & 75", "Quantiles 10 & 90"),
                        guide = "legend")+
+  theme_minimal() +
   theme(legend.position = c(0.87, 0.25), legend.background = element_rect(fill = "transparent", color = "black"))
+  
 
 
 
@@ -178,21 +190,27 @@ ggplot(med, aes(x=as.numeric(Range), y=quantile_length, col='#48C095', linetype=
 Fig. Relation between size of runs of homozygozity and cumulative length of RoHs in an average individual.
 
 ```{r lengths_per_chromosome, echo=FALSE, warning=F}
-
 roh_chrom_lengths <- roh %>% 
   group_by(sample_id, Chromosome) %>% 
   summarise(cnt=n(), 
             meanLen=sum(Length)/1e6)
 
+roh_chrom_lengths$Chromosome <- gsub(roh_chrom_lengths$Chromosome,pattern = 'chr',replacement = '')
+roh_chrom_lengths$Chromosome <- factor(roh_chrom_lengths$Chromosome, levels = 1:22)
+
 ggplot(roh_chrom_lengths, aes(x=Chromosome, y=meanLen)) + 
-  geom_boxplot() + xlab('Chromosome') + ylab('Mean RoH length (Mb)')
+  geom_boxplot(fill='#48C095') + 
+  xlab('Chromosome') + 
+  ylab('Mean RoH length (Mb)') +
+  theme_minimal()
 ```
 
 Fig. Distribution of mean length of runs of homozygozity per chromosome
 
 ```{r numbers_per_chromosome, echo=FALSE, warning=F}
 ggplot(roh_chrom_lengths, aes(x=Chromosome, y=cnt)) + 
-  geom_boxplot() + xlab('Chromosome') + ylab('Count of RoH')
+  geom_boxplot(fill='#48C095') + xlab('Chromosome') + ylab('Count of RoH') +
+  theme_minimal()
 ```
 
 Fig. Distribution of counts of runs of homozygozity per chromosome
@@ -254,21 +272,32 @@ ggplot(med,aes(x=as.numeric(Range),y=quantile_length)) +
 
 ```{r genome_coverage_heatmap, echo=FALSE}
 library(GenomicRanges)
-c = coverage(GRanges(seqnames = roh$Chromosome, 
-                     ranges=IRanges(roh$Start, roh$End)))
+# c = coverage(GRanges(seqnames = roh$Chromosome, 
+#                      ranges=IRanges(roh$Start, roh$End)))
+# 
+# window.size=1e6
+# m = matrix(nrow = 2*length(names(c)), 
+#            ncol=sum(runLength(c[[1]]))/window.size)
+# 
+# for (chr in 1:22) { #seqnames(gr)) {
+#   max = sum(runLength(c[[chr]]))
+#   sampling.points = IRanges(start=c(1:(max/1e6))*1e6, width = 1)  
+#   a = aggregate(c[[chr]], sampling.points, mean)
+#   m[(chr*2)-1,1:length(a)] = a
+# }
+# 
+# labels <- paste('chr',1:22,sep='')
+# image(t(m[dim(m)[1]:1,]), yaxt='n') + axis(2, at=c(1:22)/22, labels=labels, las=2)
+# 
 
-window.size=1e6
-m = matrix(nrow = 2*length(names(c)), 
-           ncol=sum(runLength(c[[1]]))/window.size)
+library(karyoploteR)
 
-for (chr in 1:22) { #seqnames(gr)) {
-  max = sum(runLength(c[[chr]]))
-  sampling.points = IRanges(start=c(1:(max/1e6))*1e6, width = 1)  
-  a = aggregate(c[[chr]], sampling.points, mean)
-  m[(chr*2)-1,1:length(a)] = a
-}
+regions <- GRanges(seqnames = roh$Chromosome, 
+                     ranges=IRanges(roh$Start, roh$End))
 
-image(t(m[dim(m)[1]:1,]), xaxt='n', yaxt='n')
+kp <- plotKaryotype(chromosomes = 'autosomal')
+
+kpPlotCoverage(kp,regions)
 
 ```
 
@@ -322,33 +351,7 @@ kable(
 )
 ```
 
-<!-- 4. Sum of ROHs per chromosome and individual -->
 
-<!-- ```{r, echo=F} -->
-<!-- roh$Chromosome <- gsub('chr','',roh$Chromosome) -->
-<!-- roh$Chromosome <- as.numeric(roh$Chromosome) -->
-
-<!-- roh$Chromosome <- factor(roh$Chromosome) -->
-<!-- roh$Chromosome <- ordered(roh$Chromosome, levels = 1:22) -->
-
-<!-- roh %>% group_by(sample_id,Chromosome,Range) %>% -->
-<!--   arrange(desc(Chromosome)) %>% -->
-<!--   summarise(SROH_Mb = sum(Length)/1e+06) %>% -->
-<!--   ggplot(aes(x=Chromosome,y=SROH_Mb,col=Range)) + -->
-<!--   geom_jitter() + -->
-<!--   theme_classic() + -->
-<!--   ylab('SROH (Mb)') + -->
-<!--   xlab('Chromosome') + -->
-<!--   scale_color_manual(values=group.colors) -->
-
-<!-- kable(summary( -->
-<!--   roh %>% group_by(sample_id,Chromosome) %>% -->
-<!--   summarise(mean_SROH_Mb = sum(Length)/1e+06) %>% -->
-<!--     select(mean_SROH_Mb) -->
-<!--   ) -->
-
-<!-- ) -->
-<!-- ``` -->
 
 
 5. Sum of ROH length per range
