@@ -501,7 +501,7 @@ dh_plot <- dh %>%
   geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
   xlim(c(0,2)) +
-  theme(axis.text = element_text(size=10))
+  theme(axis.text = element_text(size=15))
 dh_plot
 ```
 
