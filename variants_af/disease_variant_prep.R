@@ -104,6 +104,25 @@ vep %>%
               col.names = T,
               quote = F)
 
+
+# print('Filtering ACMG variants')
+# acmg_list <- read.table('../input/diseases/Ensembl_ACMG_v3.txt',sep='\t')
+# vep %>% filter(Gene %in% acmg_list$V1 & IMPACT == 'HIGH') %>%
+#   write.table('../input/diseases/acmg_ready.tsv',sep='\t',
+#               row.names = F,
+#               col.names = T,
+#               quote = F)
+# 
+# print('Filtering putative variants')
+# vep %>%
+#   filter(PL_AF < 0.001) %>%
+#   filter(IMPACT == 'HIGH' | IMPACT == 'MODERATE') %>%
+#   write.table('../input/diseases/putative_ready.tsv',sep='\t',
+#               row.names = F,
+#               col.names = T,
+#               quote = F)
+
+
 ### Filter by AF and IMPACT
 
 # print('Plotting AF per IMPACT')

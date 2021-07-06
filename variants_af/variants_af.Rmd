@@ -118,6 +118,11 @@ comp_acmg <- acmg %>%
   mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
    mutate(across(PL_AF:gnomADg_AF,as.numeric))
 
+acmg_brca <- comp_acmg %>% filter(grepl('BRCA',SYMBOL))
+
+
+
+
 comp_acmg$stars <- NA
 comp_acmg$stars <- ifelse(comp_acmg$ClinVar_CLNREVSTAT == 'practice_guideline',
                              '4',comp_acmg$stars)
@@ -459,7 +464,7 @@ dh_plot
 
 ```{r brca, echo=F,warning=F}
 brca <- read.table('brca.tsv',header=T,sep='\t') %>% select(Uploaded_variation,Allele,SYMBOL,
-                                                            contains('CLinVar'),PL_AF,
+                                                            contains('CLinVar'),PL_AF, PL_AC,
                                                             contains('NFE')) %>%
   distinct() %>% filter(is.na(PL_AF)==F)
 
@@ -473,12 +478,13 @@ brca$sig_pl <- factor(brca$sig)
 levels(brca$sig_pl) <- list(Łagodny  = "Benign", `Łagodny/prawdopodobnie łagodny` = "Benign/Likely_benign",
                              Patogenny = 'Pathogenic', Nieznany = 'VUS',`Prawdopodobnie łagodny` = 'Likely_benign')
 
-group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopodobnie łagodny` = "#27384A",
-                  Nieznany = '#B6B6B6', `Prawdopodobnie łagodny` = '#5F5F5F')
+group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", 
+                  Nieznany = '#B6B6B6', `Prawdopodobnie łagodny` = '#27384A')
 
 brca %>% 
   group_by(SYMBOL,sig_pl) %>%
   summarise(n=n()) %>%
+  filter(sig_pl != 'Łagodny/prawdopodobnie łagodny') %>%
   ggplot(aes(y=SYMBOL,x=n,fill=reorder(sig_pl,-n))) +
   geom_bar(stat='identity',position='dodge') +
   geom_text(aes(label=n),position=position_dodge(width=0.9), hjust=-0.5) +
@@ -489,10 +495,10 @@ brca %>%
   scale_fill_manual(values = group.colors) +
   xlim(c(0,1500))
   
-group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopodobnie łagodny` = "#27384A",
-                   `Prawdopodobnie łagodny` = '#5F5F5F')
+group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095",
+                   `Prawdopodobnie łagodny` = '#27384A')
 
-brca %>% filter(sig_pl != 'Nieznany') %>%
+brca %>% filter(sig_pl != 'Nieznany' & sig_pl != 'Łagodny/prawdopodobnie łagodny') %>%
   group_by(SYMBOL,sig_pl) %>%
   summarise(n=n()) %>%
   ggplot(aes(y=SYMBOL,x=n,fill=reorder(sig_pl,-n))) +
