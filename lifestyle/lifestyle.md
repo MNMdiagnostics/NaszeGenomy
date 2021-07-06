@@ -36,4 +36,4 @@ Top 10 and bottom 10 differences
 
 ### Blond wlosy
 
-![](lifestyle_files/figure-gfm/blonde_hair,%20echo-FALSE-1.png)<!-- -->
+![](lifestyle_files/figure-gfm/blonde_hair-1.png)<!-- -->

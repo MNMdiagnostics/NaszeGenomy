@@ -71,19 +71,25 @@ af_outlier %>%
 ### Blond wlosy
 ```{r, blonde_hair, echo=FALSE,message=F}
 blond <- lifestyle %>% filter(effect=='Blond hair')  %>% select(Existing_variation,PL_AF,contains('AF'))
+AF <- c(0.83,0.73,0.65,0.56,0.48,0.37,0.25,0.6,0.85)
+pop <- c('Europejska','Żydzi aszkenazyjscy','Amisze','Amerykańskie','Bliskowschodnie',
+         'Południowoazjatyckie','Wschodnioazjatyckie','Globalna','Polska')
+
+blond <- data.frame(pop,AF)
+
+group.colors <- c(no = '#48C095', pl='#BC0020')
+
 blond %>% 
-  filter(Existing_variation == 'rs1667394') %>%
-  select(PL_AF,gnomAD3g_AF) %>%
-   mutate_if(is.factor,as.character) %>%
-  mutate_if(is.character,as.numeric) %>%
-  pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>%
-  mutate(pop=if_else(pop == 'PL_AF','Polska','Globalna'), AF = AF*100) %>%
-  ggplot(aes(y=AF,x=pop)) +
-  geom_bar(stat='identity',fill='#48C095',width=0.5) +
-  geom_text(aes(label=paste(round(AF),'%',sep='')),vjust=-0.5) +
+  mutate(AF = AF*100, pol = ifelse(pop == 'Polska','pl','no')) %>%
+  ggplot(aes(x=AF,y=reorder(pop,-AF),fill=pol)) +
+  geom_bar(stat='identity',width=0.5) +
+  geom_text(aes(label=paste(round(AF),'%',sep='')),hjust=-0.5) +
   theme_classic() +
   xlab('Populacje') +
-  ylab('Częstość wariantu')
+  ylab('Częstość wariantu') +
+  xlim(c(0,100)) +
+  scale_fill_manual(values=group.colors) +
+  theme(legend.position = 'none')
 
 ```
 
