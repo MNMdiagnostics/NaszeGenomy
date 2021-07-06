@@ -69,7 +69,7 @@ af_outlier %>%
 ```
 
 ### Blond wlosy
-```{r, blonde_hair, echo-FALSE,message=F}
+```{r, blonde_hair, echo=FALSE,message=F}
 blond <- lifestyle %>% filter(effect=='Blond hair')  %>% select(Existing_variation,PL_AF,contains('AF'))
 blond %>% 
   filter(Existing_variation == 'rs1667394') %>%
