@@ -85,8 +85,8 @@ blond %>%
   geom_bar(stat='identity',width=0.5) +
   geom_text(aes(label=paste(round(AF),'%',sep='')),hjust=-0.5) +
   theme_classic() +
-  xlab('Populacje') +
-  ylab('Częstość wariantu') +
+  ylab('Populacje') +
+  xlab('Częstość wariantu') +
   xlim(c(0,100)) +
   scale_fill_manual(values=group.colors) +
   theme(legend.position = 'none')
