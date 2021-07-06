@@ -71,9 +71,9 @@ af_outlier %>%
 ### Blond wlosy
 ```{r, blonde_hair, echo=FALSE,message=F}
 blond <- lifestyle %>% filter(effect=='Blond hair')  %>% select(Existing_variation,PL_AF,contains('AF'))
-AF <- c(0.83,0.73,0.65,0.56,0.48,0.37,0.25,0.6,0.85)
+AF <- c(0.83,0.73,0.65,0.56,0.48,0.37,0.25,0.6,0.85,0.97,0.19)
 pop <- c('Europejska','Żydzi aszkenazyjscy','Amisze','Amerykańskie','Bliskowschodnie',
-         'Południowoazjatyckie','Wschodnioazjatyckie','Globalna','Polska')
+         'Południowoazjatyckie','Wschodnioazjatyckie','Globalna','Polska','Fińska','Afroamerykańska')
 
 blond <- data.frame(pop,AF)
 
@@ -83,7 +83,7 @@ blond %>%
   mutate(AF = AF*100, pol = ifelse(pop == 'Polska','pl','no')) %>%
   ggplot(aes(x=AF,y=reorder(pop,-AF),fill=pol)) +
   geom_bar(stat='identity',width=0.5) +
-  geom_text(aes(label=paste(round(AF),'%',sep='')),hjust=-0.5) +
+  geom_text(aes(label=paste(round(AF),'%',sep='')),hjust=-0.3) +
   theme_classic() +
   ylab('Populacje') +
   xlab('Częstość wariantu') +
