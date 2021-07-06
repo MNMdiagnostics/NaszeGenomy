@@ -22,7 +22,7 @@ Variants in disease causing genes Results for 943 unrelated individuals
 
 ![](variants_af_files/figure-gfm/ACMG-1.jpeg)<!-- -->
 
-### ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.001
+## ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.001
 
 ![](variants_af_files/figure-gfm/clinvar_001-1.jpeg)<!-- -->
 
@@ -35,7 +35,17 @@ Variants in disease causing genes Results for 943 unrelated individuals
 
 variants with Clinvar stars
 
-### ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.01
+### BRCA for conference
+
+    ## `summarise()` has grouped output by 'SYMBOL'. You can override using the `.groups` argument.
+
+![](variants_af_files/figure-gfm/brca-1.jpeg)<!-- -->
+
+    ## `summarise()` has grouped output by 'SYMBOL'. You can override using the `.groups` argument.
+
+![](variants_af_files/figure-gfm/brca-2.jpeg)<!-- -->
+
+## ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.01
 
 ![](variants_af_files/figure-gfm/clinvar_01-1.jpeg)<!-- -->
 
@@ -96,21 +106,3 @@ variants with Clinvar stars
 ## DHCR7
 
 ![](variants_af_files/figure-gfm/DHCR7-1.jpeg)<!-- -->
-
-<!-- ## CFTR deletions -->
-<!-- ```{r CFTR, echo=FALSE} -->
-<!-- muko <- read.table('CFTR.tsv',header = T,sep='\t') %>% -->
-<!--   select(Uploaded_variation,PL_AF, starts_with('gnomAD_'),VARIANT_CLASS) -->
-<!-- dels <- muko %>% filter(VARIANT_CLASS == 'deletion', gnomAD_AF != '-')  -->
-<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.factor,as.character)  -->
-<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.character,as.numeric)  -->
-<!-- dels %>% select(-VARIANT_CLASS)  %>% -->
-<!--   pivot_longer(-Uploaded_variation,names_to = 'pop',values_to = 'AF') %>% -->
-<!--   ggplot(aes(x=AF*100,y=reorder(pop,-AF),fill=Uploaded_variation)) + -->
-<!--   geom_bar(stat = 'identity',position = 'fill') + -->
-<!--   scale_fill_viridis(discrete = T, 'Variant') + -->
-<!--   theme_classic() + -->
-<!--   ylab('Population') + -->
-<!--   xlab('AF [%]')  -->
-<!-- kable(dels %>% select(-VARIANT_CLASS)) -->
-<!-- ``` -->

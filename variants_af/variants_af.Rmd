@@ -150,7 +150,7 @@ comp_acmg %>%
 ```
 
 
-### ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.001
+## ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.001
 
 ```{r clinvar_001, echo=FALSE, warning=FALSE}
 clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) 
@@ -183,7 +183,63 @@ kable((clinsig %>% na.omit() %>%
 
 ```
 
-### ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.01
+### BRCA for conference
+
+```{r brca, echo=F,warning=F}
+brca <- read.table('brca.tsv',header=T,sep='\t') %>% select(Uploaded_variation,Allele,SYMBOL,
+                                                            contains('CLinVar'),PL_AF,
+                                                            contains('NFE')) %>%
+  distinct() %>% filter(is.na(PL_AF)==F)
+
+brca$ClinVar_CLNSIG <- as.character(brca$ClinVar_CLNSIG)
+brca$sig <- NA
+brca$sig <- ifelse(brca$ClinVar_CLNSIG == '-','VUS',brca$ClinVar_CLNSIG)
+brca$sig <- ifelse(brca$ClinVar_CLNSIG == 'Conflicting_interpretations_of_pathogenicity','VUS',brca$sig)
+brca$sig <- ifelse(brca$ClinVar_CLNSIG == 'Uncertain_significance','VUS',brca$sig)
+
+brca$sig_pl <- factor(brca$sig)
+levels(brca$sig_pl) <- list(Łagodny  = "Benign", `Łagodny/prawdopodobnie łagodny` = "Benign/Likely_benign",
+                             Patogenny = 'Pathogenic', Nieznany = 'VUS',`Prawdopodobnie łagodny` = 'Likely_benign')
+
+group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopodobnie łagodny` = "#27384A",
+                  Nieznany = '#B6B6B6', `Prawdopodobnie łagodny` = '#5F5F5F')
+
+brca %>% 
+  group_by(SYMBOL,sig_pl) %>%
+  summarise(n=n()) %>%
+  ggplot(aes(y=SYMBOL,x=n,fill=sig_pl)) +
+  geom_bar(stat='identity',position='dodge') +
+  geom_text(aes(label=n),position=position_dodge(width=0.9), hjust=-0.5) +
+  theme_minimal() + 
+  theme(legend.title = element_blank(), legend.position = 'top') +
+  ylab('Geny') +
+  xlab('Liczba wariantów') +
+  scale_fill_manual(values = group.colors) +
+  xlim(c(0,1500))
+  
+group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopodobnie łagodny` = "#27384A",
+                   `Prawdopodobnie łagodny` = '#5F5F5F')
+
+brca %>% filter(sig_pl != 'Nieznany') %>%
+  group_by(SYMBOL,sig_pl) %>%
+  summarise(n=n()) %>%
+  ggplot(aes(y=SYMBOL,x=n,fill=sig_pl)) +
+  geom_bar(stat='identity',position='dodge') +
+  geom_text(aes(label=n),position=position_dodge(width=0.9), hjust=-0.5) +
+  theme_minimal() + 
+  theme(legend.title = element_blank(), legend.position = 'top') +
+  ylab('Geny') +
+  xlab('Liczba wariantów') +
+  scale_fill_manual(values = group.colors) +
+  xlim(c(0,350))
+  
+
+```
+
+
+
+
+## ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.01
 
 ```{r clinvar_01, echo=FALSE, warning=FALSE}
 clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) 
@@ -380,7 +436,8 @@ nbs_plot <- nbs %>%
   xlab('AF [%]') +
   geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
-  xlim(c(0,0.4))
+  xlim(c(0,0.4)) +
+  theme(axis.text = element_text(size=15))
 nbs_plot
 ```
 
@@ -410,7 +467,8 @@ muko_plot <- muko %>%
   xlab('AF [%]') +
   geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
-  xlim(c(0,2))
+  xlim(c(0,2)) +
+  theme(axis.text = element_text(size=15))
 muko_plot
 ```
 
@@ -442,33 +500,10 @@ dh_plot <- dh %>%
   xlab('AF [%]') +
   geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
-  xlim(c(0,2))
+  xlim(c(0,2)) +
+  theme(axis.text = element_text(size=10))
 dh_plot
 ```
-
-
-<!-- ## CFTR deletions -->
-
-<!-- ```{r CFTR, echo=FALSE} -->
-<!-- muko <- read.table('CFTR.tsv',header = T,sep='\t') %>% -->
-<!--   select(Uploaded_variation,PL_AF, starts_with('gnomAD_'),VARIANT_CLASS) -->
-
-<!-- dels <- muko %>% filter(VARIANT_CLASS == 'deletion', gnomAD_AF != '-')  -->
-<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.factor,as.character)  -->
-<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.character,as.numeric)  -->
-
-<!-- dels %>% select(-VARIANT_CLASS)  %>% -->
-<!--   pivot_longer(-Uploaded_variation,names_to = 'pop',values_to = 'AF') %>% -->
-<!--   ggplot(aes(x=AF*100,y=reorder(pop,-AF),fill=Uploaded_variation)) + -->
-<!--   geom_bar(stat = 'identity',position = 'fill') + -->
-<!--   scale_fill_viridis(discrete = T, 'Variant') + -->
-<!--   theme_classic() + -->
-<!--   ylab('Population') + -->
-<!--   xlab('AF [%]')  -->
-
-<!-- kable(dels %>% select(-VARIANT_CLASS)) -->
-<!-- ``` -->
-
 
 
 

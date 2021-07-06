@@ -74,40 +74,6 @@ consequence_vep %>%
               row.names = F,
               col.names = T,
               quote = F)
-# 
-# 
-# verticals <- c(log10(0.001),log10(0.005))
-# 
-# af_vep %>%
-#   ggplot(aes(log10(PL_AF))) +
-#   geom_histogram(fill='#48C095',col='#27384A', bins=30) +
-#   geom_vline(xintercept = verticals, linetype='dashed',col='#BC0020') +
-#   ylab('Variant count') + xlab('log10 AF') + theme_classic() +
-#   ggsave("variants_af_files/figure-gfm/afhist.png",dpi=320)
-# 
-# af_vep %>%
-#   ggplot(aes(PL_AC)) +
-#   geom_histogram(fill='#48C095',col='#27384A', bins=30) +
-#   ylab('Variant count') + xlab('AC') + theme_classic() +
-#   ggsave("variants_af_files/figure-gfm/ac_hist.png",dpi=320)
-# 
-# 
-# print('Filtering ACMG variants')
-# acmg_list <- read.table('../input/diseases/Ensembl_ACMG_v3.txt',sep='\t')
-# vep %>% filter(Gene %in% acmg_list$V1 & IMPACT == 'HIGH') %>%
-#   write.table('../input/diseases/acmg_ready.tsv',sep='\t',
-#               row.names = F,
-#               col.names = T,
-#               quote = F)
-# 
-# print('Filtering putative variants')
-# vep %>%
-#   filter(PL_AF < 0.001) %>%
-#   filter(IMPACT == 'HIGH' | IMPACT == 'MODERATE') %>%
-#   write.table('../input/diseases/putative_ready.tsv',sep='\t',
-#               row.names = F,
-#               col.names = T,
-#               quote = F)
 
 print('Filtering pathogenic variants')
 
