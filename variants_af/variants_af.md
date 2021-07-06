@@ -35,16 +35,6 @@ Variants in disease causing genes Results for 943 unrelated individuals
 
 variants with Clinvar stars
 
-### BRCA for conference
-
-    ## `summarise()` has grouped output by 'SYMBOL'. You can override using the `.groups` argument.
-
-![](variants_af_files/figure-gfm/brca-1.jpeg)<!-- -->
-
-    ## `summarise()` has grouped output by 'SYMBOL'. You can override using the `.groups` argument.
-
-![](variants_af_files/figure-gfm/brca-2.jpeg)<!-- -->
-
 ## ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.01
 
 ![](variants_af_files/figure-gfm/clinvar_01-1.jpeg)<!-- -->
@@ -106,3 +96,13 @@ variants with Clinvar stars
 ## DHCR7
 
 ![](variants_af_files/figure-gfm/DHCR7-1.jpeg)<!-- -->
+
+### BRCA for conference
+
+    ## `summarise()` has grouped output by 'SYMBOL'. You can override using the `.groups` argument.
+
+![](variants_af_files/figure-gfm/brca-1.jpeg)<!-- -->
+
+    ## `summarise()` has grouped output by 'SYMBOL'. You can override using the `.groups` argument.
+
+![](variants_af_files/figure-gfm/brca-2.jpeg)<!-- -->

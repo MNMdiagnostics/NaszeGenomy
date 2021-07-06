@@ -183,58 +183,6 @@ kable((clinsig %>% na.omit() %>%
 
 ```
 
-### BRCA for conference
-
-```{r brca, echo=F,warning=F}
-brca <- read.table('brca.tsv',header=T,sep='\t') %>% select(Uploaded_variation,Allele,SYMBOL,
-                                                            contains('CLinVar'),PL_AF,
-                                                            contains('NFE')) %>%
-  distinct() %>% filter(is.na(PL_AF)==F)
-
-brca$ClinVar_CLNSIG <- as.character(brca$ClinVar_CLNSIG)
-brca$sig <- NA
-brca$sig <- ifelse(brca$ClinVar_CLNSIG == '-','VUS',brca$ClinVar_CLNSIG)
-brca$sig <- ifelse(brca$ClinVar_CLNSIG == 'Conflicting_interpretations_of_pathogenicity','VUS',brca$sig)
-brca$sig <- ifelse(brca$ClinVar_CLNSIG == 'Uncertain_significance','VUS',brca$sig)
-
-brca$sig_pl <- factor(brca$sig)
-levels(brca$sig_pl) <- list(Łagodny  = "Benign", `Łagodny/prawdopodobnie łagodny` = "Benign/Likely_benign",
-                             Patogenny = 'Pathogenic', Nieznany = 'VUS',`Prawdopodobnie łagodny` = 'Likely_benign')
-
-group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopodobnie łagodny` = "#27384A",
-                  Nieznany = '#B6B6B6', `Prawdopodobnie łagodny` = '#5F5F5F')
-
-brca %>% 
-  group_by(SYMBOL,sig_pl) %>%
-  summarise(n=n()) %>%
-  ggplot(aes(y=SYMBOL,x=n,fill=sig_pl)) +
-  geom_bar(stat='identity',position='dodge') +
-  geom_text(aes(label=n),position=position_dodge(width=0.9), hjust=-0.5) +
-  theme_minimal() + 
-  theme(legend.title = element_blank(), legend.position = 'top') +
-  ylab('Geny') +
-  xlab('Liczba wariantów') +
-  scale_fill_manual(values = group.colors) +
-  xlim(c(0,1500))
-  
-group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopodobnie łagodny` = "#27384A",
-                   `Prawdopodobnie łagodny` = '#5F5F5F')
-
-brca %>% filter(sig_pl != 'Nieznany') %>%
-  group_by(SYMBOL,sig_pl) %>%
-  summarise(n=n()) %>%
-  ggplot(aes(y=SYMBOL,x=n,fill=sig_pl)) +
-  geom_bar(stat='identity',position='dodge') +
-  geom_text(aes(label=n),position=position_dodge(width=0.9), hjust=-0.5) +
-  theme_minimal() + 
-  theme(legend.title = element_blank(), legend.position = 'top') +
-  ylab('Geny') +
-  xlab('Liczba wariantów') +
-  scale_fill_manual(values = group.colors) +
-  xlim(c(0,350))
-  
-
-```
 
 
 
@@ -507,4 +455,56 @@ dh_plot
 
 
 
+### BRCA for conference
+
+```{r brca, echo=F,warning=F}
+brca <- read.table('brca.tsv',header=T,sep='\t') %>% select(Uploaded_variation,Allele,SYMBOL,
+                                                            contains('CLinVar'),PL_AF,
+                                                            contains('NFE')) %>%
+  distinct() %>% filter(is.na(PL_AF)==F)
+
+brca$ClinVar_CLNSIG <- as.character(brca$ClinVar_CLNSIG)
+brca$sig <- NA
+brca$sig <- ifelse(brca$ClinVar_CLNSIG == '-','VUS',brca$ClinVar_CLNSIG)
+brca$sig <- ifelse(brca$ClinVar_CLNSIG == 'Conflicting_interpretations_of_pathogenicity','VUS',brca$sig)
+brca$sig <- ifelse(brca$ClinVar_CLNSIG == 'Uncertain_significance','VUS',brca$sig)
+
+brca$sig_pl <- factor(brca$sig)
+levels(brca$sig_pl) <- list(Łagodny  = "Benign", `Łagodny/prawdopodobnie łagodny` = "Benign/Likely_benign",
+                             Patogenny = 'Pathogenic', Nieznany = 'VUS',`Prawdopodobnie łagodny` = 'Likely_benign')
+
+group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopodobnie łagodny` = "#27384A",
+                  Nieznany = '#B6B6B6', `Prawdopodobnie łagodny` = '#5F5F5F')
+
+brca %>% 
+  group_by(SYMBOL,sig_pl) %>%
+  summarise(n=n()) %>%
+  ggplot(aes(y=SYMBOL,x=n,fill=sig_pl)) +
+  geom_bar(stat='identity',position='dodge') +
+  geom_text(aes(label=n),position=position_dodge(width=0.9), hjust=-0.5) +
+  theme_minimal() + 
+  theme(legend.title = element_blank(), legend.position = 'top') +
+  ylab('Geny') +
+  xlab('Liczba wariantów') +
+  scale_fill_manual(values = group.colors) +
+  xlim(c(0,1500))
+  
+group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopodobnie łagodny` = "#27384A",
+                   `Prawdopodobnie łagodny` = '#5F5F5F')
+
+brca %>% filter(sig_pl != 'Nieznany') %>%
+  group_by(SYMBOL,sig_pl) %>%
+  summarise(n=n()) %>%
+  ggplot(aes(y=SYMBOL,x=n,fill=sig_pl)) +
+  geom_bar(stat='identity',position='dodge') +
+  geom_text(aes(label=n),position=position_dodge(width=0.9), hjust=-0.5) +
+  theme_minimal() + 
+  theme(legend.title = element_blank(), legend.position = 'top') +
+  ylab('Geny') +
+  xlab('Liczba wariantów') +
+  scale_fill_manual(values = group.colors) +
+  xlim(c(0,350))
+  
+
+```
 
