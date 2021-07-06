@@ -479,7 +479,7 @@ group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopo
 brca %>% 
   group_by(SYMBOL,sig_pl) %>%
   summarise(n=n()) %>%
-  ggplot(aes(y=SYMBOL,x=n,fill=sig_pl)) +
+  ggplot(aes(y=SYMBOL,x=n,fill=reorder(sig_pl,-n))) +
   geom_bar(stat='identity',position='dodge') +
   geom_text(aes(label=n),position=position_dodge(width=0.9), hjust=-0.5) +
   theme_minimal() + 
@@ -495,7 +495,7 @@ group.colors <- c(Patogenny = "#BC0020", Łagodny ="#48C095", `Łagodny/prawdopo
 brca %>% filter(sig_pl != 'Nieznany') %>%
   group_by(SYMBOL,sig_pl) %>%
   summarise(n=n()) %>%
-  ggplot(aes(y=SYMBOL,x=n,fill=sig_pl)) +
+  ggplot(aes(y=SYMBOL,x=n,fill=reorder(sig_pl,-n))) +
   geom_bar(stat='identity',position='dodge') +
   geom_text(aes(label=n),position=position_dodge(width=0.9), hjust=-0.5) +
   theme_minimal() + 
