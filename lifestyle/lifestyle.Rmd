@@ -12,8 +12,6 @@ suppressMessages(library(knitr))
 ```
 
 
-
-
 ```{r echo=FALSE, message=F}
 suppressMessages(library(tidyverse))
 
@@ -70,10 +68,22 @@ af_outlier %>%
 
 ```
 
+### Blond wlosy
 ```{r, blonde_hair, echo-FALSE,message=F}
-blond <- lifestyle %>% filter(effect=='Blond hair')  %>% select(Existing_variation,PL_AF,contains('NFE'),
-                                                                gnomAD3g_AF)
-
+blond <- lifestyle %>% filter(effect=='Blond hair')  %>% select(Existing_variation,PL_AF,contains('AF'))
+blond %>% 
+  filter(Existing_variation == 'rs1667394') %>%
+  select(PL_AF,gnomAD3g_AF) %>%
+   mutate_if(is.factor,as.character) %>%
+  mutate_if(is.character,as.numeric) %>%
+  pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>%
+  mutate(pop=if_else(pop == 'PL_AF','Polska','Globalna'), AF = AF*100) %>%
+  ggplot(aes(y=AF,x=pop)) +
+  geom_bar(stat='identity',fill='#48C095',width=0.5) +
+  geom_text(aes(label=paste(round(AF),'%',sep='')),vjust=-0.5) +
+  theme_classic() +
+  xlab('Populacje') +
+  ylab('Częstość wariantu')
 
 ```
 

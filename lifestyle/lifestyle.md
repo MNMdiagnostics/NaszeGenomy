@@ -33,3 +33,7 @@ Correlation between AF in PL and EUR populations
 Top 10 and bottom 10 differences
 
 ![](lifestyle_files/figure-gfm/10_diff_barplot-1.png)<!-- -->
+
+### Blond wlosy
+
+![](lifestyle_files/figure-gfm/blonde_hair,%20echo-FALSE-1.png)<!-- -->
