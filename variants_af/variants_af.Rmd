@@ -9,7 +9,8 @@ output:
 ```{r setup, echo=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo=FALSE, dev = 'jpeg')
 suppressMessages(library(knitr))
-suppressMessages(library(tidyverse))
+suppressMessages(library(tidyverse, warn.conflicts = F))
+options(dplyr.summarise.inform = FALSE)
 suppressMessages(library(data.table))
 suppressMessages(library(viridis))
 suppressMessages(library(gridExtra))
@@ -188,83 +189,9 @@ kable((clinsig %>% na.omit() %>%
 
 ```
 
-
-
-
-
-## ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.01
-
-```{r clinvar_01, echo=FALSE, warning=FALSE}
-clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) 
-clinsig$gnomAD3g_AF <- ifelse(clinsig$gnomAD3g_AF == '-',0,clinsig$gnomAD3g_AF)
-clinsig$gnomAD3g_AF <-as.numeric(clinsig$gnomAD3g_AF)
-
-clinsig <- clinsig %>%
-  filter(gnomAD3g_AF < 0.01) %>% na.omit()
-
-clinsig %>% na.omit() %>%
-  separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
-  select(-x,-y,-Allele) %>%
-  relocate(Existing_variation, .before = REF) %>%
-  arrange(desc(gnomAD3g_AF)) %>%
-  write.table('comp_clinsig01.tsv',quote = F,col.names = T,sep='\t',row.names = F)
-
-clinsig %>% na.omit() %>%
-  select(Existing_variation,stars) %>% 
-  distinct() %>%
-  ggplot(aes(y=factor(stars))) +
-  geom_bar(fill="#48C095",width=0.5) + 
-  theme_classic() +
-  ylab('Number of gold stars') +
-  xlab('Variants count') 
-
-kable((clinsig %>% na.omit() %>%
-        select(Existing_variation,stars) %>% 
-        group_by(stars) %>%
-        count()),caption = 'variants with Clinvar stars')
-
-
-```
-
-
-
-### Putative variants
-
-```{r putative, echo=FALSE, warning=FALSE}
-putative <- fread('../input/diseases/putative_ready.tsv',header=T)
-comp_putative <- putative %>% 
-   select(Uploaded_variation,Location,CLIN_SIG,ClinVar_CLNSIG,ClinVar_CLNREVSTAT,
-          ClinVar_CLNDN, SYMBOL, Gene, PL_AC, all_of(af_list)) %>%
-  mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
-   mutate(across(PL_AF:gnomADg_AF,as.numeric)) %>%
-  filter(ClinVar_CLNSIG != '-') 
-
-```
-
-### % IMPACT variants
-
-```{r echo=FALSE,warning=FALSE}
-group.colors <- c(HIGH = "#27384A", MODERATE ="#48C095", LOW = "#B6B6B6")
-stacked <- read.table('../input/diseases/impact_stacked_ready.tsv',sep='\t',header=T)
-stacked$group <- factor(stacked$group)
-stacked$group <- ordered(stacked$group, levels = c("<0.1%", "0.1-0.5%", ">0.5%"))
-
-stacked %>%
-ggplot(aes(fill=IMPACT,y=n,x=group)) +
-geom_bar(position="fill", stat="identity") +
-theme_classic() +
-scale_fill_manual(values = group.colors) +
-xlab('Allele frequencies') +
-ylab('% of variants') 
-
-
-```
-
-
-
 ## Number of variants per impact
 
-```{r AF and IMPACT, echo=FALSE}
+```{r AF_and_IMPACT, echo=FALSE}
 common <- read.table('../output/common_summary.tsv',header = T)
 mediumrare <- read.table('../output/mediumrare_summary.tsv',header = T)
 rare <- read.table('../output/rare_summary.tsv',header=T)
@@ -281,8 +208,8 @@ variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) 
 
 ### Variants per coding consequence
 
-```{r, echo=FALSE,warning=F}
-consequence <- read.table('plik_do_wykresu_consequence_data.tsv',header=T,
+```{r conseqence_plot, echo=FALSE,warning=F}
+consequence <- read.table('../input/diseases/consequence_data.tsv',header=T,
                           sep='\t')
 
 consequence$group <- factor(
@@ -340,7 +267,7 @@ xlab('Allele frequency') +
 
 ### Variants per non-coding consequence
 
-```{r non-coding consequence, echo=FALSE}
+```{r non_coding_consequence, echo=FALSE}
 consequence$noncoding.var_category <- gsub('_',' ',consequence$noncoding.var_category)
 
 cons_plot <- consequence %>% group_by(noncoding.var_category, group) %>%
@@ -361,13 +288,13 @@ xlab('Allele frequency') +
 ```
 
 ```{r echo=F}
-variants_df <- read.csv('variants_gnomad31.csv',header=T)
+variants_df <- read.csv('../input/diseases/variants_gnomad31.csv',header=T)
 ```
 
 ## NBS: chr8_89971213_ATTTGT_A 
 
 ```{r NBS, echo=FALSE}
-nbs <- read.table('nbs.tsv',header = T,sep='\t') 
+nbs <- read.table('../input/diseases/nbs.tsv',header = T,sep='\t') 
 
 nbs <- nbs %>% 
   select(PL_AF, starts_with('gnomAD_')) %>%
@@ -397,8 +324,8 @@ nbs_plot
 
 ## Cystic fybrosis: chr7_117559590_ATCT_A
 
-```{r Mucoviscidosis, echo=FALSE}
-muko <- read.table('muko_vep.tsv',header = T,sep='\t') 
+```{r cf, echo=FALSE}
+muko <- read.table('../input/diseases/muko_vep.tsv',header = T,sep='\t') 
 
 muko <- muko %>% 
   select(PL_AF, starts_with('gnomAD_')) %>%
@@ -463,7 +390,7 @@ dh_plot
 ### BRCA for conference
 
 ```{r brca, echo=F,warning=F}
-brca <- read.table('brca.tsv',header=T,sep='\t') %>% select(Uploaded_variation,Allele,SYMBOL,
+brca <- read.table('../input/diseases/brca.tsv',header=T,sep='\t') %>% select(Uploaded_variation,Allele,SYMBOL,
                                                             contains('CLinVar'),PL_AF, PL_AC,
                                                             contains('NFE')) %>%
   distinct() %>% filter(is.na(PL_AF)==F)

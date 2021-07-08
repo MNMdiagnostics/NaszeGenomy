@@ -13,34 +13,34 @@ colnames(vep)[1] <- 'Uploaded_variation'
 
 vep <- vep %>% left_join(af, by = 'Uploaded_variation') 
 
-# af_vep <- vep %>% select(PL_AF,PL_AC,IMPACT,Consequence,EXON,INTRON)
-# af_vep <- af_vep %>%
-#   mutate(group = case_when(PL_AF > 0.005~ ">0.5%",
-#                           PL_AF >0 & PL_AF < 0.001 ~ "<0.1%" ,
-#                            !PL_AF < 0.001 & !PL_AF > 0.005 ~ "0.1-0.5%"
-#   ))
-# 
-# af_vep$group <- factor(af_vep$group)
-# af_vep$group <- ordered(af_vep$group, levels = c('<0.1%','0.1-0.5%','>0.5%'))
-# 
-# af_list <- c('HIGH','MODERATE','LOW')
-# group.colors <- c(HIGH = "#27384A", MODERATE ="#48C095", LOW = "#B6B6B6")
-# 
-# af_vep$group <- factor(af_vep$group)
-# af_vep$group <- ordered(af_vep$group, levels = c("<0.1%", "0.1-0.5%", ">0.5%"))
-# 
-# 
-# af_vep %>%
-#   filter(IMPACT != 'MODIFIER' & group != 'missing') %>%
-#   group_by(IMPACT,group) %>%
-#   summarise(n=n()) %>%
-#   write.table('../input/diseases/impact_stacked_ready.tsv',sep='\t',
-#               row.names = F,
-#               col.names = T,
-#               quote = F)
-# 
-# class.colors <- c(exonic = "#27384A", intronic ="#48C095", noncoding = "#B6B6B6")
-# 
+af_vep <- vep %>% select(PL_AF,PL_AC,IMPACT,Consequence,EXON,INTRON)
+af_vep <- af_vep %>%
+  mutate(group = case_when(PL_AF > 0.005~ ">0.5%",
+                          PL_AF >0 & PL_AF < 0.001 ~ "<0.1%" ,
+                           !PL_AF < 0.001 & !PL_AF > 0.005 ~ "0.1-0.5%"
+  ))
+
+af_vep$group <- factor(af_vep$group)
+af_vep$group <- ordered(af_vep$group, levels = c('<0.1%','0.1-0.5%','>0.5%'))
+
+af_list <- c('HIGH','MODERATE','LOW')
+group.colors <- c(HIGH = "#27384A", MODERATE ="#48C095", LOW = "#B6B6B6")
+
+af_vep$group <- factor(af_vep$group)
+af_vep$group <- ordered(af_vep$group, levels = c("<0.1%", "0.1-0.5%", ">0.5%"))
+
+
+af_vep %>%
+  filter(IMPACT != 'MODIFIER' & group != 'missing') %>%
+  group_by(IMPACT,group) %>%
+  summarise(n=n()) %>%
+  write.table('../input/diseases/impact_stacked_ready.tsv',sep='\t',
+              row.names = F,
+              col.names = T,
+              quote = F)
+
+class.colors <- c(exonic = "#27384A", intronic ="#48C095", noncoding = "#B6B6B6")
+
 consequence_vep <- vep %>% select(Consequence,EXON,INTRON,PL_AF,PL_AC)
 consequence_vep$type <- NA
 consequence_vep$type <- ifelse(consequence_vep$EXON != '-','Exonic',consequence_vep$type)
@@ -105,66 +105,66 @@ vep %>%
               quote = F)
 
 
-# print('Filtering ACMG variants')
-# acmg_list <- read.table('../input/diseases/Ensembl_ACMG_v3.txt',sep='\t')
-# vep %>% filter(Gene %in% acmg_list$V1 & IMPACT == 'HIGH') %>%
-#   write.table('../input/diseases/acmg_ready.tsv',sep='\t',
-#               row.names = F,
-#               col.names = T,
-#               quote = F)
-# 
-# print('Filtering putative variants')
-# vep %>%
-#   filter(PL_AF < 0.001) %>%
-#   filter(IMPACT == 'HIGH' | IMPACT == 'MODERATE') %>%
-#   write.table('../input/diseases/putative_ready.tsv',sep='\t',
-#               row.names = F,
-#               col.names = T,
-#               quote = F)
+print('Filtering ACMG variants')
+acmg_list <- read.table('../input/diseases/Ensembl_ACMG_v3.txt',sep='\t')
+vep %>% filter(Gene %in% acmg_list$V1 & IMPACT == 'HIGH') %>%
+  write.table('../input/diseases/acmg_ready.tsv',sep='\t',
+              row.names = F,
+              col.names = T,
+              quote = F)
+
+print('Filtering putative variants')
+vep %>%
+  filter(PL_AF < 0.001) %>%
+  filter(IMPACT == 'HIGH' | IMPACT == 'MODERATE') %>%
+  write.table('../input/diseases/putative_ready.tsv',sep='\t',
+              row.names = F,
+              col.names = T,
+              quote = F)
 
 
 ### Filter by AF and IMPACT
 
-# print('Plotting AF per IMPACT')
-# 
-# vep %>%
-#   select(IMPACT, PL_AF) %>%
-#   ggplot(aes(log(PL_AF))) +
-#   geom_histogram(fill='#48C095',col='#27384A',bins=30) +
-#   ylab('log Allele Frequency') +
-#   xlab('Variant impact') +
-#   ggtitle('log Allele frequency in functional categories')+
-#   theme_classic() +
-#   theme(plot.title = element_text(hjust = 0.5),
-#         plot.subtitle = element_text(hjust = 0.5)) +
-#   facet_wrap(~IMPACT,nrow=4,scales = 'free') +
-#   ggsave('variants_af_files/figure-gfm/impact_all_af.png')
-# 
-# print('Filtering AF common summary')
-# 
-# vep %>%
-#   filter(PL_AF > 0.005) %>%
-#   select(VARIANT_CLASS,IMPACT) %>%
-#   group_by(VARIANT_CLASS,IMPACT) %>%
-#   summarise(n=n()) %>%
-#   mutate(AF = '>0.5%') %>%
-#   write.table('../output/common_summary.tsv', sep='\t', quote = F, row.names = F)
-# 
-# print('Filtering AF mediumrare summary')
-# vep %>% filter(PL_AF > 0.001 & PL_AF < 0.005) %>%
-#   select(VARIANT_CLASS,IMPACT) %>%
-#   group_by(VARIANT_CLASS,IMPACT) %>%
-#   summarise(n=n()) %>%
-#   mutate(AF = '0.1-0.5%') %>%
-#   write.table('../output/mediumrare_summary.tsv', sep='\t', quote = F, row.names = F)
-# 
-# print('Filtering AF rare summary')
-# vep %>% filter(PL_AF < 0.001) %>%
-#   select(VARIANT_CLASS,IMPACT) %>%
-#   group_by(VARIANT_CLASS,IMPACT) %>%
-#   summarise(n=n()) %>%
-#   mutate(AF = '<0.1%') %>%
-#   write.table('../output/rare_summary.tsv', sep='\t', quote = F, row.names = F)
-# 
-# gc()
-# print('Done')
+print('Plotting AF per IMPACT')
+
+vep %>%
+  select(IMPACT, PL_AF) %>%
+  ggplot(aes(log(PL_AF))) +
+  geom_histogram(fill='#48C095',col='#27384A',bins=30) +
+  ylab('log Allele Frequency') +
+  xlab('Variant impact') +
+  ggtitle('log Allele frequency in functional categories')+
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5)) +
+  facet_wrap(~IMPACT,nrow=4,scales = 'free') +
+  ggsave('variants_af_files/figure-gfm/impact_all_af.png')
+
+print('Filtering AF common summary')
+
+vep %>%
+  filter(PL_AF > 0.005) %>%
+  select(VARIANT_CLASS,IMPACT) %>%
+  group_by(VARIANT_CLASS,IMPACT) %>%
+  summarise(n=n()) %>%
+  mutate(AF = '>0.5%') %>%
+  write.table('../output/common_summary.tsv', sep='\t', quote = F, row.names = F)
+
+print('Filtering AF mediumrare summary')
+vep %>% filter(PL_AF > 0.001 & PL_AF < 0.005) %>%
+  select(VARIANT_CLASS,IMPACT) %>%
+  group_by(VARIANT_CLASS,IMPACT) %>%
+  summarise(n=n()) %>%
+  mutate(AF = '0.1-0.5%') %>%
+  write.table('../output/mediumrare_summary.tsv', sep='\t', quote = F, row.names = F)
+
+print('Filtering AF rare summary')
+vep %>% filter(PL_AF < 0.001) %>%
+  select(VARIANT_CLASS,IMPACT) %>%
+  group_by(VARIANT_CLASS,IMPACT) %>%
+  summarise(n=n()) %>%
+  mutate(AF = '<0.1%') %>%
+  write.table('../output/rare_summary.tsv', sep='\t', quote = F, row.names = F)
+
+gc()
+print('Done')

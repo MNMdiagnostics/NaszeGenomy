@@ -13,9 +13,6 @@ Variants in disease causing genes Results for 943 unrelated individuals
 
 ![](variants_af_files/figure-gfm/af_hist_pct-1.jpeg)<!-- -->
 
-    ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
-    ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
-
 ![](variants_af_files/figure-gfm/sv.af.hist-1.jpeg)<!-- -->
 
 ## ACMG
@@ -34,25 +31,6 @@ Variants in disease causing genes Results for 943 unrelated individuals
 |     4 |   2 |
 
 variants with Clinvar stars
-
-## ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.01
-
-![](variants_af_files/figure-gfm/clinvar_01-1.jpeg)<!-- -->
-
-| stars |   n |
-|------:|----:|
-|     1 | 299 |
-|     2 | 487 |
-|     3 |  24 |
-|     4 |   4 |
-
-variants with Clinvar stars
-
-### Putative variants
-
-### % IMPACT variants
-
-![](variants_af_files/figure-gfm/unnamed-chunk-3-1.jpeg)<!-- -->
 
 ## Number of variants per impact
 
@@ -73,17 +51,11 @@ variants with Clinvar stars
 
 ### Variants per coding consequence
 
-    ## `summarise()` has grouped output by 'Coding_var_category'. You can override using the `.groups` argument.
-
-    ## `summarise()` has grouped output by 'Konsekwencje'. You can override using the `.groups` argument.
-
-![](variants_af_files/figure-gfm/unnamed-chunk-4-1.jpeg)<!-- -->![](variants_af_files/figure-gfm/unnamed-chunk-4-2.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/conseqence_plot-1.jpeg)<!-- -->![](variants_af_files/figure-gfm/conseqence_plot-2.jpeg)<!-- -->
 
 ### Variants per non-coding consequence
 
-    ## `summarise()` has grouped output by 'noncoding.var_category'. You can override using the `.groups` argument.
-
-![](variants_af_files/figure-gfm/non-coding%20consequence-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/non_coding_consequence-1.jpeg)<!-- -->
 
 ## NBS: chr8\_89971213\_ATTTGT\_A
 
@@ -91,7 +63,7 @@ variants with Clinvar stars
 
 ## Cystic fybrosis: chr7\_117559590\_ATCT\_A
 
-![](variants_af_files/figure-gfm/Mucoviscidosis-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/cf-1.jpeg)<!-- -->
 
 ## DHCR7
 
@@ -99,10 +71,4 @@ variants with Clinvar stars
 
 ### BRCA for conference
 
-    ## `summarise()` has grouped output by 'SYMBOL'. You can override using the `.groups` argument.
-
-![](variants_af_files/figure-gfm/brca-1.jpeg)<!-- -->
-
-    ## `summarise()` has grouped output by 'SYMBOL'. You can override using the `.groups` argument.
-
-![](variants_af_files/figure-gfm/brca-2.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/brca-1.jpeg)<!-- -->![](variants_af_files/figure-gfm/brca-2.jpeg)<!-- -->
