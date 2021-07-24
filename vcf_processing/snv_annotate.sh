@@ -7,5 +7,9 @@ singularity exec -B /mnt/:/mnt/ -B /tmp:/tmp -B /scratch:/scratch \
 	--offline --max_sv_size 1000000000 --cache --dir_cache /scratch/References/vep-cache/ \
 	--assembly GRCh38 -i $1 -o ${prefix}.tsv.gz --tab \
 	--no_stats --no_check_variants_order --force_overwrite --compress_output bgzip \
-	--pick --everything --custom /scratch/References//gnomad.genomes.r2.0.1.sites.GRCh38.noVEP.vcf.gz,gnomADg,vcf,exact,0,AF,AC,AN,AF_NFE \
-	--custom /scratch/References//gnomad.genomes.r3.0.sites.noVEP.noAC0_AF_nfe.vcf.gz,gnomAD3g,vcf,exact,0,AF,AC,AN,AF_NFE --fork 64 --buffer_size 50000
+	--pick --everything --fork 64 --buffer_size 50000 \
+	--custom /scratch/References/gnomad.genomes.r2.0.1.sites.GRCh38.noVEP.vcf.gz,gnomADg,vcf,exact,0,AF,AC,AN,AF_NFE \
+	--custom /scratch/References/gnomad.genomes.r3.0.sites.noVEP.noAC0_AF_nfe.vcf.gz,gnomAD3g,vcf,exact,0,AF,AC,AN,AF_NFE \
+	--custom /scratch/References/clinvar_references/clinvar_210522.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN \
+	--plugin dbNSFP,/scratch/References/dbNSFP4.0b2a.gz,Ensembl_transcriptid,Uniprot_acc,VEP_canonical,LRT_pred,SIFT_pred,MutationTaster_pred,Polyphen2_HDIV_pred,Polyphen2_HVAR_pred 
+

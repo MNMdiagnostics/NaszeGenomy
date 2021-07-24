@@ -1,6 +1,7 @@
-bcftools query -f '%ID\t%AF\t%AN\t%AC\n' /genom_polaka/input/multisample_20210519.dv.bcfnorm.filtered.vcf.gz
- > input/multisample_20210519.dv.bcfnorm.filtered.AFlist.txt
+input=$1
+prefix=$(basename $1)
 
-Rscript disease_variant_prep.R
+bcftools query -f '%ID\t%AF\t%AN\t%AC\n' $input > input/$prefix.AFlist.txt
+
 
 

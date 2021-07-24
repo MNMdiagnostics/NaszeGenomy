@@ -7,7 +7,7 @@ colnames(af) <- c('Uploaded_variation','PL_AF','PL_AN','PL_AC')
 
 print('Loading VEP file')
 
-vep <- fread('/genom_polaka/input/multisample_20210519.dv.bcfnorm.filtered.vep_CLINVAR.tsv.gz',skip=120,showProgress=T) %>% filter(PICK == 1)
+vep <- fread('/genom_polaka/input/multisample_20210716.dv.bcfnorm.filt.unrelated.tsv.gz',skip=113,showProgress=T)
 
 colnames(vep)[1] <- 'Uploaded_variation'
 
@@ -75,34 +75,21 @@ consequence_vep %>%
               col.names = T,
               quote = F)
 
-print('Filtering pathogenic variants')
 
-vep$stars <- NA
-vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == 'practice_guideline',
-                          '4',vep$stars)
-vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == 'reviewed_by_expert_panel',
-                          '3',vep$stars)
-vep$stars <- ifelse(
-  vep$ClinVar_CLNREVSTAT == 'criteria_provided,_multiple_submitters,_no_conflicts',
-  '2',vep$stars)
-vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_conflicting_interpretations',
-                          '1',vep$stars)
-vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_single_submitter',
-                          '1',vep$stars)
+verticals <- c(log10(0.001),log10(0.005))
 
-af_list <- c('PL_AF',  'gnomAD3g_AF_NFE','gnomAD3g_AF')
+af_vep %>%
+  ggplot(aes(log10(PL_AF))) +
+  geom_histogram(fill='#48C095',col='#27384A', bins=30) +
+  geom_vline(xintercept = verticals, linetype='dashed',col='#BC0020') +
+  ylab('Variant count') + xlab('log10 AF') + theme_classic() +
+  ggsave("variants_af_files/figure-gfm/afhist.png",dpi=320)
 
-vep %>% 
-  filter(grepl('Pathogenic',ClinVar_CLNSIG) | grepl("Pathogenic/Likely_pathogenic",ClinVar_CLNSIG) |
-           grepl("Likely_pathogenic",ClinVar_CLNSIG)
-           ) %>% 
-  select(Uploaded_variation,Existing_variation,Location,Allele,stars,
-         starts_with('ClinVar'),PL_AF,PL_AC,all_of(af_list)) %>% 
-  distinct() %>%
-  write.table('../input/diseases/clin_sig_ready.tsv',sep='\t',
-              row.names = F,
-              col.names = T,
-              quote = F)
+af_vep %>%
+  ggplot(aes(PL_AC)) +
+  geom_histogram(fill='#48C095',col='#27384A', bins=30) +
+  ylab('Variant count') + xlab('AC') + theme_classic() +
+  ggsave("variants_af_files/figure-gfm/ac_hist.png",dpi=320)
 
 
 print('Filtering ACMG variants')
@@ -122,6 +109,34 @@ vep %>%
               col.names = T,
               quote = F)
 
+print('Filtering pathogenic variants')
+
+vep$stars <- NA
+vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == 'practice_guideline',
+                          '4',vep$stars)
+vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == 'reviewed_by_expert_panel',
+                          '3',vep$stars)
+vep$stars <- ifelse(
+  vep$ClinVar_CLNREVSTAT == 'criteria_provided,_multiple_submitters,_no_conflicts',
+  '2',vep$stars)
+vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_conflicting_interpretations',
+                          '1',vep$stars)
+vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_single_submitter',
+                          '1',vep$stars)
+
+af_list <- c('PL_AF',  'gnomAD3g_AF_NFE','gnomAD3g_AF')
+
+vep %>%
+  filter(grepl('Pathogenic',ClinVar_CLNSIG) | grepl("Pathogenic/Likely_pathogenic",ClinVar_CLNSIG) |
+           grepl("Likely_pathogenic",ClinVar_CLNSIG)
+           ) %>%
+  select(Uploaded_variation,Existing_variation,Location,Allele,stars,
+         starts_with('ClinVar'),PL_AF,PL_AC,all_of(af_list)) %>%
+  distinct() %>%
+  write.table('../input/diseases/clin_sig_ready.tsv',sep='\t',
+              row.names = F,
+              col.names = T,
+              quote = F)
 
 ### Filter by AF and IMPACT
 
