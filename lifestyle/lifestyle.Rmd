@@ -2,16 +2,14 @@
 title: "Lifestyle_variants"
 subtitle: "Results on 943 unrelated individuals"
 output:
-  pdf_document: default
   github_document: default
+  pdf_document: default
 ---
 
 ```{r setup, echo=FALSE}
 knitr::opts_chunk$set(echo=FALSE)
 suppressMessages(library(knitr))
 ```
-
-
 
 
 ```{r echo=FALSE, message=F}
@@ -22,28 +20,27 @@ lifestyle <- read.table('lifestyle_genes.txt',sep='\t',header=T)
 af_comp <- lifestyle %>% 
   select(Existing_variation,effect,Location,SYMBOL,VARIANT_CLASS,Allele,EUR_AF,PL_AF,gnomAD3g_AF,gnomAD3g_AF_NFE, CLIN_SIG,IMPACT) %>%
   mutate(EUR_AF = as.numeric(as.character(EUR_AF)),
-                                   gnomAD3g_AF = as.numeric(as.character(gnomAD3g_AF)),
-                                   gnomAD3g_AF_NFE = as.numeric(as.character(gnomAD3g_AF))) %>% 
+                                   gnomAD3g_AF = as.numeric(as.character(gnomAD3g_AF))) %>% 
   na.omit()
 
 af_comp$PL_AF <- round(af_comp$PL_AF,2)
-af_comp$gnomAD3g_AF_NFE <- round(af_comp$gnomAD3g_AF_NFE,2)
+af_comp$gnomAD3g_AF <- round(af_comp$gnomAD3g_AF,2)
 
-af_comp$eur_diff <- af_comp$PL_AF - af_comp$gnomAD3g_AF_NFE
+af_comp$world_diff <- af_comp$PL_AF - af_comp$gnomAD3g_AF
 
 af_outlier <- af_comp %>% 
-  top_n(-10, eur_diff) %>% rbind( top_n(af_comp,10, eur_diff)) %>% 
-  select(Existing_variation,Allele,effect,CLIN_SIG,IMPACT,PL_AF,gnomAD3g_AF_NFE,eur_diff) %>% arrange(eur_diff)
+  top_n(-10, world_diff) %>% rbind( top_n(af_comp,10, world_diff)) %>% 
+  select(Existing_variation,Allele,effect,CLIN_SIG,IMPACT,PL_AF,gnomAD3g_AF,world_diff) %>% arrange(world_diff)
 ```
 
 
-Top 10 and bottom 10 differences between AF in PL and EUR
+Top 10 and bottom 10 differences 
 
 ```{r, table_outlier, echo=FALSE}
 kable(af_outlier %>% select(-CLIN_SIG,-IMPACT) %>%
         mutate(PL_AF =  round(af_outlier$PL_AF,2),
-               gnomAD3g_AF_NFE = round(af_outlier$gnomAD3g_AF_NFE,2),
-               eur_diff = round(af_outlier$eur_diff,2))
+               gnomAD3g_AF = round(af_outlier$gnomAD3g_AF,2),
+               world_diff = round(af_outlier$world_diff,2))
         )
 ```
 
@@ -53,29 +50,48 @@ Correlation between AF in PL and EUR populations
 
 ```{r, Polish_gnomADNon-Finnish_scatter_plot, echo=FALSE, message=F}
 af_comp %>% 
-  ggplot(aes(y=PL_AF,x=gnomAD3g_AF_NFE)) + geom_point(col='#27384A') + 
+  ggplot(aes(y=PL_AF,x=gnomAD3g_AF)) + geom_point(col='#27384A') + 
   geom_smooth(method='lm',se = F,col='#48C095') + theme_classic() + 
-  xlab('gnomAD Non Finnish European AF') +
   ylab('Polish AF') 
 ```
 
 \newpage
 
-Top 10 and bottom 10 differences between AF in PL and EUR
+Top 10 and bottom 10 differences 
 
 ```{r, 10_diff_barplot, echo=FALSE,message=F}
 af_outlier %>% 
-  ggplot(aes(x=eur_diff,y = reorder(Existing_variation,-eur_diff))) + 
+  ggplot(aes(x=world_diff,y = reorder(Existing_variation,-world_diff))) + 
   geom_bar(stat = 'identity',fill='#48C095', position = 'dodge') + 
   theme_classic() +
-  ylab('rsid ') + xlab('Difference between AF in Polish and European populations') 
-# 
-# 
-# 
-# af_outlier %>%
-#   ggplot(aes(x=eur_diff,y = reorder(effect,-eur_diff))) +
-#   geom_bar(stat = 'identity',fill='#48C095',position = 'dodge') +
-#   theme_classic() +
-#   ylab('Variant effect') +
-#   xlab('Difference between AF in Polish and European populations')
+  ylab('rsid ') + xlab('Difference between AF in Polish and global populations') 
+
 ```
+
+### Blond wlosy
+```{r, blonde_hair, echo=FALSE,message=F}
+blond <- lifestyle %>% filter(effect=='Blond hair')  %>% select(Existing_variation,PL_AF,contains('AF'))
+AF <- c(0.83,0.73,0.65,0.56,0.48,0.37,0.25,0.61,0.86,0.97,0.19)
+pop <- c('Europejska','Żydzi aszkenazyjscy','Amisze','Amerykańskie','Bliskowschodnie',
+         'Południowoazjatyckie','Wschodnioazjatyckie','Globalna','Polska','Fińska','Afroamerykańska')
+
+blond <- data.frame(pop,AF)
+
+group.colors <- c(no = '#48C095', pl='#BC0020')
+
+blond %>% 
+  mutate(AF = AF*100, pol = ifelse(pop == 'Polska','pl','no')) %>%
+  ggplot(aes(x=AF,y=reorder(pop,-AF),fill=pol)) +
+  geom_bar(stat='identity',width=0.5) +
+  geom_text(aes(label=paste(round(AF),'%',sep='')),hjust=-0.3) +
+  theme_classic() +
+  ylab('Populacje') +
+  xlab('Częstość wariantu') +
+  xlim(c(0,100)) +
+  scale_fill_manual(values=group.colors) +
+  theme(legend.position = 'none')
+
+```
+
+
+

@@ -162,21 +162,3 @@ PSC outliers
 |-------:|--------:|
 |    171 | 2164166 |
 |    580 | 2445661 |
-
-<!-- ### Outlier samples reccuring in other statistics: -->
-<!-- ```{r echo=FALSE} -->
-<!-- final_out <- imiss_out %>%  -->
-<!--   left_join(depth_out,by = "sample") %>%  -->
-<!--   left_join(flagstat_out,by = "sample") %>% -->
-<!--   left_join(psc_nref_out,by = "sample") %>% -->
-<!--   left_join(psc_nonref_out,by = "sample") %>% -->
-<!--   left_join(psc_hets_out,by = "sample")  -->
-<!-- final_out <- final_out %>% filter(!is.na(average_depth) | !is.na(flagstat_total) | !is.na(nRefHom)  | -->
-<!--            !is.na(nNonRefHom) | !is.na(nHets)) %>%  -->
-<!--   pivot_longer(-sample)  -->
-<!-- final_out$value <-  ifelse(is.na(final_out$value), -->
-<!--                                    'not_outlier', -->
-<!--                                    final_out$value)  -->
-<!-- final_out <- final_out %>% pivot_wider() -->
-<!-- kable(final_out) -->
-<!-- ``` -->

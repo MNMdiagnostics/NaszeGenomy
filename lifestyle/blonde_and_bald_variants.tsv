@@ -1,0 +1,9 @@
+effect	Existing_variation	Location	Allele	PL_AF	AFR_AF	AMR_AF	EAS_AF	EUR_AF	SAS_AF	ClinVar	ClinVar_CLNSIG	ClinVar_CLNREVSTAT	ClinVar_CLNDN
+Male Pattern Baldness	rs2003046	chr1:10972770	A	0.208908	0.3585	0.255	0.1905	0.2286	0.18	-	-	-	-
+Male Pattern Baldness	rs9287638	chr2:238785990	A	0.329799	0.5545	0.4424	0.4851	0.3211	0.4877	-	-	-	-
+Male Pattern Baldness	rs2073963	chr7:18838251	G	0.407643	0.5159	0.3934	0.4911	0.3897	0.592	-	-	-	-
+Blond hair	rs12896399	chr14:92307319	T	0.414104	0.0212	0.2522	0.3472	0.4304	0.3272	1420	association	no_assertion_criteria_provided	Skin/hair/eye_pigmentation,_variation_in,_6
+Blond hair	rs1667394	chr15:28285036	T	0.858431	0.087	0.5648	0.2708	0.7565	0.3681	4743	association	no_assertion_criteria_provided	Skin/hair/eye_pigmentation,_variation_in,_1
+Male Pattern Baldness	rs8085664	chr18:45234191	A	0.252386	0.5113	0.3401	0.1677	0.2624	0.1881	-	-	-	-
+Male Pattern Baldness	rs6113491	chr20:22076777	C	0.463415	0.8116	0.6945	0.6746	0.4712	0.5399	-	-	-	-
+Male Pattern Baldness	rs6625163	chrX:67291142	A	0.800636	0.0439	0.8282	0.9974	0.8172	0.9109	-	-	-	-

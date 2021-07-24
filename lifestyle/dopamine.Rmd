@@ -1,0 +1,75 @@
+---
+title: "Dopamine (gnomAD v3.1)"
+subtitle: "Results on 943 unrelated individuals "
+output:
+  github_document: default
+  pdf_document: default
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+suppressMessages(library(knitr))
+```
+
+
+```{r echo=FALSE, message=F, warning=F}
+suppressMessages(library(tidyverse))
+suppressMessages(library(data.table))
+
+genes <- fread('dopamine_genes.tsv',header=T)
+
+genes_comp <- genes %>% 
+  select(Uploaded_variation,Location,Allele,PL_AF,gnomAD3g_AF,SYMBOL,IMPACT, ClinVar_CLNSIG ) %>%
+  filter(SYMBOL == 'DRD4') %>% 
+  distinct()
+
+genes_comp$gnomAD3g_AF <- ifelse(genes_comp$gnomAD3g_AF == '-',0,genes_comp$gnomAD3g_AF)
+genes_comp$gnomAD3g_AF <- as.numeric(genes_comp$gnomAD3g_AF)
+
+genes_comp$global_diff <- genes_comp$PL_AF - genes_comp$gnomAD3g_AF
+```
+
+
+### Wszystkie warianty
+
+```{r, scatter_plot_two_colors_all, echo=FALSE, message=F, warning=F}
+trsup <- data.frame(x=c(0,0,1),y=c(0,1,1))
+trinf <- data.frame(x=c(0,1,1),y=c(0,0,1))
+
+genes_comp %>% 
+  ggplot(aes(x=PL_AF,y=gnomAD3g_AF)) + 
+  geom_point() +
+  geom_abline(linetype='dashed') +
+  geom_polygon(aes(x=x, y=y), data=trsup, fill="#FF000066",alpha=0.2) +
+  geom_polygon(aes(x=x, y=y), data=trinf, fill="#00FF0066",alpha=0.2)+
+  theme_minimal() +
+  xlab('Częstość w populacji polskiej') +
+  ylab('Częstość w populacji globalnej') 
+```
+
+### Warianty HIGH lub MODERATE
+
+```{r, scatter_plot_two_colors_high_moderate, echo=FALSE, message=F, warning=F}
+trsup <- data.frame(x=c(0,0,0.1),y=c(0,0.1,0.1))
+trinf <- data.frame(x=c(0,0.1,0.1),y=c(0,0,0.1))
+
+genes_comp %>% filter(IMPACT == 'HIGH' | IMPACT == 'MODERATE') %>%
+  ggplot(aes(x=PL_AF,y=gnomAD3g_AF)) + 
+  geom_point() +
+  geom_abline(linetype='dashed') +
+  geom_polygon(aes(x=x, y=y), data=trsup, fill="#FF000066",alpha=0.2) +
+  geom_polygon(aes(x=x, y=y), data=trinf, fill="#00FF0066",alpha=0.2)+
+  theme_minimal() +
+  xlab('Częstość w populacji polskiej') +
+  ylab('Częstość w populacji globalnej') 
+```
+
+
+
+
+
+
+
+
+
+

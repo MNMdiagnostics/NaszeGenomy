@@ -2,8 +2,8 @@
 title: "Alcohol metabolism"
 subtitle: "Results on 943 unrelated individuals"
 output:
-  github_document: default
   pdf_document: default
+  github_document: default
 ---
 
 ```{r setup, echo=FALSE}
@@ -37,16 +37,6 @@ rsid_new <- rsid_comp %>% filter(Existing_variation %in% x)
 
 rsid_comp %>% write.table('alko_rsid.tsv',col.names = T,row.names = F,sep='\t')
 
-# genes_comp <- genes %>% 
-#   select(Existing_variation,Location,Allele, PL_AF,AFR_AF,AMR_AF,EAS_AF,EUR_AF,SAS_AF ) %>% distinct()
-# 
-# alko_df <- rbind(rsid_comp,genes_comp)
-# alko_df <- alko_df %>% mutate(Association=ifelse(Existing_variation %in% rsid$Existing_variation,'confirmed',
-#                               'unconfirmed')
-#                                 ) 
-
-# alko_df$AFR_diff <- alko_df$PL_AF - alko_df$AFR_AF
-# alko_df$AMR_diff <- alko_df$PL_AF - alko_df$AMR_AF
 ```
 
 
@@ -93,7 +83,9 @@ plot_data %>% na.omit() %>%
   theme_minimal() +
   scale_color_viridis_d(name='Populacje') +
   xlab('Częstość w populacji polskiej') +
-  ylab('Częstość w innych populacjach') 
+  ylab('Częstość w innych populacjach') +
+  xlim(c(0,1)) +
+  theme(legend.position = 'top',legend.direction = 'horizontal',legend.title = element_blank())
     
 
 ```
