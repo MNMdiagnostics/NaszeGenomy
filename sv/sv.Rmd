@@ -1,5 +1,5 @@
 ---
-title: "Structural variants.\newline Results for 943 unrelated individuals"
+title: "Structural variants.\newline Results for 1076 unrelated individuals"
 subtitle:
 output: 
   github_document: default
@@ -25,7 +25,7 @@ diff <- function(l) {
 #sv.af$CIPOS95 <- sapply(sv.af$CIPOS95, function(x) diff(as.numeric(strsplit(x,',')[[1]])))
 #sv.af$CIEND95 <- sapply(sv.af$CIEND95, function(x) diff(as.numeric(strsplit(x,',')[[1]])))
 
-sv.pers <- fread('../input/sv_multisample_210519.per_sample_stats.tsv', stringsAsFactors = T, na.strings = '.')
+sv.pers <- fread('../input/sv_multisample_210716.per_sample_stats.tsv', stringsAsFactors = T, na.strings = '.')
 colnames(sv.pers) = c('sampleid','ID','chrom','AC','AN','svtype','svlen',
                       'HWE','MSHQ','SU','SR','PE','GT','GQ','DP','AB','DHFFC','SHQ')
 sv.pers$af = abs(sv.pers$AC/sv.pers$AN)
@@ -71,7 +71,7 @@ sv.af.full$PASS = (sv.af.full$MSHQ>=3 | sv.af.full$MSHQ==-1) &
 sv.af = sv.af.full[sv.af.full$PASS,]
 # save sv.af
 # write.table(sv.af, row.names = F, quote = F, sep='\t',
-#            file = '../input/sv_multisample_210519.smoove.square.unrelated.af_stats_PASS.tsv')
+#            file = '../input/sv_multisample_210716.smoove.square.unrelated.af_stats_PASS.tsv')
 
 sv.pers.full = sv.pers
 sv.pers.full$PASS= (sv.pers.full$MSHQ>=3 | sv.pers.full$MSHQ==-1) & 
