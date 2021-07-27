@@ -64,7 +64,9 @@ So we try to find outliers (marked in red) using two different methods:
 2. Unsupervised Outlier Detection using Local Outlier Factor (LOF) (LocalOutlierFactor Python function with tthe following parameters: n_neighbors=20, algorithm='brute'.
 
 **The results are presented on the following plot:**
+
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/PLOT1.png) 
+
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/PLOT2.png) 
 
 Also I did DBSCAN clustering - Density-Based Spatial Clustering of Applications with Noise. Finds core samples of high density and expands clusters from them. This is very good method for data which contains clusters of similar density. It proves that we have only one cluster and few outliers.
