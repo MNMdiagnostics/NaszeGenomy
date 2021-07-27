@@ -2,7 +2,8 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
 
 print('Preparing AF list')
-af <- fread('../input/multisample_20210519.dv.bcfnorm.filtered.AFlist.txt',showProgress=T) %>% filter(V3 > 0 & V4 > 0)
+af <- fread('../input/multisample_20210716.dv.bcfnorm.filt.unrelated.vcf.gz.AFlist.txt',showProgress=T) %>% 
+  filter(V3 > 0 & V4 > 0)
 colnames(af) <- c('Uploaded_variation','PL_AF','PL_AN','PL_AC')
 
 print('Loading VEP file')

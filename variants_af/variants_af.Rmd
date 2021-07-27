@@ -1,6 +1,5 @@
 ---
-title: "Variants in disease causing genes \n Results for 943 unrelated individuals"
-subtitle:
+title: "Variants in disease causing genes (1075 unrelated individuals)"
 output: 
   github_document: default
 
@@ -58,10 +57,10 @@ af_plot %>%
   pivot_longer(-allele_frequency,names_to = 'Variant class',
                values_to = 'Cummulative number of variants (millions)') %>%
   ggplot(aes(allele_frequency,`Cummulative number of variants (millions)`,
-             col=`Variant class`)) +
+             linetype=`Variant class`)) +
   geom_line() +
   xlab('log10 Allele frequency') +
-  scale_color_manual(values = type.colors) +
+  #scale_color_manual(values = type.colors) +
   scale_y_continuous(breaks = seq(0,100,5)) +
   scale_x_log10() +
   theme_minimal()
@@ -71,34 +70,34 @@ af_plot %>%
 
 
 ```{r sv.af.hist, echo=F,warning=FALSE}
-sv.af <- read.table('../../../genom_polaka/sv/sv_multisample_210519.smoove.square.unrelated.nogt.stats.tsv')
-colnames(sv.af) <- c('chrom','pos', 'svtype', 'len', 'ac', 'an')
-sv.af$af <- sv.af$ac/sv.af$an
+sv.af <- read.table('../../../genom_polaka/sv/sv_multisample_210716.smoove.square.unrelated.af_stats_PASS.tsv',header=T)
+#colnames(sv.af) <- c('chrom','pos', 'svtype', 'len', 'ac', 'an')
+#sv.af$af <- sv.af$ac/sv.af$an
 sv.af <- sv.af[order(sv.af$af), ]
 
 colnames(af_plot)[1] <- 'af'
 
-af_perc_plot <- af_plot %>% 
+af_perc_plot <- af_plot %>%
   pivot_longer(-af,names_to = 'svtype',values_to = 'cspct') %>%
-  relocate(svtype, .before = af) %>% 
+  relocate(svtype, .before = af) %>%
   mutate(svtype = as.factor(svtype))
 
-sv.af.cs  <-  sv.af %>% 
+sv.af.cs  <-  sv.af %>%
              group_by(svtype, af) %>%
-             summarise(cnt=n()) %>% 
-             group_by(svtype) %>% 
+             summarise(cnt=n()) %>%
+             group_by(svtype) %>%
              summarise(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt)) %>%
   select(-cs) %>% bind_rows(af_perc_plot)
-  
-group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue",
-                  SNP = 'darkgoldenrod4', indel='#5F5F5F')
+
+# group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue",
+#                   SNP = 'darkgoldenrod4', indel='#5F5F5F')
 
 sv.af.cs %>%
-ggplot() + 
-  geom_line(aes(x = af, y=cspct, color=svtype)) +
+ggplot() +
+  geom_line(aes(x = af, y=cspct, linetype=svtype)) +
   scale_x_log10()+
   xlab('log10 Allele frequency') + ylab('% variants') +
-  scale_color_viridis(discrete = T, 'Coding consequence') +
+  #scale_color_viridis(discrete = T, 'Coding consequence') +
   theme_minimal() +
   theme(legend.position = 'top')
 
@@ -188,39 +187,39 @@ kable((clinsig %>% na.omit() %>%
 
 ```
 
-### ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.01
+<!-- ### ClinVar variants pathogenic & likely pathogenic \ filtered with gnomad3g AF < 0.01 -->
 
-```{r clinvar_01, echo=FALSE, warning=FALSE}
-clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T) 
-clinsig$gnomAD3g_AF <- ifelse(clinsig$gnomAD3g_AF == '-',0,clinsig$gnomAD3g_AF)
-clinsig$gnomAD3g_AF <-as.numeric(clinsig$gnomAD3g_AF)
+<!-- ```{r clinvar_01, echo=FALSE, warning=FALSE} -->
+<!-- clinsig <- fread('../input/diseases/clin_sig_ready.tsv',header=T)  -->
+<!-- clinsig$gnomAD3g_AF <- ifelse(clinsig$gnomAD3g_AF == '-',0,clinsig$gnomAD3g_AF) -->
+<!-- clinsig$gnomAD3g_AF <-as.numeric(clinsig$gnomAD3g_AF) -->
 
-clinsig <- clinsig %>%
-  filter(gnomAD3g_AF < 0.01) %>% na.omit()
+<!-- clinsig <- clinsig %>% -->
+<!--   filter(gnomAD3g_AF < 0.01) %>% na.omit() -->
 
-clinsig %>% na.omit() %>%
-  separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
-  select(-x,-y,-Allele) %>%
-  relocate(Existing_variation, .before = REF) %>%
-  arrange(desc(gnomAD3g_AF)) %>%
-  write.table('comp_clinsig01.tsv',quote = F,col.names = T,sep='\t',row.names = F)
+<!-- clinsig %>% na.omit() %>% -->
+<!--   separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>% -->
+<!--   select(-x,-y,-Allele) %>% -->
+<!--   relocate(Existing_variation, .before = REF) %>% -->
+<!--   arrange(desc(gnomAD3g_AF)) %>% -->
+<!--   write.table('comp_clinsig01.tsv',quote = F,col.names = T,sep='\t',row.names = F) -->
 
-clinsig %>% na.omit() %>%
-  select(Existing_variation,stars) %>% 
-  distinct() %>%
-  ggplot(aes(y=factor(stars))) +
-  geom_bar(fill="#48C095",width=0.5) + 
-  theme_classic() +
-  ylab('Number of gold stars') +
-  xlab('Variants count') 
+<!-- clinsig %>% na.omit() %>% -->
+<!--   select(Existing_variation,stars) %>%  -->
+<!--   distinct() %>% -->
+<!--   ggplot(aes(y=factor(stars))) + -->
+<!--   geom_bar(fill="#48C095",width=0.5) +  -->
+<!--   theme_classic() + -->
+<!--   ylab('Number of gold stars') + -->
+<!--   xlab('Variants count')  -->
 
-kable((clinsig %>% na.omit() %>%
-        select(Existing_variation,stars) %>% 
-        group_by(stars) %>%
-        count()),caption = 'variants with Clinvar stars')
+<!-- kable((clinsig %>% na.omit() %>% -->
+<!--         select(Existing_variation,stars) %>%  -->
+<!--         group_by(stars) %>% -->
+<!--         count()),caption = 'variants with Clinvar stars') -->
 
 
-```
+<!-- ``` -->
 
 
 
@@ -275,86 +274,86 @@ variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) 
   write.table('variants_class.tsv',quote=F,col.names = T,row.names = F,sep='\t')
 ```
 
-### Variants per coding consequence
+<!-- ### Variants per coding consequence -->
 
-```{r, echo=FALSE,warning=F}
-consequence <- read.table('plik_do_wykresu_consequence_data.tsv',header=T,
-                          sep='\t')
+<!-- ```{r, echo=FALSE,warning=F} -->
+<!-- consequence <- read.table('plik_do_wykresu_consequence_data.tsv',header=T, -->
+<!--                           sep='\t') -->
 
-consequence$group <- factor(
-  consequence$group, levels = c('0 - 0.1%','0.1 - 0.2%', '0.2 - 0.5%',
-                                '0.5 - 1%','1 - 2%','2 - 5%','5 - 10%',
-                                '10 - 50%','50 - 100%'))
+<!-- consequence$group <- factor( -->
+<!--   consequence$group, levels = c('0 - 0.1%','0.1 - 0.2%', '0.2 - 0.5%', -->
+<!--                                 '0.5 - 1%','1 - 2%','2 - 5%','5 - 10%', -->
+<!--                                 '10 - 50%','50 - 100%')) -->
 
-consequence$Konsekwencje <- consequence$Coding_var_category
-levels(consequence$Konsekwencje) <-list(`wariant w regionie 3'UTR` = '3utr_variant', 
-                                        `wariant w regionie 5'UTR` = '5utr_variant',
-                                        `przesunięcie ramki odczytu` = 'frameshift_variant',
-                                        `insercja/delecja` = 'inframe_indel',
-                                        `wariant synonimiczny` = 'missense_variant',
-                                        `wariant niekodujący` = 'nonexonic',
-                                        inne = 'other',
-                                        `wariant splicingowy`='splicing_variant',
-                                        `wariant w kodonie start/stop` = 'start_stop_variant',
-                                        `wariant synonimiczny` = 'synonymous_variant')
+<!-- consequence$Konsekwencje <- consequence$Coding_var_category -->
+<!-- levels(consequence$Konsekwencje) <-list(`wariant w regionie 3'UTR` = '3utr_variant',  -->
+<!--                                         `wariant w regionie 5'UTR` = '5utr_variant', -->
+<!--                                         `przesunięcie ramki odczytu` = 'frameshift_variant', -->
+<!--                                         `insercja/delecja` = 'inframe_indel', -->
+<!--                                         `wariant synonimiczny` = 'missense_variant', -->
+<!--                                         `wariant niekodujący` = 'nonexonic', -->
+<!--                                         inne = 'other', -->
+<!--                                         `wariant splicingowy`='splicing_variant', -->
+<!--                                         `wariant w kodonie start/stop` = 'start_stop_variant', -->
+<!--                                         `wariant synonimiczny` = 'synonymous_variant') -->
 
-consequence$Coding_var_category <- gsub('_',' ',consequence$Coding_var_category)
+<!-- consequence$Coding_var_category <- gsub('_',' ',consequence$Coding_var_category) -->
 
-cons_plot <- consequence %>% group_by(Coding_var_category, group) %>%
-  summarise(n = sum(n)) %>% 
-  mutate(percentage = n/(sum(n)),
-         minmax = (n - min(n))/(max(n)-min(n))
-           )
+<!-- cons_plot <- consequence %>% group_by(Coding_var_category, group) %>% -->
+<!--   summarise(n = sum(n)) %>%  -->
+<!--   mutate(percentage = n/(sum(n)), -->
+<!--          minmax = (n - min(n))/(max(n)-min(n)) -->
+<!--            ) -->
 
-cons_plot_pl <- consequence %>% group_by(Konsekwencje, group) %>%
-  summarise(n = sum(n)) %>% 
-  mutate(percentage = n/(sum(n)),
-         minmax = (n - min(n))/(max(n)-min(n))
-           )
+<!-- cons_plot_pl <- consequence %>% group_by(Konsekwencje, group) %>% -->
+<!--   summarise(n = sum(n)) %>%  -->
+<!--   mutate(percentage = n/(sum(n)), -->
+<!--          minmax = (n - min(n))/(max(n)-min(n)) -->
+<!--            ) -->
 
-cons_plot_pl %>% filter(Konsekwencje != 'inne') %>%
-  ggplot(aes(x=as.numeric(group),y=percentage,fill=Konsekwencje)) +
-  geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') +
-    scale_fill_viridis(discrete = T,'Typ wariantu') +
-  theme_minimal() +
-  scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) +
-  scale_y_continuous(breaks = seq(0,1,0.25),labels = c('0%','25%','50%','75%','100%')) +
-xlab('Przedziały częstości alleli') +
-  ylab('Procentowy udział wariantów w danym przedziale') 
+<!-- cons_plot_pl %>% filter(Konsekwencje != 'inne') %>% -->
+<!--   ggplot(aes(x=as.numeric(group),y=percentage,fill=Konsekwencje)) + -->
+<!--   geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') + -->
+<!--     scale_fill_viridis(discrete = T,'Typ wariantu') + -->
+<!--   theme_minimal() + -->
+<!--   scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) + -->
+<!--   scale_y_continuous(breaks = seq(0,1,0.25),labels = c('0%','25%','50%','75%','100%')) + -->
+<!-- xlab('Przedziały częstości alleli') + -->
+<!--   ylab('Procentowy udział wariantów w danym przedziale')  -->
 
-cons_plot %>% filter(Coding_var_category != 'other') %>%
-  ggplot(aes(x=as.numeric(group),y=percentage,fill=Coding_var_category)) +
-  geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') +
-    scale_fill_viridis(discrete = T,'Coding consequence') +
-  theme_minimal() +
-  scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) +
-  scale_y_continuous(breaks = seq(0,1,0.25),labels = c('0%','25%','50%','75%','100%')) +
-xlab('Allele frequency') +
-  ylab('Normalized percentage') 
+<!-- cons_plot %>% filter(Coding_var_category != 'other') %>% -->
+<!--   ggplot(aes(x=as.numeric(group),y=percentage,fill=Coding_var_category)) + -->
+<!--   geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') + -->
+<!--     scale_fill_viridis(discrete = T,'Coding consequence') + -->
+<!--   theme_minimal() + -->
+<!--   scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) + -->
+<!--   scale_y_continuous(breaks = seq(0,1,0.25),labels = c('0%','25%','50%','75%','100%')) + -->
+<!-- xlab('Allele frequency') + -->
+<!--   ylab('Normalized percentage')  -->
 
-```
+<!-- ``` -->
 
-### Variants per non-coding consequence
+<!-- ### Variants per non-coding consequence -->
 
-```{r non-coding consequence, echo=FALSE}
-consequence$noncoding.var_category <- gsub('_',' ',consequence$noncoding.var_category)
+<!-- ```{r non-coding consequence, echo=FALSE} -->
+<!-- consequence$noncoding.var_category <- gsub('_',' ',consequence$noncoding.var_category) -->
 
-cons_plot <- consequence %>% group_by(noncoding.var_category, group) %>%
-  summarise(n = sum(n)) %>% 
-  mutate(percentage = n/(sum(n)),
-         minmax = (n - min(n))/(max(n)-min(n))
-           )
+<!-- cons_plot <- consequence %>% group_by(noncoding.var_category, group) %>% -->
+<!--   summarise(n = sum(n)) %>%  -->
+<!--   mutate(percentage = n/(sum(n)), -->
+<!--          minmax = (n - min(n))/(max(n)-min(n)) -->
+<!--            ) -->
 
-cons_plot %>% 
-  ggplot(aes(x=as.numeric(group),y=percentage,fill=noncoding.var_category)) +
-  geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') +
-    scale_fill_viridis(discrete = T, 'Coding consequence') +
-  theme_minimal() +
-  scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) +
-xlab('Allele frequency') +
-  ylab('Normalized percentage') 
+<!-- cons_plot %>%  -->
+<!--   ggplot(aes(x=as.numeric(group),y=percentage,fill=noncoding.var_category)) + -->
+<!--   geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') + -->
+<!--     scale_fill_viridis(discrete = T, 'Coding consequence') + -->
+<!--   theme_minimal() + -->
+<!--   scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) + -->
+<!-- xlab('Allele frequency') + -->
+<!--   ylab('Normalized percentage')  -->
 
-```
+<!-- ``` -->
 
 
 
@@ -395,7 +394,7 @@ muko[1,] %>%
   xlab('AF [%]') +
     geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
-  xlim(c(0,0.5))
+  xlim(c(0,2))
 ```
 
 <!-- ## CFTR deletions -->
