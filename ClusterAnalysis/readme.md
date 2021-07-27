@@ -57,20 +57,20 @@ Comparison of mean weighted Fst statistics within the European subpopulations:
 
 # Cluster analysis #
 Based on *3 624* genomes (*2 548* from *1000* Human Genomes and *1 076* from our project) we estimated the first *20* principal component for each of the individual (as presented in description of ancestry analysis). Then we took into account only patients from our cohort we detected possible outliers in the data. Now we can observe one huge cluster with few possible outliers:
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/Int.jpeg) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/posOUT.jpeg) 
 
 So we try to find outliers (marked in red) using two different methods:
 1. Unsupervised Outlier Detection (OneClassSVM Python function with the following parameters: kernel='sigmoid',gamma='scale',nu=0.05;
 2. Unsupervised Outlier Detection using Local Outlier Factor (LOF) (LocalOutlierFactor Python function with tthe following parameters: n_neighbors=20, algorithm='brute'.
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/UOD.jpeg) 
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/LOF.jpeg) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/PLOT1.png) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/PLOT2.png) 
 
 Also I did DBSCAN clustering - Density-Based Spatial Clustering of Applications with Noise. Finds core samples of high density and expands clusters from them. This is very good method for data which contains clusters of similar density. It proves that we have only one cluster and few outliers.
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/clusterPCA.jpeg) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/clusterPCAv2.jpeg) 
 
-**Mean weighted Fst statistics between people from cluster (black dots) and outliers (8 red dots) in above plot is equal to 0.003.**
+**Mean weighted Fst statistics between people from cluster (black dots) and outliers (10 red dots) in above plot is equal to 0.005.**
 
