@@ -42,7 +42,7 @@ Fst statistics computed as an average of sliding window of 1 000 SNPs for all po
 **The results are presented on the following plot:**
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/FST222.jpeg)
 
-Comparison of mean weighted Fst statistics within the European subpopulations
+Comparison of mean weighted Fst statistics within the European subpopulations:
 
 | Population | CEU | FIN | GBR | IBS | TSI |
 | :---: | :---: | :---: | :---: | :---: | :---: |
