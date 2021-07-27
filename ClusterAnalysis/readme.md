@@ -14,7 +14,7 @@ The idea here is as follows:
 **One individual (ID=204_20349_20) is from AMR not EUR population**
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULLv2.jpeg) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULL.jpeg) 
 
 **Version for Paula D.:**
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULLpop.jpeg) 
