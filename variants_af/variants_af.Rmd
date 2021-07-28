@@ -1,12 +1,12 @@
 ---
-title: "Variants in disease causing genes (1075 unrelated individuals)"
+title: "Variants in disease causing genes (1076 unrelated individuals)"
 output: 
   github_document: default
 
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo=FALSE, dev = 'jpeg')
+knitr::opts_chunk$set(echo=FALSE, dev = 'tiff')
 suppressMessages(library(knitr))
 suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
@@ -17,7 +17,7 @@ suppressMessages(library(gridExtra))
 ### Samples count
 
 ```{r echo=FALSE,warning=FALSE}
-psc <- read.table('../input/psc.txt',sep='\t',header=T)
+psc <- read.table('../input/psc.txt',sep='\t',header=F)
 colnames(psc) <- c(
   'PSC','id','sample','nRefHom','nNonRefHom','nHets','nTransitions',
   'nTransversions','nIndels','average depth','nSingletons','nHapRef','nHapAlt','nMissing'
@@ -51,7 +51,7 @@ af_plot$SNP <- 100*cumsum(af_plot$SNP)/sum(af_plot$SNP)
 af_plot$indel <- 100*cumsum(af_plot$indel)/sum(af_plot$indel)
 
 
-type.colors <- c(SNP = "#27384A", indel ="#48C095")
+type.colors <- c(SNP = "#27384A", indel ="gray")
 
 af_plot %>%
   pivot_longer(-allele_frequency,names_to = 'Variant class',
@@ -89,7 +89,7 @@ sv.af.cs  <-  sv.af %>%
              summarise(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt)) %>%
   select(-cs) %>% bind_rows(af_perc_plot)
 
-# group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="#48C095", INV = "blue",
+# group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="gray", INV = "blue",
 #                   SNP = 'darkgoldenrod4', indel='#5F5F5F')
 
 sv.af.cs %>%
@@ -106,7 +106,7 @@ ggplot() +
 
 ```{r, echo=FALSE, warning=FALSE}
 af_list <- c('PL_AF',  'gnomADg_AF_NFE','gnomADg_AF')
-group.colors <- c(PL_AF = "#BC0020", AF = "#27384A", gnomAD_FIN_AF ="#48C095", gnomAD_AF_NFE = "#B6B6B6",EUR_AF='#5F5F5F')
+group.colors <- c(PL_AF = "#BC0020", AF = "#27384A", gnomAD_FIN_AF ="gray", gnomAD_AF_NFE = "#B6B6B6",EUR_AF='#5F5F5F')
 
 ```
 
@@ -146,7 +146,7 @@ comp_acmg %>%
   group_by(SYMBOL) %>%
   summarise(PL_AC = sum(PL_AC)) %>%
   ggplot(aes(y=reorder(SYMBOL,-PL_AC),x=PL_AC)) +
-  geom_bar(fill="#48C095", stat = 'identity') + 
+  geom_bar(fill="gray", stat = 'identity') + 
   theme_classic() +
   ylab('Gene') +
   xlab('Allele count') 
@@ -175,7 +175,7 @@ clinsig %>% na.omit() %>%
   select(Existing_variation,stars) %>% 
   distinct() %>%
   ggplot(aes(y=factor(stars))) +
-  geom_bar(fill="#48C095",width=0.5) + 
+  geom_bar(fill="gray",width=0.5) + 
   theme_classic() +
   ylab('Number of gold stars') +
   xlab('Variants count') 
@@ -208,7 +208,7 @@ kable((clinsig %>% na.omit() %>%
 <!--   select(Existing_variation,stars) %>%  -->
 <!--   distinct() %>% -->
 <!--   ggplot(aes(y=factor(stars))) + -->
-<!--   geom_bar(fill="#48C095",width=0.5) +  -->
+<!--   geom_bar(fill="gray",width=0.5) +  -->
 <!--   theme_classic() + -->
 <!--   ylab('Number of gold stars') + -->
 <!--   xlab('Variants count')  -->
@@ -236,24 +236,24 @@ comp_putative <- putative %>%
 
 ```
 
-### % IMPACT variants
+<!-- ### % IMPACT variants -->
 
-```{r echo=FALSE,warning=FALSE}
-group.colors <- c(HIGH = "#27384A", MODERATE ="#48C095", LOW = "#B6B6B6")
-stacked <- read.table('../input/diseases/impact_stacked_ready.tsv',sep='\t',header=T)
-stacked$group <- factor(stacked$group)
-stacked$group <- ordered(stacked$group, levels = c("<0.1%", "0.1-0.5%", ">0.5%"))
+<!-- ```{r echo=FALSE,warning=FALSE} -->
+<!-- group.colors <- c(HIGH = "#27384A", MODERATE ="gray", LOW = "#B6B6B6") -->
+<!-- stacked <- read.table('../input/diseases/impact_stacked_ready.tsv',sep='\t',header=T) -->
+<!-- stacked$group <- factor(stacked$group) -->
+<!-- stacked$group <- ordered(stacked$group, levels = c("<0.1%", "0.1-0.5%", ">0.5%")) -->
 
-stacked %>%
-ggplot(aes(fill=IMPACT,y=n,x=group)) +
-geom_bar(position="fill", stat="identity") +
-theme_classic() +
-scale_fill_manual(values = group.colors) +
-xlab('Allele frequencies') +
-ylab('% of variants') 
+<!-- stacked %>% -->
+<!-- ggplot(aes(fill=IMPACT,y=n,x=group)) + -->
+<!-- geom_bar(position="fill", stat="identity") + -->
+<!-- theme_classic() + -->
+<!-- scale_fill_manual(values = group.colors) + -->
+<!-- xlab('Allele frequencies') + -->
+<!-- ylab('% of variants')  -->
 
 
-```
+<!-- ``` -->
 
 
 
@@ -367,7 +367,7 @@ nbs %>%
   select(PL_AF, starts_with('gnomAD_')) %>%
   pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>%
   ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
-  geom_bar(stat = 'identity',fill="#48C095") +
+  geom_bar(stat = 'identity',fill="gray") +
   theme_classic() +
   ylab('Population') +
   xlab('AF [%]') +
@@ -388,7 +388,7 @@ muko[1,] %>%
   select(PL_AF, starts_with('gnomAD_')) %>%
   pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>%
   ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
-  geom_bar(stat = 'identity',fill="#48C095") +
+  geom_bar(stat = 'identity',fill="gray") +
   theme_classic() +
   ylab('Population') +
   xlab('AF [%]') +

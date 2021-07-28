@@ -1,30 +1,30 @@
-Variants in disease causing genes (1075 unrelated individuals)
+Variants in disease causing genes (1076 unrelated individuals)
 ================
 
 ### Samples count
 
 | Variant    | min\_count | mean\_count | max\_count |
 |:-----------|-----------:|------------:|-----------:|
-| Indels     |     737369 |      764792 |     777759 |
+| Indels     |     737369 |      764797 |     777759 |
 | Singletons |       3202 |       15877 |     123142 |
-| SNP        |    3596077 |     3714716 |    3807218 |
+| SNP        |    3596077 |     3714733 |    3807218 |
 
 ## Cummulative allele frequency
 
-![](variants_af_files/figure-gfm/af_hist_pct-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/af_hist_pct-1.tiff)<!-- -->
 
     ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
     ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
 
-![](variants_af_files/figure-gfm/sv.af.hist-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/sv.af.hist-1.tiff)<!-- -->
 
 ## ACMG
 
-![](variants_af_files/figure-gfm/ACMG-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/ACMG-1.tiff)<!-- -->
 
 ### ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.001
 
-![](variants_af_files/figure-gfm/clinvar_001-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/clinvar_001-1.tiff)<!-- -->
 
 | stars |   n |
 |------:|----:|
@@ -52,7 +52,7 @@ variants with Clinvar stars
 <!--   select(Existing_variation,stars) %>%  -->
 <!--   distinct() %>% -->
 <!--   ggplot(aes(y=factor(stars))) + -->
-<!--   geom_bar(fill="#48C095",width=0.5) +  -->
+<!--   geom_bar(fill="gray",width=0.5) +  -->
 <!--   theme_classic() + -->
 <!--   ylab('Number of gold stars') + -->
 <!--   xlab('Variants count')  -->
@@ -64,9 +64,20 @@ variants with Clinvar stars
 
 ### Putative variants
 
-### % IMPACT variants
-
-![](variants_af_files/figure-gfm/unnamed-chunk-3-1.jpeg)<!-- -->
+<!-- ### % IMPACT variants -->
+<!-- ```{r echo=FALSE,warning=FALSE} -->
+<!-- group.colors <- c(HIGH = "#27384A", MODERATE ="gray", LOW = "#B6B6B6") -->
+<!-- stacked <- read.table('../input/diseases/impact_stacked_ready.tsv',sep='\t',header=T) -->
+<!-- stacked$group <- factor(stacked$group) -->
+<!-- stacked$group <- ordered(stacked$group, levels = c("<0.1%", "0.1-0.5%", ">0.5%")) -->
+<!-- stacked %>% -->
+<!-- ggplot(aes(fill=IMPACT,y=n,x=group)) + -->
+<!-- geom_bar(position="fill", stat="identity") + -->
+<!-- theme_classic() + -->
+<!-- scale_fill_manual(values = group.colors) + -->
+<!-- xlab('Allele frequencies') + -->
+<!-- ylab('% of variants')  -->
+<!-- ``` -->
 
 ## Number of variants per impact
 
@@ -154,11 +165,11 @@ variants with Clinvar stars
 
 ## NBS: chr8\_89971213\_ATTTGT\_A
 
-![](variants_af_files/figure-gfm/NBS-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/NBS-1.tiff)<!-- -->
 
 ## Cystic fybrosis: chr7\_117559590\_ATCT\_A
 
-![](variants_af_files/figure-gfm/Mucoviscidosis-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/Mucoviscidosis-1.tiff)<!-- -->
 
 <!-- ## CFTR deletions -->
 <!-- ```{r CFTR, echo=FALSE} -->
