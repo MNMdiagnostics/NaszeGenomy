@@ -9,7 +9,7 @@ Haplogroups
 
     ## Warning: Removed 2 rows containing non-finite values (stat_boxplot).
 
-![](haplogroups_files/figure-gfm/quality_violin-1.tiff)<!-- -->
+![](haplogroups_files/figure-gfm/quality_violin-1.jpeg)<!-- -->
 
 ``` r
 haplo_input <- haplo_input %>% filter(Quality > 0.80)
@@ -23,7 +23,7 @@ haplo_summary$n_perc <- (haplo_summary$n/sum(haplo_summary$n)) * 100
 
 2.  % individuals per haplogroup
 
-![](haplogroups_files/figure-gfm/percent_haplogroup-1.tiff)<!-- -->
+![](haplogroups_files/figure-gfm/percent_haplogroup-1.jpeg)<!-- -->
 
 4.  Subclades
 
@@ -35,7 +35,7 @@ haplo_summary$n_perc <- (haplo_summary$n/sum(haplo_summary$n)) * 100
 
     ## `summarise()` has grouped output by 'clad', 'subclad'. You can override using the `.groups` argument.
 
-![](haplogroups_files/figure-gfm/percent_subclads-1.tiff)<!-- -->
+![](haplogroups_files/figure-gfm/percent_subclads-1.jpeg)<!-- -->
 
 <!-- ```{r subclads,echo=FALSE, eval=F} -->
 <!-- # n <- paste('(',h_summary$n,')',sep = '') -->

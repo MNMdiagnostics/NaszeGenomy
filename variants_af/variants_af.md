@@ -11,20 +11,20 @@ Variants in disease causing genes (1076 unrelated individuals)
 
 ## Cummulative allele frequency
 
-![](variants_af_files/figure-gfm/af_hist_pct-1.tiff)<!-- -->
+![](variants_af_files/figure-gfm/af_hist_pct-1.jpeg)<!-- -->
 
     ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
     ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
 
-![](variants_af_files/figure-gfm/sv.af.hist-1.tiff)<!-- -->
+![](variants_af_files/figure-gfm/sv.af.hist-1.jpeg)<!-- -->
 
 ## ACMG
 
-![](variants_af_files/figure-gfm/ACMG-1.tiff)<!-- -->
+![](variants_af_files/figure-gfm/ACMG-1.jpeg)<!-- -->
 
 ### ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.001
 
-![](variants_af_files/figure-gfm/clinvar_001-1.tiff)<!-- -->
+![](variants_af_files/figure-gfm/clinvar_001-1.jpeg)<!-- -->
 
 | stars |   n |
 |------:|----:|
@@ -165,11 +165,11 @@ variants with Clinvar stars
 
 ## NBS: chr8\_89971213\_ATTTGT\_A
 
-![](variants_af_files/figure-gfm/NBS-1.tiff)<!-- -->
+![](variants_af_files/figure-gfm/NBS-1.jpeg)<!-- -->
 
 ## Cystic fybrosis: chr7\_117559590\_ATCT\_A
 
-![](variants_af_files/figure-gfm/Mucoviscidosis-1.tiff)<!-- -->
+![](variants_af_files/figure-gfm/Mucoviscidosis-1.jpeg)<!-- -->
 
 <!-- ## CFTR deletions -->
 <!-- ```{r CFTR, echo=FALSE} -->

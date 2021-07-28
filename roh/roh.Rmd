@@ -1,12 +1,12 @@
 ---
-title: "Runs of homozygosity on 943 individuals"
+title: "Runs of homozygosity on 1076 individuals"
 output: github_document
 ---
 
 ## Runs of homozygozity (ROH)
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,dev = 'tiff')
+knitr::opts_chunk$set(echo = TRUE,dev = 'jpeg')
 suppressMessages(library(knitr))
 ```
 

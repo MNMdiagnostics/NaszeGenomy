@@ -6,7 +6,7 @@ output:
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo=FALSE, dev = 'tiff')
+knitr::opts_chunk$set(echo=FALSE, dev = 'jpeg')
 suppressMessages(library(knitr))
 suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))

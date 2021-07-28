@@ -9,7 +9,7 @@ qc
 | mapped\_passed          | 655.58 | 835.38 | 830.84 | 1148.59 |
 | properly.paired\_passed | 634.89 | 805.31 | 801.00 | 1115.78 |
 
-![](qc_files/figure-gfm/flagstat-1.tiff)<!-- -->
+![](qc_files/figure-gfm/flagstat-1.jpeg)<!-- -->
 
 Total reads outliers
 
@@ -149,9 +149,9 @@ Average depth outliers
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](qc_files/figure-gfm/average_depth-1.tiff)<!-- -->
+![](qc_files/figure-gfm/average_depth-1.jpeg)<!-- -->
 
-![](qc_files/figure-gfm/depth_intervals-1.tiff)<!-- -->
+![](qc_files/figure-gfm/depth_intervals-1.jpeg)<!-- -->
 
 ## 3. Per sample count (PSC)
 
@@ -167,7 +167,7 @@ Average depth outliers
 | nTransitions   |  2414461.0 |  2491680.0 |  2493688.50 |  2556378.0 |
 | nTransversions |  1181616.0 |  1220362.5 |  1221044.84 |  1250840.0 |
 
-![](qc_files/figure-gfm/psc-1.tiff)<!-- -->
+![](qc_files/figure-gfm/psc-1.jpeg)<!-- -->
 
 PSC outliers
 

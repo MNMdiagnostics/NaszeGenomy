@@ -1,4 +1,4 @@
-Runs of homozygosity on 943 individuals
+Runs of homozygosity on 1076 individuals
 ================
 
 ## Runs of homozygozity (ROH)
@@ -34,22 +34,22 @@ Average ROH size per genome (additionally filtered: &gt;100kb)
 
 1.  Cummulative sum
 
-![](roh_files/figure-gfm/cummulative_sum-1.tiff)<!-- -->
+![](roh_files/figure-gfm/cummulative_sum-1.jpeg)<!-- -->
 
 Fig. Relation between size of runs of homozygozity and cumulative length
 of RoHs in an average individual.
 
-![](roh_files/figure-gfm/lengths_per_chromosome-1.tiff)<!-- -->
+![](roh_files/figure-gfm/lengths_per_chromosome-1.jpeg)<!-- -->
 
 Fig. Distribution of mean length of runs of homozygozity per chromosome
 
-![](roh_files/figure-gfm/numbers_per_chromosome-1.tiff)<!-- -->
+![](roh_files/figure-gfm/numbers_per_chromosome-1.jpeg)<!-- -->
 
 Fig. Distribution of counts of runs of homozygozity per chromosome
 
 2.  Coverage heatmap
 
-![](roh_files/figure-gfm/genome_coverage_heatmap-1.tiff)<!-- -->
+![](roh_files/figure-gfm/genome_coverage_heatmap-1.jpeg)<!-- -->
 
 Fig. Chromosomal location of run of homozygozity hotspots - regions
 frequently covered by runs of homozygozity in this cohort.
@@ -58,7 +58,7 @@ frequently covered by runs of homozygozity in this cohort.
 
 2.  Average sum of ROHs per genome
 
-![](roh_files/figure-gfm/total_roh-1.tiff)<!-- -->
+![](roh_files/figure-gfm/total_roh-1.jpeg)<!-- -->
 
 |     | mean\_SROH\_Mb  |
 |:----|:----------------|
@@ -76,7 +76,7 @@ frequently covered by runs of homozygozity in this cohort.
 
 3.  Sum of ROH length per range
 
-![](roh_files/figure-gfm/SROH-1.tiff)<!-- -->
+![](roh_files/figure-gfm/SROH-1.jpeg)<!-- -->
 
 |     | 2Mb-5Mb        | &gt;10Mb       |
 |:----|:---------------|:---------------|
@@ -90,4 +90,4 @@ frequently covered by runs of homozygozity in this cohort.
 4.  Relationship between number of ROHs and total length of genome
     covered by them
 
-![](roh_files/figure-gfm/SROH_corr-1.tiff)<!-- -->
+![](roh_files/figure-gfm/SROH_corr-1.jpeg)<!-- -->
