@@ -185,8 +185,7 @@ depth_percent
 ## 3. Per sample count (PSC)
 
 ```{r psc,echo=FALSE}
-
-psc <- read.table('../output/total_psc.stats', sep='\t')
+psc <- read.table('../input/psc.txt',sep='\t',header=F)
 colnames(psc) <- c(
   'PSC','id', 'sample', 'nRefHom', 'nNonRefHom', 'nHets', 
                    'nTransitions', 'nTransversions', 'nIndels', 'average_depth',

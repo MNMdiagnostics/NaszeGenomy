@@ -6,7 +6,7 @@ output:
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo=FALSE,dev='jpeg')
+knitr::opts_chunk$set(echo=FALSE,dev='tiff')
 suppressMessages(library(knitr))
 suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
@@ -14,14 +14,14 @@ suppressMessages(library(data.table))
 
 
 ```{r load, echo=FALSE}
-haplo_input <- read.table('../output/haplogrep/haplo210519.txt',header=T) 
-to_include <- read.table('../input/SAMPLES_TO_INCLUDE_210519.txt',sep='\t')
+haplo_input <- read.table('../output/haplogrep/haplo210716',header=T) 
+to_include <- read.table('../../../genom_polaka/SAMPLES_TO_INCLUDE_210716.txt',sep='\t')
 
 haplo_input = haplo_input %>% filter(SampleID %in% to_include$V1)
 haplo_input$clad <- substring(haplo_input$Haplogroup,1,1)
 
 # infer subclads
-subclads = sapply(haplo_input$Haplogroup, function(x) unlist(strsplit(x,'[a-z]'))[1])
+subclads = sapply(as.character(haplo_input$Haplogroup), function(x) unlist(strsplit(x,'[a-z]'))[1])
 plus_sc = grepl("+", subclads, fixed=T)
 subclads[plus_sc] = sapply(subclads, 
                            function(x) paste0(unlist(strsplit(x,'+', fixed=T))[1],'+'))[plus_sc]
@@ -39,7 +39,7 @@ subclad_list <- haplo_input %>%
 
 ```{r quality_violin, echo=F}
 haplo_input %>% ggplot(aes(x=1,y=Quality)) + 
-  geom_violin(col='#27384A',fill="#48C095") +
+  geom_violin(col='#27384A',fill="gray") +
   geom_boxplot(width=0.1) +
   theme_classic() +
   ylab('Number of individuals') +
@@ -68,7 +68,7 @@ labels <- paste(round(haplo_summary$n_perc,2),'%',sep=' ',n)
 
 haplo_summary  %>% 
   ggplot(aes(y=reorder(clad, -n_perc),x=n_perc)) +
-  geom_bar(fill="#48C095", stat='identity') + 
+  geom_bar(fill="gray", stat='identity') + 
   theme_classic() +
   ylab('Haplogroup') +
   xlab('% of individuals') +
@@ -109,10 +109,10 @@ c.label.xy = data=data.frame(x=tmp$c.cnt,
                              y=1:length(c.labels))
 
 sc %>% ggplot(aes(y=reorder(clad, -c.cnt), x=sc.cnt)) +
-  geom_bar(stat='identity', colour='black', fill="#48C095") +
+  geom_bar(stat='identity', colour='black', fill="gray") +
   theme_classic() +
   ylab('Haplogroup') +
-  xlab('# individuals') + 
+  xlab('Individuals') + 
   geom_text(label=sc.labels, size=3, position = position_stack(vjust = 0.5)) + 
   geom_text(data=c.label.xy, aes(x=x, y=y, label=c.labels, hjust=-0.3), size=3) + 
   coord_cartesian(xlim = c(0, 500))
@@ -120,34 +120,34 @@ sc %>% ggplot(aes(y=reorder(clad, -c.cnt), x=sc.cnt)) +
 ```
 
 
-```{r subclads,echo=FALSE, eval=F}
-# n <- paste('(',h_summary$n,')',sep = '')
-# labels <- paste(round(h_summary$n_perc,2),'%',sep=' ',n)
-# 
-h_summary <- haplo_input 
-h_summary$subclad <- substring(h_summary$subclad,1,3)
-h_summary$subclad <- gsub('[a-zA-Z]$','',h_summary$subclad)
+<!-- ```{r subclads,echo=FALSE, eval=F} -->
+<!-- # n <- paste('(',h_summary$n,')',sep = '') -->
+<!-- # labels <- paste(round(h_summary$n_perc,2),'%',sep=' ',n) -->
+<!-- #  -->
+<!-- h_summary <- haplo_input  -->
+<!-- h_summary$subclad <- substring(h_summary$subclad,1,3) -->
+<!-- h_summary$subclad <- gsub('[a-zA-Z]$','',h_summary$subclad) -->
 
-h_summary <- h_summary %>% group_by(Haplogroup,subclad) %>% summarise(n=n())
-h_summary$subclad <- ifelse(h_summary$n < 7, 'other',h_summary$subclad)
-h_summary <- h_summary %>% group_by(Haplogroup,subclad) %>% summarise(n=sum(n))
-h_summary$n_perc <- (h_summary$n/sum(h_summary$n)) * 100
+<!-- h_summary <- h_summary %>% group_by(Haplogroup,subclad) %>% summarise(n=n()) -->
+<!-- h_summary$subclad <- ifelse(h_summary$n < 7, 'other',h_summary$subclad) -->
+<!-- h_summary <- h_summary %>% group_by(Haplogroup,subclad) %>% summarise(n=sum(n)) -->
+<!-- h_summary$n_perc <- (h_summary$n/sum(h_summary$n)) * 100 -->
 
-top <- haplo_summary %>% top_n(n = 5,n) %>% select(Haplogroup)
+<!-- top <- haplo_summary %>% top_n(n = 5,n) %>% select(Haplogroup) -->
 
-top_h <- h_summary  %>% filter(Haplogroup %in% top$Haplogroup) 
-top_h[1,2] <- 'H'
+<!-- top_h <- h_summary  %>% filter(Haplogroup %in% top$Haplogroup)  -->
+<!-- top_h[1,2] <- 'H' -->
 
-library(RColorBrewer)
-nb.cols <- 25
-mycolors <- colorRampPalette(brewer.pal(9, "Set1"))(nb.cols)
+<!-- library(RColorBrewer) -->
+<!-- nb.cols <- 25 -->
+<!-- mycolors <- colorRampPalette(brewer.pal(9, "Set1"))(nb.cols) -->
 
-top_h %>%
-  ggplot(aes(y=reorder(Haplogroup, -n),x=n,fill=subclad)) +
-  geom_bar(position="fill", stat="identity") +
-  scale_fill_manual(values = mycolors) +
-  theme_classic() +
-  ylab('Haplogroup') +
-  xlab('# individuals') 
+<!-- top_h %>% -->
+<!--   ggplot(aes(y=reorder(Haplogroup, -n),x=n,fill=subclad)) + -->
+<!--   geom_bar(position="fill", stat="identity") + -->
+<!--   scale_fill_manual(values = mycolors) + -->
+<!--   theme_classic() + -->
+<!--   ylab('Haplogroup') + -->
+<!--   xlab('# individuals')  -->
 
-```
+<!-- ``` -->

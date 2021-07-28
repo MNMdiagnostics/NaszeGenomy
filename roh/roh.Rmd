@@ -6,7 +6,7 @@ output: github_document
 ## Runs of homozygozity (ROH)
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,dev = 'jpeg')
+knitr::opts_chunk$set(echo = TRUE,dev = 'tiff')
 suppressMessages(library(knitr))
 ```
 
@@ -34,9 +34,9 @@ outlier <- function (x) {
 ```{r, echo=F}
 roh <- fread('../input/roh_concat.txt', showProgress = T)
 colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id')
-roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
-roh$sample_id <-gsub(".norm.roh", "", roh$sample_id)
-to_include <- read.table('../input/SAMPLES_TO_INCLUDE_210519.txt',sep='\t')
+#roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
+#roh$sample_id <-gsub(".norm.roh", "", roh$sample_id)
+to_include <- read.table('../../../genom_polaka/SAMPLES_TO_INCLUDE_210716.txt',sep='\t')
 
 roh <- roh %>% filter(sample_id %in% to_include$V1) %>% filter(Chromosome != 'chrX' & Chromosome != 'chrY')
 roh$Chromosome <- factor(roh$Chromosome, levels = paste('chr',1:22,sep=''))
@@ -47,7 +47,7 @@ roh$Chromosome <- factor(roh$Chromosome, levels = paste('chr',1:22,sep=''))
 
 ```{r roh_quality, echo=FALSE, eval=F}
 roh %>% ggplot(aes(x=1,y=Quality)) +
-    geom_violin(fill='#48C095', col='#27384A') +
+    geom_violin(fill='gray', col='#27384A') +
   geom_boxplot(width=0.1) +
      theme_minimal() + theme(axis.text.x = element_blank()) +
   xlab('')
@@ -159,7 +159,7 @@ q90 <- plot_data %>% filter(quantiles=='90%')
 med <- plot_data %>% filter(quantiles=='50%')
 
 
-ggplot(med, aes(x=as.numeric(Range), y=quantile_length, col='#48C095', linetype='solid')) + geom_line() +
+ggplot(med, aes(x=as.numeric(Range), y=quantile_length, col='gray', linetype='solid')) + geom_line() +
   geom_line(aes(x=as.numeric(q25$Range),y=q25$quantile_length, col='#27384A',linetype='dashed')) +
   geom_line(aes(x=as.numeric(q75$Range),y=q75$quantile_length, col='#27384A',linetype='dashed')) +
   geom_line(aes(x=as.numeric(q10$Range),y=q10$quantile_length, col='#27384A',linetype='dotted')) +
@@ -193,7 +193,7 @@ roh_chrom_lengths$Chromosome <- gsub(roh_chrom_lengths$Chromosome,pattern = 'chr
 roh_chrom_lengths$Chromosome <- factor(roh_chrom_lengths$Chromosome, levels = 1:22)
 
 ggplot(roh_chrom_lengths, aes(x=Chromosome, y=meanLen)) + 
-  geom_boxplot(fill='#48C095') + 
+  geom_boxplot(fill='gray') + 
   xlab('Chromosome') + 
   ylab('Mean RoH length (Mb)') +
   theme_minimal()
@@ -203,7 +203,7 @@ Fig. Distribution of mean length of runs of homozygozity per chromosome
 
 ```{r numbers_per_chromosome, echo=FALSE, warning=F}
 ggplot(roh_chrom_lengths, aes(x=Chromosome, y=cnt)) + 
-  geom_boxplot(fill='#48C095') + xlab('Chromosome') + ylab('Count of RoH') +
+  geom_boxplot(fill='gray') + xlab('Chromosome') + ylab('Count of RoH') +
   theme_minimal()
 ```
 
@@ -239,7 +239,7 @@ roh$Range <- ifelse(roh$Length > 10e+06, '>10Mb',roh$Range)
 roh$Range <- factor(roh$Range)
 roh$Range <- ordered(roh$Range, levels = c('2Mb-5Mb','>10Mb'))
 
-group.colors <- c('>10Mb' = '#48C095', '2Mb-5Mb' = '#27384A')
+group.colors <- c('>10Mb' = 'gray', '2Mb-5Mb' = '#27384A')
 
 roh$Chromosome <- factor(roh$Chromosome)
 roh$Chromosome <- ordered(roh$Chromosome, levels = unique(roh$Chromosome))
@@ -247,7 +247,7 @@ roh$Chromosome <- ordered(roh$Chromosome, levels = unique(roh$Chromosome))
 roh %>% group_by(sample_id) %>%
   summarise(SROH_Mb = sum(Length)/1e+06) %>%
   ggplot(aes(y=1,x=SROH_Mb)) +
-  geom_violin(fill='#48C095', col='#27384A') +
+  geom_violin(fill='gray', col='#27384A') +
   geom_boxplot(width=0.1) +
   theme_classic() +
   xlab('SROH (Mb)') +
@@ -279,7 +279,7 @@ sroh_sum <- roh %>%
   group_by(Range,sample_id) %>% summarise(SROH = sum(Length)/1e+06)
 
 sroh_sum %>% ggplot(aes(y=Range,x=SROH)) +
- geom_violin(fill='#48C095', col='#27384A') +
+ geom_violin(fill='gray', col='#27384A') +
  geom_boxplot(width=0.1) +
  theme_classic() +
  ylab('Range') +
@@ -304,7 +304,7 @@ croh_sum <- roh %>% group_by(sample_id) %>%
   summarise(n = n(), sum = sum(Length)/1e+06)
 
 croh_sum %>% ggplot(aes(y=n,x=sum)) +
-  geom_point(col='#48C095') +
+  geom_point(col='gray') +
   theme_classic() +
   ylab('Number of ROH') +
   xlab('Total sum of ROH > 2Mb (SROH)') +
