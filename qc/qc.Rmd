@@ -6,7 +6,7 @@ output:
 ---
 
 ```{r setup, echo=FALSE}
-knitr::opts_chunk$set(echo=FALSE)
+knitr::opts_chunk$set(echo=FALSE, dev = 'tiff')
 suppressMessages(library(knitr))
 ```
 
@@ -28,7 +28,7 @@ suppressMessages(library(grid))
 suppressMessages(library(data.table))
 
 
-flagstat_path = "../output/multiqc_data/multiqc_samtools_flagstat.txt"
+flagstat_path = "../output/multiqc_data_1/multiqc_samtools_flagstat.txt"
 depth_path = "../output/depth_concat.txt"
 
 flagstat <- read.table(flagstat_path,header=T,sep='\t')
@@ -54,15 +54,15 @@ kable(flagstat %>% select(flagstat_total,mapped_passed,properly.paired_passed) %
 
 
 ```{r flagstat, echo=FALSE}
-p1 <- flagstat %>% ggplot(aes(y=flagstat_total,x=1)) + geom_violin(fill='#48C095',col='#27384A') +
+p1 <- flagstat %>% ggplot(aes(y=flagstat_total,x=1)) + geom_violin(fill='gray',col='#27384A') +
     geom_boxplot(width=0.1) +
     xlab('Total reads (millions)') + theme_classic() + ylim(c(600,1200)) + ylab('') + 
     theme(axis.text.x = element_blank())
-p2 <- flagstat %>% ggplot(aes(y=mapped_passed,x=1)) + geom_violin(fill='#48C095',col='#27384A') +
+p2 <- flagstat %>% ggplot(aes(y=mapped_passed,x=1)) + geom_violin(fill='gray',col='#27384A') +
     geom_boxplot(width=0.1) +
     xlab('Mapped (millions)') + theme_classic()+ ylim(c(600,1200)) + ylab('') + 
     theme(axis.text.x = element_blank())
-p3 <- flagstat %>% ggplot(aes(y=properly.paired_passed,x=1)) + geom_violin(fill='#48C095',col='#27384A') +
+p3 <- flagstat %>% ggplot(aes(y=properly.paired_passed,x=1)) + geom_violin(fill='gray',col='#27384A') +
     geom_boxplot(width=0.1) + 
     xlab('Properly paired (millions)') + theme_classic()+ ylim(c(600,1200)) + ylab('') + 
     theme(axis.text.x = element_blank())
@@ -91,29 +91,29 @@ include_graphics(img1_path)
   
 ```
 
-```{r filtered_variant_missing_call_rate, echo=FALSE}
-library(png)
-img1_path <- "qc_files/figure-gfm/filtered_var_miss.png"
-img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
-include_graphics(img1_path)
-  
-```
+<!-- ```{r filtered_variant_missing_call_rate, echo=FALSE} -->
+<!-- library(png) -->
+<!-- img1_path <- "qc_files/figure-gfm/filtered_var_miss.png" -->
+<!-- img1 <- readPNG(img1_path, native = TRUE, info = TRUE) -->
+<!-- include_graphics(img1_path) -->
 
-```{r samples_missing_call_rate, echo=FALSE}
-library(png)
-img1_path <- "qc_files/figure-gfm/samples_miss.png"
-img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
-include_graphics(img1_path)
-  
-```
+<!-- ``` -->
 
-```{r filtered_samples_missing_call_rate, echo=FALSE}
-library(png)
-img1_path <- "qc_files/figure-gfm/filtered_samples_miss.png"
-img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
-include_graphics(img1_path)
-  
-```
+<!-- ```{r samples_missing_call_rate, echo=FALSE} -->
+<!-- library(png) -->
+<!-- img1_path <- "qc_files/figure-gfm/samples_miss.png" -->
+<!-- img1 <- readPNG(img1_path, native = TRUE, info = TRUE) -->
+<!-- include_graphics(img1_path) -->
+
+<!-- ``` -->
+
+<!-- ```{r filtered_samples_missing_call_rate, echo=FALSE} -->
+<!-- library(png) -->
+<!-- img1_path <- "qc_files/figure-gfm/filtered_samples_miss.png" -->
+<!-- img1 <- readPNG(img1_path, native = TRUE, info = TRUE) -->
+<!-- include_graphics(img1_path) -->
+
+<!-- ``` -->
 
 Call rate missing outliers 
 
@@ -162,7 +162,7 @@ depth_intervals <- depth %>% select(-average_depth) %>% pivot_longer(cols = -sam
                                       values_to = 'depth'
                                       )
 avg_depth_plot <- depth %>% ggplot(aes(average_depth)) + 
-  geom_histogram(fill='#48C095',col='#27384A') + 
+  geom_histogram(fill='gray',col='#27384A') + 
   theme_classic() +
   ylab('Number of individuals') +
   xlab('Mean mapping coverage')
@@ -172,7 +172,7 @@ avg_depth_plot
 
 ```{r depth_intervals,echo=FALSE}
 depth_percent <- depth_intervals %>% ggplot(aes(x= depth, y=1)) + 
-    geom_violin(fill='#48C095',col='#27384A') +
+    geom_violin(fill='gray',col='#27384A') +
     geom_boxplot(width=0.1) +
     theme_classic() +
     xlab('% coverage') + 
@@ -203,17 +203,17 @@ kable(psc %>%
 )
 
 p1 <- psc %>% ggplot(aes(x=nRefHom,y=1)) + 
-  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_violin(fill='gray',col='#27384A') + 
   geom_boxplot(width=0.1) +
     xlab('Number of reference homozygous') + theme_classic() + theme(axis.text.y = element_blank()) +
   ylab('')
 p2 <- psc %>% ggplot(aes(x=nNonRefHom,y=1)) + 
-  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_violin(fill='gray',col='#27384A') + 
   geom_boxplot(width=0.1) +
     xlab('Number of non-reference homozygous') + theme_classic() + theme(axis.text.y = element_blank())+
   ylab('')
 p3 <- psc %>% ggplot(aes(x=nHets,y=1)) + 
-  geom_violin(fill='#48C095',col='#27384A') + 
+  geom_violin(fill='gray',col='#27384A') + 
   geom_boxplot(width=0.1) +
     xlab('Number of heterozygous') + theme_classic() + theme(axis.text.y = element_blank())+
   ylab('')
