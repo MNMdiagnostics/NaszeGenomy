@@ -61,9 +61,16 @@ variants with Clinvar stars
 <!--         group_by(stars) %>% -->
 <!--         count()),caption = 'variants with Clinvar stars') -->
 <!-- ``` -->
-
-### Putative variants
-
+<!-- ### Putative variants -->
+<!-- ```{r putative, echo=FALSE, warning=FALSE} -->
+<!-- putative <- fread('../input/diseases/putative_ready.tsv',header=T) -->
+<!-- comp_putative <- putative %>%  -->
+<!--    select(Uploaded_variation,Location,CLIN_SIG,ClinVar_CLNSIG,ClinVar_CLNREVSTAT, -->
+<!--           ClinVar_CLNDN, SYMBOL, Gene, PL_AC, all_of(af_list)) %>% -->
+<!--   mutate(across(PL_AF:gnomADg_AF,as.character)) %>% -->
+<!--    mutate(across(PL_AF:gnomADg_AF,as.numeric)) %>% -->
+<!--   filter(ClinVar_CLNSIG != '-')  -->
+<!-- ``` -->
 <!-- ### % IMPACT variants -->
 <!-- ```{r echo=FALSE,warning=FALSE} -->
 <!-- group.colors <- c(HIGH = "#27384A", MODERATE ="gray", LOW = "#B6B6B6") -->
@@ -171,20 +178,6 @@ variants with Clinvar stars
 
 ![](variants_af_files/figure-gfm/Mucoviscidosis-1.jpeg)<!-- -->
 
-<!-- ## CFTR deletions -->
-<!-- ```{r CFTR, echo=FALSE} -->
-<!-- muko <- read.table('CFTR.tsv',header = T,sep='\t') %>% -->
-<!--   select(Uploaded_variation,PL_AF, starts_with('gnomAD_'),VARIANT_CLASS) -->
-<!-- dels <- muko %>% filter(VARIANT_CLASS == 'deletion', gnomAD_AF != '-')  -->
-<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.factor,as.character)  -->
-<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.character,as.numeric)  -->
-<!-- dels %>% select(-VARIANT_CLASS)  %>% -->
-<!--   pivot_longer(-Uploaded_variation,names_to = 'pop',values_to = 'AF') %>% -->
-<!--   ggplot(aes(x=AF*100,y=reorder(pop,-AF),fill=Uploaded_variation)) + -->
-<!--   geom_bar(stat = 'identity',position = 'fill') + -->
-<!--   scale_fill_viridis(discrete = T, 'Variant') + -->
-<!--   theme_classic() + -->
-<!--   ylab('Population') + -->
-<!--   xlab('AF [%]')  -->
-<!-- kable(dels %>% select(-VARIANT_CLASS)) -->
-<!-- ``` -->
+## DHCR7
+
+![](variants_af_files/figure-gfm/DHCR7-1.jpeg)<!-- -->

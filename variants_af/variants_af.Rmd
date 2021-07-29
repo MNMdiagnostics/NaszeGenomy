@@ -223,18 +223,18 @@ kable((clinsig %>% na.omit() %>%
 
 
 
-### Putative variants
+<!-- ### Putative variants -->
 
-```{r putative, echo=FALSE, warning=FALSE}
-putative <- fread('../input/diseases/putative_ready.tsv',header=T)
-comp_putative <- putative %>% 
-   select(Uploaded_variation,Location,CLIN_SIG,ClinVar_CLNSIG,ClinVar_CLNREVSTAT,
-          ClinVar_CLNDN, SYMBOL, Gene, PL_AC, all_of(af_list)) %>%
-  mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
-   mutate(across(PL_AF:gnomADg_AF,as.numeric)) %>%
-  filter(ClinVar_CLNSIG != '-') 
+<!-- ```{r putative, echo=FALSE, warning=FALSE} -->
+<!-- putative <- fread('../input/diseases/putative_ready.tsv',header=T) -->
+<!-- comp_putative <- putative %>%  -->
+<!--    select(Uploaded_variation,Location,CLIN_SIG,ClinVar_CLNSIG,ClinVar_CLNREVSTAT, -->
+<!--           ClinVar_CLNDN, SYMBOL, Gene, PL_AC, all_of(af_list)) %>% -->
+<!--   mutate(across(PL_AF:gnomADg_AF,as.character)) %>% -->
+<!--    mutate(across(PL_AF:gnomADg_AF,as.numeric)) %>% -->
+<!--   filter(ClinVar_CLNSIG != '-')  -->
 
-```
+<!-- ``` -->
 
 <!-- ### % IMPACT variants -->
 
@@ -355,17 +355,24 @@ variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) 
 
 <!-- ``` -->
 
-
+```{r echo=F}
+variants_df <- read.csv('variants_gnomad31.csv',header=T)
+```
 
 ## NBS: chr8_89971213_ATTTGT_A 
 
 ```{r NBS, echo=FALSE}
 nbs <- read.table('nbs.tsv',header = T,sep='\t') 
-rsid <- nbs$Existing_variation
-
-nbs %>% 
+nbs <- nbs %>% 
   select(PL_AF, starts_with('gnomAD_')) %>%
-  pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>%
+  pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>% 
+  filter(pop == 'PL_AF') 
+nbs <- variants_df %>% filter(variant=='NBS') %>% 
+  bind_rows(nbs) %>%
+  select(-variant)
+nbs$pop <- ifelse(nbs$pop == 'PL_AF','POL',nbs$pop)
+nbs$pop <- gsub('_',' ',nbs$pop)
+nbs_plot <- nbs %>% 
   ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
   geom_bar(stat = 'identity',fill="gray") +
   theme_classic() +
@@ -373,8 +380,9 @@ nbs %>%
   xlab('AF [%]') +
   geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
-  xlim(c(0,0.4))
-
+  xlim(c(0,0.4)) +
+  theme(axis.text = element_text(size=15))
+nbs_plot
 ```
 
 
@@ -382,44 +390,53 @@ nbs %>%
 
 ```{r Mucoviscidosis, echo=FALSE}
 muko <- read.table('muko_vep.tsv',header = T,sep='\t') 
-rsid <- muko$Existing_variation
-
-muko[1,] %>%
+muko <- muko %>% 
   select(PL_AF, starts_with('gnomAD_')) %>%
-  pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>%
+  pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>% 
+  filter(pop == 'PL_AF')  %>% distinct()
+muko <- variants_df %>% filter(variant=='CFTR') %>% 
+  bind_rows(muko) %>%
+  select(-variant)
+muko$pop <- ifelse(muko$pop == 'PL_AF','POL',muko$pop)
+muko$pop <- gsub('_',' ',muko$pop)
+muko_plot <- muko %>% 
   ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
   geom_bar(stat = 'identity',fill="gray") +
   theme_classic() +
   ylab('Population') +
   xlab('AF [%]') +
-    geom_text(aes(label=paste(round(AF*100,2),'%'),
+  geom_text(aes(label=paste(round(AF*100,2),'%'),
                 hjust=-0.3)) +
-  xlim(c(0,2))
+  xlim(c(0,2)) +
+  theme(axis.text = element_text(size=15))
+muko_plot
 ```
 
-<!-- ## CFTR deletions -->
-
-<!-- ```{r CFTR, echo=FALSE} -->
-<!-- muko <- read.table('CFTR.tsv',header = T,sep='\t') %>% -->
-<!--   select(Uploaded_variation,PL_AF, starts_with('gnomAD_'),VARIANT_CLASS) -->
-
-<!-- dels <- muko %>% filter(VARIANT_CLASS == 'deletion', gnomAD_AF != '-')  -->
-<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.factor,as.character)  -->
-<!-- dels[,3:11] <- dels[,3:11] %>% mutate_if(is.character,as.numeric)  -->
-
-<!-- dels %>% select(-VARIANT_CLASS)  %>% -->
-<!--   pivot_longer(-Uploaded_variation,names_to = 'pop',values_to = 'AF') %>% -->
-<!--   ggplot(aes(x=AF*100,y=reorder(pop,-AF),fill=Uploaded_variation)) + -->
-<!--   geom_bar(stat = 'identity',position = 'fill') + -->
-<!--   scale_fill_viridis(discrete = T, 'Variant') + -->
-<!--   theme_classic() + -->
-<!--   ylab('Population') + -->
-<!--   xlab('AF [%]')  -->
-
-<!-- kable(dels %>% select(-VARIANT_CLASS)) -->
-<!-- ``` -->
 
 
+## DHCR7
 
-
-
+```{r DHCR7, echo=FALSE}
+dh <- clinsig %>% filter(grepl('rs11555217',Existing_variation))
+dh <- dh %>% 
+  select(PL_AF, starts_with('gnomAD_')) %>%
+  mutate_if(is.character,as.numeric) %>%
+  pivot_longer(everything(),names_to = 'pop',values_to = 'AF') %>% 
+  filter(pop == 'PL_AF')  %>% distinct()
+dh <- variants_df %>% filter(variant=='DHCR7') %>% 
+  bind_rows(dh) %>%
+  select(-variant)
+dh$pop <- ifelse(dh$pop == 'PL_AF','POL',dh$pop)
+dh$pop <- gsub('_',' ',dh$pop)
+dh_plot <- dh %>% 
+  ggplot(aes(x=AF*100,y=reorder(pop,-AF))) +
+  geom_bar(stat = 'identity',fill="gray") +
+  theme_classic() +
+  ylab('Population') +
+  xlab('AF [%]') +
+  geom_text(aes(label=paste(round(AF*100,2),'%'),
+                hjust=-0.3)) +
+  xlim(c(0,2)) +
+  theme(axis.text = element_text(size=15))
+dh_plot
+```
