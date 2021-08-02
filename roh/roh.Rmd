@@ -20,7 +20,6 @@ suppressMessages(library(data.table))
 suppressMessages(library(GenomicRanges))
 suppressMessages(library(karyoploteR))
 
-
 outlier <- function (x) {
   IQR <- quantile(x)[[4]] - quantile(x)[[2]]
   low <- quantile(x)[[2]] - 1.5*IQR
@@ -34,8 +33,8 @@ outlier <- function (x) {
 ```{r, echo=F}
 roh <- fread('../input/roh_concat.txt', showProgress = T)
 colnames(roh) <- c("Chromosome", "Start", 'End', 'Length', 'Number_of_markers', 'Quality','sample_id')
-#roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
-#roh$sample_id <-gsub(".norm.roh", "", roh$sample_id)
+roh$sample_id <-gsub(".*/(.*)\\..*", "\\1", roh$sample_id)
+roh$sample_id <-gsub(".norm.roh", "", roh$sample_id)
 to_include <- read.table('../../../genom_polaka/SAMPLES_TO_INCLUDE_210716.txt',sep='\t')
 
 roh <- roh %>% filter(sample_id %in% to_include$V1) %>% filter(Chromosome != 'chrX' & Chromosome != 'chrY')
