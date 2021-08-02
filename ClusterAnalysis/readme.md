@@ -21,7 +21,7 @@ The idea here is as follows:
 |902_5417_21 | EAS |
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULL.jpeg) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULLv3.jpeg) 
 
 **Version for Paula D.:**
 ![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/ancestryPCAFULLpopV2.jpeg) 
@@ -47,7 +47,7 @@ Fst statistics computed using the method introduced in Weir BS, Cockerham CC (19
 Fst statistics computed as an average of sliding window of 10 000 SNPs for all populations.
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/FST222v2.jpeg)
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/FST222v3.jpeg)
 
 Comparison of mean weighted Fst statistics within the European subpopulations:
 
@@ -72,7 +72,7 @@ So we try to find outliers (marked in red) using two different methods:
 Also I did DBSCAN clustering - Density-Based Spatial Clustering of Applications with Noise. Finds core samples of high density and expands clusters from them. This is very good method for data which contains clusters of similar density. It proves that we have only one cluster and few outliers.
 
 **The results are presented on the following plot:**
-![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/clusterPCAv2.jpeg) 
+![Cluster Plot](https://github.com/MNMdiagnostics/NaszeGenomy/blob/main/ClusterAnalysis/clusterPCAv3.jpeg) 
 
-**Mean weighted Fst statistics between people from cluster (black dots) and outliers (10 red dots) in above plot is equal to 0.005.**
+**Mean weighted Fst statistics between people from cluster (black dots) and outliers (10 grey dots) in above plot is equal to 0.005.**
 
