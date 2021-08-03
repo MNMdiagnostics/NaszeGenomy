@@ -13,13 +13,13 @@ suppressMessages(library(dplyr))
 
 ## De-novo variants
 
-Analysis of de-novo variants from 93 child-parents trios
-
 ```{r, echo=F}
-t<-read.table('denovo_consequences_per_sample.tsv', stringsAsFactors = T)
+t<-read.table('denovo_snv_consequences_per_sample_210723.tsv', stringsAsFactors = T)
 colnames(t)<-c('sample', 'conseq','impact','symbol')
 t['coding'] = t$impact!='MODIFIER'
 ```
+
+Analysis of de-novo variants from `r length(unique(t$sample))` child-parents trios
 
 ### Impact of the variants
 
@@ -63,7 +63,6 @@ kable(t[t$coding,]
 
 Rare exonic denovo counts 
 ```{r, coding.per.sample.counts, echo=F}
-
 kable(table((t[t$coding,] %>% count(sample, .drop=F))$n))
 ```
 
