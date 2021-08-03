@@ -1,6 +1,18 @@
 ## De-novo variants
 
-Analysis of de-novo variants from 97 child-parents trios
+Analysis of de-novo variants from 97 child-parents trios.
+
+Per-child counts of rare (MAF\<1%) filtered denovo SNVs:
+
+|     mean | min | max |
+|---------:|----:|----:|
+| 351.2062 | 284 | 507 |
+
+and indels:
+
+|     mean | min |  max |
+|---------:|----:|-----:|
+| 1136.021 | 977 | 1411 |
 
 ### Impact of the variants
 

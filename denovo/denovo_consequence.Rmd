@@ -17,9 +17,25 @@ suppressMessages(library(dplyr))
 t<-read.table('denovo_snv_consequences_per_sample_210723.tsv', stringsAsFactors = T)
 colnames(t)<-c('sample', 'conseq','impact','symbol')
 t['coding'] = t$impact!='MODIFIER'
+
+t_indel<-read.table('denovo_indel_consequences_per_sample_210723.tsv', stringsAsFactors = T)
+colnames(t_indel)<-c('sample', 'conseq','impact','symbol')
+t_indel['coding'] = t_indel$impact!='MODIFIER'
 ```
 
-Analysis of de-novo variants from `r length(unique(t$sample))` child-parents trios
+Analysis of de-novo variants from `r length(unique(t$sample))` child-parents trios.
+
+
+Per-child counts of rare (MAF<1%) filtered denovo SNVs:
+```{r snv.counts, echo=F}
+kable(t %>% count(sample) %>% summarize(mean=mean(n), min=min(n), max=max(n)))
+```
+
+and indels:
+```{r indel.counts, echo=F}
+kable(t_indel %>% count(sample) %>% summarize(mean=mean(n), min=min(n), max=max(n)))
+```
+
 
 ### Impact of the variants
 
