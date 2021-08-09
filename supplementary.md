@@ -26,9 +26,9 @@
 **Supplementary Table 2.1.1. SNV counts per individual.**
 | Variant    | min\_count | mean\_count | max\_count |
 |:-----------|-----------:|------------:|-----------:|
-| Indels     |     751,498 |      768,905 |     781,426 |
-| Singletons |        436 |       16,473 |      82,329 |
-| SNP        |    3,637,424 |     3,715,552 |    3,776,871 |
+| Indels     |     737,369 |      764,797 |     777,759 |
+| Singletons |       3,202 |       15,877 |     123,142 |
+| SNP        |    3,596,077 |     3,714,733 |    3,807,218 |
 
 **Supplementary Figure 2.1.1: Distribution of variant consequences across the allele-frequency spectrum**
 ![](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/variants_af/variants_af_files/figure-gfm/non-coding%20consequence-1.jpeg)<!-- -->
