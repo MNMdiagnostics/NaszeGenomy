@@ -4,17 +4,17 @@
 #### 1.1 Depth statistics
 
 
-**Supplementary Table 1.1: Coverage statistics for all 1082 samples analysed in the project.**
+**Supplementary Table 1.1: Coverage statistics for all 1230 samples analysed in the project.**
 | stat                  |   min | median |  mean |   max |
 |:----------------------|------:|-------:|------:|------:|
-| average\_depth        | 29.09 |  35.75 | 35.72 | 45.75 |
-| percentage\_above\_10 | 91.40 |  91.98 | 91.92 | 92.34 |
-| percentage\_above\_20 | 85.61 |  89.27 | 89.37 | 91.27 |
-| percentage\_above\_30 | 53.66 |  79.59 | 78.41 | 90.00 |
+| average\_depth        | 28.40 |  35.41 | 35.26 | 48.10 |
+| percentage\_above\_10 | 91.40 |  91.93 | 91.90 | 92.41 |
+| percentage\_above\_20 | 84.15 |  89.11 | 89.19 | 91.27 |
+| percentage\_above\_30 | 49.05 |  78.69 | 76.84 | 90.00 |
 
 
 **Supplementary Figure 1.1: Distribution of mean coverage in the cohort.**
-![Suppl. Figure 1.1 - Mean coverage](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/qc/qc_files/figure-gfm/average_depth-1.png) 
+![Suppl. Figure 1.1 - Mean coverage](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/qc/qc_files/figure-gfm/average_depth-1.jpeg) 
 
 
 
