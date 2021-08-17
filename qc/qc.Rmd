@@ -28,7 +28,7 @@ suppressMessages(library(grid))
 suppressMessages(library(data.table))
 
 
-flagstat_path = "../output/multiqc_data_1/multiqc_samtools_flagstat.txt"
+flagstat_path = "../output/multiqc_data/multiqc_samtools_flagstat.txt"
 depth_path = "../output/depth_concat.txt"
 
 flagstat <- read.table(flagstat_path,header=T,sep='\t')
@@ -115,18 +115,18 @@ include_graphics(img1_path)
 
 <!-- ``` -->
 
-Call rate missing outliers 
+<!-- Call rate missing outliers  -->
 
-```{r echo=FALSE}
-imiss <- fread('../output/plink_stats/plink.imiss')
-colnames(imiss)[2] <- 'sample'
-imiss_out <- imiss %>% select(sample,F_MISS) %>% 
-        filter(F_MISS %in% outlier(imiss$F_MISS)) %>% arrange(F_MISS) %>%
-  mutate(sample = as.numeric(factor(sample)))
+<!-- ```{r echo=FALSE} -->
+<!-- imiss <- fread('../output/plink_stats/plink.imiss') -->
+<!-- colnames(imiss)[2] <- 'sample' -->
+<!-- imiss_out <- imiss %>% select(sample,F_MISS) %>%  -->
+<!--         filter(F_MISS %in% outlier(imiss$F_MISS)) %>% arrange(F_MISS) %>% -->
+<!--   mutate(sample = as.numeric(factor(sample))) -->
 
-kable(imiss_out) 
+<!-- kable(imiss_out)  -->
 
-```
+<!-- ``` -->
 
 
 ## 2. Depth statistics

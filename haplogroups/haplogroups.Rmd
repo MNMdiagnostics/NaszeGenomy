@@ -14,8 +14,8 @@ suppressMessages(library(data.table))
 
 
 ```{r load, echo=FALSE}
-haplo_input <- read.table('../output/haplogrep/haplo210716',header=T) 
-to_include <- read.table('../../../genom_polaka/SAMPLES_TO_INCLUDE_210716.txt',sep='\t')
+haplo_input <- read.table('../output/haplogroups/res',header=T) 
+to_include <- read.table('../../SAMPLES_TO_INCLUDE_210716.txt',sep='\t')
 
 haplo_input = haplo_input %>% filter(SampleID %in% to_include$V1)
 haplo_input$clad <- substring(haplo_input$Haplogroup,1,1)
@@ -115,7 +115,7 @@ sc %>% ggplot(aes(y=reorder(clad, -c.cnt), x=sc.cnt)) +
   xlab('Individuals') + 
   geom_text(label=sc.labels, size=3, position = position_stack(vjust = 0.5)) + 
   geom_text(data=c.label.xy, aes(x=x, y=y, label=c.labels, hjust=-0.3), size=3) + 
-  coord_cartesian(xlim = c(0, 500))
+  coord_cartesian(xlim = c(0, 600))
 
 ```
 

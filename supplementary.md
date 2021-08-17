@@ -4,17 +4,17 @@
 #### 1.1 Depth statistics
 
 
-**Supplementary Table 1.1: Coverage statistics for all 1082 samples analysed in the project.**
+**Supplementary Table 1.1: Coverage statistics for all 1230 samples analysed in the project.**
 | stat                  |   min | median |  mean |   max |
 |:----------------------|------:|-------:|------:|------:|
-| average\_depth        | 29.09 |  35.75 | 35.72 | 45.75 |
-| percentage\_above\_10 | 91.40 |  91.98 | 91.92 | 92.34 |
-| percentage\_above\_20 | 85.61 |  89.27 | 89.37 | 91.27 |
-| percentage\_above\_30 | 53.66 |  79.59 | 78.41 | 90.00 |
+| average\_depth        | 28.40 |  35.41 | 35.26 | 48.10 |
+| percentage\_above\_10 | 91.40 |  91.93 | 91.90 | 92.41 |
+| percentage\_above\_20 | 84.15 |  89.11 | 89.19 | 91.27 |
+| percentage\_above\_30 | 49.05 |  78.69 | 76.84 | 90.00 |
 
 
 **Supplementary Figure 1.1: Distribution of mean coverage in the cohort.**
-![Suppl. Figure 1.1 - Mean coverage](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/qc/qc_files/figure-gfm/average_depth-1.png) 
+![Suppl. Figure 1.1 - Mean coverage](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/qc/qc_files/figure-gfm/average_depth-1.jpeg) 
 
 
 
@@ -26,9 +26,9 @@
 **Supplementary Table 2.1.1. SNV counts per individual.**
 | Variant    | min\_count | mean\_count | max\_count |
 |:-----------|-----------:|------------:|-----------:|
-| Indels     |     751,498 |      768,905 |     781,426 |
-| Singletons |        436 |       16,473 |      82,329 |
-| SNP        |    3,637,424 |     3,715,552 |    3,776,871 |
+| Indels     |     737,369 |      764,797 |     777,759 |
+| Singletons |       3,202 |       15,877 |     123,142 |
+| SNP        |    3,596,077 |     3,714,733 |    3,807,218 |
 
 **Supplementary Figure 2.1.1: Distribution of variant consequences across the allele-frequency spectrum**
 ![](https://github.com/MNMdiagnostics/NaszeGenomy/raw/main/variants_af/variants_af_files/figure-gfm/non-coding%20consequence-1.jpeg)<!-- -->
