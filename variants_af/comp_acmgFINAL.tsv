@@ -1,51 +1,34 @@
-Existing_variation	REF	ALT	Location	ClinVar	ClinVar_CLNSIG	ClinVar_CLNREVSTAT	ClinVar_CLNDN	SYMBOL	Gene	PL_AC	PL_AF	gnomADg_AF_NFE	gnomADg_AF	stars
--	T	A	chr1:55039839	-	-	-	-	PCSK9	ENSG00000169174	1	0.000465116	NA	NA	NA
--	T	TGCCGA	chr1:55058058-55058059	-	-	-	-	PCSK9	ENSG00000169174	1	0.000464684	NA	NA	NA
-rs62642584,CM983759,CM994069,RISN_RPE65:c.304G>T	C	A	chr1:68444825	98863	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Leber_congenital_amaurosis_2|Retinitis_pigmentosa_20|Leber_congenital_amaurosis|RPE65-Related_Disorders|not_provided	RPE65	ENSG00000116745	1	0.000464684	NA	NA	2
-rs767190876	G	GT	chr1:201074522-201074523	-	-	-	-	CACNA1S	ENSG00000081248	1	0.000464684	NA	NA	NA
--	TC	T	chr1:201083313	-	-	-	-	CACNA1S	ENSG00000081248	1	0.000464684	NA	NA	NA
--	T	A	chr2:21004677	-	-	-	-	APOB	ENSG00000084674	1	0.000464684	NA	NA	NA
--	A	T	chr2:21034814	-	-	-	-	APOB	ENSG00000084674	1	0.000464684	NA	NA	NA
--	AGC	A	chr2:21043897-21043898	-	-	-	-	APOB	ENSG00000084674	1	0.000464684	NA	NA	NA
-rs1169523303	GC	G	chr2:21043918	-	-	-	-	APOB	ENSG00000084674	1	0.000464684	0.000133851	9.82704e-05	NA
-rs1350042897	AGCAGCGCG	A	chr2:21043921-21043928	-	-	-	-	APOB	ENSG00000084674	1	0.000464684	0.000149276	0.000108241	NA
-rs1361078163	A	AC	chr2:47803500-47803501	89364	Pathogenic	reviewed_by_expert_panel	Lynch-like_syndrome|Lynch_syndrome|Hereditary_nonpolyposis_colorectal_cancer_type_5|Hereditary_cancer-predisposing_syndrome|Hereditary_nonpolyposis_colorectal_neoplasms|not_provided	MSH6	ENSG00000116062	1	0.000464684	0	3.25584e-05	3
-rs1213030022	GTAAC	G	chr2:47806653-47806656	89500	Likely_benign	reviewed_by_expert_panel	Hereditary_breast_and_ovarian_cancer_syndrome|Lynch_syndrome|Malignant_tumor_of_breast|Lynch_syndrome_I|Hereditary_nonpolyposis_colorectal_cancer_type_5|Hereditary_cancer-predisposing_syndrome|Hereditary_nonpolyposis_colorectal_neoplasms|not_specified|not_provided	MSH6	ENSG00000116062	2	0.000930233	0.00120128	0.00119671	3
-rs587782538	G	GTAAC	chr2:47806652-47806653	182672	Benign/Likely_benign	criteria_provided,_multiple_submitters,_no_conflicts	Malignant_tumor_of_breast|Hereditary_nonpolyposis_colorectal_cancer_type_5|Hereditary_cancer-predisposing_syndrome|Hereditary_nonpolyposis_colorectal_neoplasms|not_specified|not_provided	MSH6	ENSG00000116062	1	0.000465116	0.000200214	0.000258749	2
-rs727504482,CD139740	AC	A	chr2:178530596	242624	-	no_interpretation_for_the_single_variant	-	TTN	ENSG00000155657	1	0.000465116	NA	NA	NA
--	G	GTA	chr2:178577214-178577215	-	-	-	-	TTN	ENSG00000155657	1	0.000464684	NA	NA	NA
--	C	CT	chr2:178602097-178602098	-	-	-	-	TTN	ENSG00000155657	1	0.000464684	NA	NA	NA
-rs781392575	A	G	chr2:178654910	202363	Uncertain_significance	_single_submitter	not_provided	TTN	ENSG00000155657	1	0.000465983	0.000396511	0.000227756	1
--	CT	C	chr2:178672269	-	-	-	-	TTN	ENSG00000155657	1	0.000464684	NA	NA	NA
--	TG	T	chr2:178718597	-	-	-	-	TTN	ENSG00000155657	1	0.000464684	NA	NA	NA
-CS962445	G	T	chr2:189006260	626859	Likely_pathogenic	_single_submitter	Familial_thoracic_aortic_aneurysm_and_aortic_dissection	COL3A1	ENSG00000168542	1	0.000464684	NA	NA	1
-rs578091032,COSM14367,COSM7347848	G	T	chr3:10141850	238106	Uncertain_significance	criteria_provided,_multiple_submitters,_no_conflicts	Von_Hippel-Lindau_syndrome|Erythrocytosis,_familial,_2|Hereditary_cancer-predisposing_syndrome|not_provided	VHL	ENSG00000134086	1	0.000464684	0.000133404	9.69932e-05	2
-rs765906887	CGG	C	chr3:15635479-15635480	373906	Pathogenic	_single_submitter	Cryptorchidism|Macrocephalus|Global_developmental_delay|Generalized_hypotonia|Biotinidase_deficiency	BTD	ENSG00000169814	1	0.000464684	0.000199893	0.000161457	1
-rs750965140	CTG	C	chr3:15635482-15635483	801942	Pathogenic	_single_submitter	Biotinidase_deficiency	BTD	ENSG00000169814	1	0.000464684	0.00019992	0.000161457	1
--	GC	G	chr3:30650369	-	-	-	-	TGFBR2	ENSG00000163513	1	0.000464684	NA	NA	NA
--	ATTATG	A	chr3:30650371-30650375	-	-	-	-	TGFBR2	ENSG00000163513	1	0.000464684	NA	NA	NA
-rs1298986609	C	T	chr6:123381391	647284	Likely_pathogenic	_single_submitter	Catecholaminergic_polymorphic_ventricular_tachycardia	TRDN	ENSG00000186439	1	0.000464684	NA	NA	1
--	CTTGT	C	chr6:123530537-123530540	-	-	-	-	TRDN	ENSG00000186439	1	0.000464684	NA	NA	NA
-rs201451115,CM083754	T	A	chr7:5986826	91321	Pathogenic	reviewed_by_expert_panel	Lynch_syndrome|Hereditary_nonpolyposis_colorectal_cancer_type_4|Hereditary_cancer-predisposing_syndrome|Hereditary_nonpolyposis_colorectal_neoplasms|not_specified|not_provided	PMS2	ENSG00000122512	1	0.000465116	NA	NA	3
-rs200640585,CM102797,COSM3084729	G	A	chr7:5992018	91382	Pathogenic	reviewed_by_expert_panel	_non-polyposis|not_provided	PMS2	ENSG00000122512	1	0.000464684	6.66667e-05	3.23227e-05	3
--	A	ATCACGGT	chr7:128849375-128849376	-	-	-	-	FLNC	ENSG00000128591	1	0.000464684	NA	NA	NA
--	GA	G	chr11:2847780	-	-	-	-	KCNQ1	ENSG00000053918	1	0.000464684	NA	NA	NA
-rs397516037,CM014069	G	A	chr11:47332189	42735	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	See_cases|Cardiomyopathy|Hypertrophic_cardiomyopathy|Left_ventricular_hypertrophy|Familial_hypertrophic_cardiomyopathy_4|Primary_familial_hypertrophic_cardiomyopathy|Cardiovascular_phenotype|not_provided	MYBPC3	ENSG00000134571	1	0.000464684	NA	NA	2
-rs397515991,CS973050,FHC0078	C	T	chr11:47335041	42666	Conflicting_interpretations_of_pathogenicity	_conflicting_interpretations	Hypertrophic_cardiomyopathy|Familial_hypertrophic_cardiomyopathy_4|Primary_familial_hypertrophic_cardiomyopathy|Cardiovascular_phenotype|not_provided	MYBPC3	ENSG00000134571	1	0.000464684	NA	NA	1
-COSM6747620	TG	T	chr12:32850925	-	-	-	-	PKP2	ENSG00000057294	1	0.000464684	NA	NA	NA
-rs1131692273	CTG	C	chr13:32329468-32329469	9342	Pathogenic	reviewed_by_expert_panel	Medulloblastoma|Hereditary_breast_and_ovarian_cancer_syndrome|Malignant_tumor_of_breast|Wilms_tumor_1|Breast-ovarian_cancer,_familial_1|Fanconi_anemia,_complementation_group_D1|Breast-ovarian_cancer,_familial_2|Glioma_susceptibility_3|Hereditary_cancer-predisposing_syndrome|Familial_cancer_of_breast|not_specified|Breast_and/or_ovarian_cancer|not_provided	BRCA2	ENSG00000139618	1	0.000464684	0	6.46329e-05	3
--	AT	A	chr13:32337779	-	-	-	-	BRCA2	ENSG00000139618	1	0.000464684	NA	NA	NA
-CI021893	C	CT	chr13:32339592-32339593	37954	Pathogenic	reviewed_by_expert_panel	_familial_2|Hereditary_cancer-predisposing_syndrome|Familial_cancer_of_breast|Breast_and/or_ovarian_cancer|not_provided	BRCA2	ENSG00000139618	1	0.000464684	NA	NA	3
-rs1281430720	T	TG	chr13:51958361-51958362	456552	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	Wilson_disease|Inborn_genetic_diseases|not_provided	ATP7B	ENSG00000123191	1	0.000464684	2e-04	0.000161478	2
-rs141735183,COSM698152	C	A	chr14:23420222	162507	Likely_pathogenic	_single_submitter	Cardiomyopathy	MYH7	ENSG00000092054	1	0.000464684	NA	NA	1
--	C	G	chr15:48644951	-	-	-	-	FBN1	ENSG00000166147	1	0.000464684	NA	NA	NA
--	T	G	chr15:48644952	-	-	-	-	FBN1	ENSG00000166147	1	0.000464684	NA	NA	NA
-rs1488792693	ATC	A	chr16:23636036-23636037	126757	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	_susceptibility_to|not_specified|Breast_and/or_ovarian_cancer|PALB2-Related_Disorders|not_provided	PALB2	ENSG00000083093	1	0.000465549	NA	NA	2
-rs1217805587	T	TG	chr17:43057062-43057063	17677	Pathogenic	reviewed_by_expert_panel	Pancreatic_cancer,_susceptibility_to|Breast_neoplasm|Neoplasm_of_ovary|Hereditary_breast_and_ovarian_cancer_syndrome|Malignant_tumor_of_breast|Punctate_palmoplantar_keratoderma_type_2|Breast-ovarian_cancer,_familial_1|Hereditary_cancer-predisposing_syndrome|Familial_cancer_of_breast|Breast_and/or_ovarian_cancer|none_provided|not_provided	BRCA1	ENSG00000012048	3	0.00139405	0.000399627	0.000193723	3
-rs80357609	GTTTAC	G	chr17:43091827-43091831	37542	Pathogenic	reviewed_by_expert_panel	_familial_1|Hereditary_cancer-predisposing_syndrome|Familial_cancer_of_breast|not_specified|Breast_and/or_ovarian_cancer|not_provided	BRCA1	ENSG00000012048	1	0.000464684	NA	NA	3
-rs765718882,CM074881	G	T	chr17:80118668	578595	Pathogenic	reviewed_by_expert_panel	_type_II|not_provided	GAA	ENSG00000171298	1	0.000464684	NA	NA	3
-rs200056085	T	TTC	chr18:31068033-31068034	46186	Benign/Likely_benign	criteria_provided,_multiple_submitters,_no_conflicts	_type_11|Arrhythmogenic_right_ventricular_cardiomyopathy|Primary_familial_hypertrophic_cardiomyopathy|not_specified|Cardiovascular_phenotype|not_provided	DSC2	ENSG00000134755	49	0.0228332	0.0171493	0.0101803	2
-rs727504823,COSM987462	G	A	chr18:31068098	179373	Uncertain_significance	criteria_provided,_multiple_submitters,_no_conflicts	_type_11|Arrhythmogenic_right_ventricular_cardiomyopathy|not_specified|not_provided	DSC2	ENSG00000134755	1	0.000464684	0.000133387	6.46454e-05	2
--	G	T	chr18:31545844	-	-	-	-	DSG2	ENSG00000046604	1	0.000464684	NA	NA	NA
-rs1362225009	GTCAGTGGGGTTTGTGGCGCCCTCCC	G	chr19:38448513-38448537	193600	Uncertain_significance	criteria_provided,_multiple_submitters,_no_conflicts	not_specified|RYR1-Related_Disorders|not_provided	RYR1	ENSG00000196218	4	0.00186741	0.000735196	0.00038835	2
-rs1173794749,COSM3222310	CG	C	chr19:38460515	212099	Conflicting_interpretations_of_pathogenicity	_conflicting_interpretations	Myopathy|Minicore_myopathy_with_external_ophthalmoplegia|Central_core_myopathy|Inborn_genetic_diseases|RYR1-Related_Disorders|not_provided	RYR1	ENSG00000196218	2	0.000929368	6.67022e-05	3.23081e-05	1
+Existing_variation	REF	ALT	Location	SYMBOL	Gene	PUBMED	Codons	ClinVar_CLNSIG	ClinVar_CLNREVSTAT	stars	PL_AC	gnomAD3g_AF	PL_AF
+rs62642584,CM983759,CM994069,RISN_RPE65:c.304G>T	C	A	chr1:68444825	RPE65	ENSG00000116745	-	Gaa/Taa	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	1	2.0948e-05	0.000464684
+rs1361078163	A	AC	chr2:47803500-47803501	MSH6	ENSG00000116062	-	acc/aCcc	Pathogenic	reviewed_by_expert_panel	3	1	6.35997e-05	0.000464684
+rs758597536	A	C	chr2:178649342	TTN	ENSG00000155657	-	-	Pathogenic	_single_submitter	1	1	5.58768e-05	0.000464684
+CS962445	G	T	chr2:189006260	COL3A1	ENSG00000168542	-	-	Likely_pathogenic	_single_submitter	1	1	NA	0.000464684
+rs765906887	CGG	C	chr3:15635479-15635480	BTD	ENSG00000169814	-	GGc/c	Pathogenic	_single_submitter	1	1	0.000132593	0.000464684
+rs750965140	CTG	C	chr3:15635482-15635483	BTD	ENSG00000169814	-	TGt/t	Pathogenic	_single_submitter	1	1	0.000132587	0.000464684
+rs190386869,CM993554	C	T	chr3:15644499	BTD	ENSG00000169814	25174816,26361991,9396567,17185019,9506660,27207447	Ctc/Ttc	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	3	6.98119e-06	0.00139405
+rs1298986609	C	T	chr6:123381391	TRDN	ENSG00000186439	-	-	Likely_pathogenic	_single_submitter	1	1	NA	0.000464684
+rs201451115,CM083754	T	A	chr7:5986826	PMS2	ENSG00000122512	25741868	Aag/Tag	Pathogenic	reviewed_by_expert_panel	3	1	NA	0.000465116
+rs200640585,CM102797,COSM3084729	G	A	chr7:5992018	PMS2	ENSG00000122512	-	Cga/Tga	Pathogenic	reviewed_by_expert_panel	3	1	1.39712e-05	0.000464684
+rs397516037,CM014069	G	A	chr11:47332189	MYBPC3	ENSG00000134571	25741868,24033266,18414213,15519027,16199542,11499719,18409188,18957093,16715312,21985754	Cag/Tag	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	1	NA	0.000464684
+rs2856655,CD043687,CM034547,FHC0955	C	T	chr11:47337534	MYBPC3	ENSG00000134571	24033266,18414213,12628722,12951062,14563344,15671604,20542340	cGg/cAg	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	1	2.09395e-05	0.000464684
+rs1131692273	CTG	C	chr13:32329468-32329469	BRCA2	ENSG00000139618	25741868,24504028,26845104,18703817,26467025,22009639,26295337,23767878,22923021,22798144,9667259,17513806,22535016,18465347,24156927,14647210,16912212,12373604,16825431,25066507,26657402	acTGta/acta	Pathogenic	reviewed_by_expert_panel	3	1	4.88738e-05	0.000464684
+CI021893	C	CT	chr13:32339592-32339593	BRCA2	ENSG00000139618	-	tct/tcTt	Pathogenic	reviewed_by_expert_panel	3	1	NA	0.000464684
+rs28897759,CM993726,COSM6950944,COSM6950945	A	T	chr13:32394803	BRCA2	ENSG00000139618	25741868,10923033,21232165,21965345,18724707,19043619,22678057,23108138,11802209,20383589,22366370,11102977,24728577,25948282	aAc/aTc	Pathogenic	reviewed_by_expert_panel	3	1	7.00025e-06	0.000464684
+rs755554442,CM076004,COSM1184142	G	A	chr13:51941186	ATP7B	ENSG00000123191	23333878,17949296,23235335,22692182,24253677,15147237,22484412	Cgt/Tgt	Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	1	3.49143e-05	0.000464684
+rs76151636,CM930059	G	T	chr13:51944145	ATP7B	ENSG00000123191	25741868,23757202,7626145,9887381,8533760,10544227,20301685,10502777,11857545,17717039,8298641,9352458,9724794,16207219,18692069,24897373,28717664	caC/caA	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	10	0.000976985	0.00464684
+rs201038679,CM051387,CM970142	G	A	chr13:51946369	ATP7B	ENSG00000123191	9829905,18034201,23235335,23843956,9671269,17717039,22240481,11690702,9199563,9837819,16649058,16696937	cCc/cTc	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	1	1.39525e-05	0.000464684
+rs121907996,CM950116	C	T	chr13:51946438	ATP7B	ENSG00000123191	8533760,15523622	cGg/cAg	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	1	5.58215e-05	0.000464684
+rs1281430720	T	TG	chr13:51958361-51958362	ATP7B	ENSG00000123191	-	-/C	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	1	0.000111705	0.000464684
+rs1555291801,CM151598	C	A	chr13:51960197	ATP7B	ENSG00000123191	-	gGa/gTa	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	1	2.09398e-05	0.000464684
+rs141735183,COSM698152	C	A	chr14:23420222	MYH7	ENSG00000092054	25637381	Gag/Tag	Likely_pathogenic	_single_submitter	1	1	7.02287e-06	0.000464684
+rs1488792693	ATC	A	chr16:23636036-23636037	PALB2	ENSG00000083093	-	aGA/a	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	1	1.39634e-05	0.000465549
+rs1217805587	T	TG	chr17:43057062-43057063	BRCA1	ENSG00000012048	-	cag/cCag	Pathogenic	reviewed_by_expert_panel	3	3	6.28149e-05	0.00139405
+rs80357609	GTTTAC	G	chr17:43091827-43091831	BRCA1	ENSG00000012048	25741868,7606717,21324516,15024741,21503673,18489799,8554067,22535016,29453630	GTAAAc/c	Pathogenic	reviewed_by_expert_panel	3	1	NA	0.000464684
+rs28897672,CM093550,CM110355,CM940172	A	C	chr17:43106487	BRCA1	ENSG00000012048	25741868,24033266,18414213,15235020,21990134,18974877,21232165,21965345,23469205,21520273,11389159,23867111,15290653,18680205,19329713,17719744,24884479,7894493,26467025,21324516,26295337,7795652,8944023,9159158,9525870,10788334,10945975,11320250,12601471,12732733,14976165,15024741,15383404,15569676,16168118,16403807,19543972,19770520,20103620,20345474,20507347,20569256,20683152,21503673,21922593,22172724,30820179	Tgt/Ggt	Pathogenic	reviewed_by_expert_panel	3	1	3.48899e-05	0.000464684
+rs1418585908,CD110047	AC	A	chr17:80097352	GAA	ENSG00000171298	-	-	Pathogenic	_single_submitter	1	1	6.97924e-06	0.000464684
+rs386834236,CS144972,CS941489	T	G	chr17:80104542	GAA	ENSG00000171298	25741868,18414213,25356970,7717400,17616415,20301438,14695532,8558570,27189384,7881425,16917947,17210890,27170567	-	Pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	4	0.00377719	0.00185874
+rs375470378,CS064406	C	G	chr17:80110938	GAA	ENSG00000171298	-	-	Pathogenic/Likely_pathogenic	criteria_provided,_multiple_submitters,_no_conflicts	2	3	7.67503e-05	0.00139405
+CM082734	C	G	chr17:80112062	GAA	ENSG00000171298	-	caC/caG	Likely_pathogenic	_single_submitter	1	1	NA	0.000464684
+rs765718882,CM074881	G	T	chr17:80118668	GAA	ENSG00000171298	-	Gag/Tag	Pathogenic	reviewed_by_expert_panel	3	1	6.97807e-06	0.000464684
+rs118192174,CM057506	T	A	chr19:38499961	RYR1	ENSG00000196218	17033962,17483490,17365175,16380615,7299413,18253	aTg/aAg	Pathogenic	_single_submitter	1	1	2.09963e-05	0.000468165
+rs756430359	T	TC	chr19:55160690-55160691	TNNI3	ENSG00000129991	-	-	Pathogenic	_single_submitter	1	1	0.000104908	0.000464684

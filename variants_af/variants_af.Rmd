@@ -6,7 +6,7 @@ output:
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo=FALSE, dev = 'jpeg')
+knitr::opts_chunk$set(echo=FALSE, dev = 'png')
 suppressMessages(library(knitr))
 suppressMessages(library(tidyverse))
 suppressMessages(library(data.table))
@@ -45,7 +45,7 @@ kable(psc_summary)
 af <- read.table('../input/af_stats.tsv')
 colnames(af) <- c('AF','id', 'allele_frequency', 'SNP', 'number_of_transitions', 'number_of transversions', 'indel', 'repeat-consistent','repeat-inconsistent', 'not_applicable')
 
-af$allele_frequency[1] <- 0.000530223
+#af$allele_frequency[1] <- 0.000530223
 af_plot <- af %>% select(allele_frequency,SNP,indel)
 af_plot$SNP <- 100*cumsum(af_plot$SNP)/sum(af_plot$SNP)
 af_plot$indel <- 100*cumsum(af_plot$indel)/sum(af_plot$indel)
@@ -89,6 +89,8 @@ sv.af.cs  <-  sv.af %>%
              summarise(af, cs=cumsum(cnt), cspct=100*cumsum(cnt)/sum(cnt)) %>%
   select(-cs) %>% bind_rows(af_perc_plot)
 
+sv.af.cs$svtype[sv.af.cs$svtype=='SNP'] <- 'SNV'
+
 # group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="gray", INV = "blue",
 #                   SNP = 'darkgoldenrod4', indel='#5F5F5F')
 
@@ -110,32 +112,19 @@ group.colors <- c(PL_AF = "#BC0020", AF = "#27384A", gnomAD_FIN_AF ="gray", gnom
 
 ```
 
-## ACMG
+## 3. ACMG
 
 ```{r ACMG, echo=FALSE, warning=FALSE}
 acmg <- read.table('../input/diseases/acmg_ready.tsv',sep='\t',header=T)
-
 comp_acmg <- acmg %>% 
-    filter(PL_AC > 0) %>%
-   select(Uploaded_variation,Existing_variation,Location,starts_with('ClinVar'), 
-          SYMBOL,Gene, PL_AC, all_of(af_list)) %>%
-  mutate(across(PL_AF:gnomADg_AF,as.character)) %>%
-   mutate(across(PL_AF:gnomADg_AF,as.numeric))
-
-comp_acmg$stars <- NA
-comp_acmg$stars <- ifelse(comp_acmg$ClinVar_CLNREVSTAT == 'practice_guideline',
-                             '4',comp_acmg$stars)
-comp_acmg$stars <- ifelse(comp_acmg$ClinVar_CLNREVSTAT == 'reviewed_by_expert_panel',
-                             '3',comp_acmg$stars)
-comp_acmg$stars <- ifelse(
-  comp_acmg$ClinVar_CLNREVSTAT == 'criteria_provided,_multiple_submitters,_no_conflicts',
-                             '2',comp_acmg$stars)
-comp_acmg$stars <- ifelse(comp_acmg$ClinVar_CLNREVSTAT == '_conflicting_interpretations',
-                             '1',comp_acmg$stars)
-comp_acmg$stars <- ifelse(comp_acmg$ClinVar_CLNREVSTAT == '_single_submitter',
-                             '1',comp_acmg$stars)
-
-
+  filter(grepl('pathogenic',ClinVar_CLNSIG, ignore.case = T) & !grepl('Conflicting',ClinVar_CLNSIG,ignore.case = T),
+         is.na(stars) == F
+         ) %>%
+   select(Uploaded_variation, Existing_variation,Location,SYMBOL,Gene,PUBMED,Codons,
+          ClinVar_CLNSIG,ClinVar_CLNREVSTAT,
+          stars,PL_AC, gnomAD3g_AF,PL_AF) %>%
+  mutate(across(gnomAD3g_AF,as.character)) %>%
+   mutate(across(gnomAD3g_AF,as.numeric)) 
 comp_acmg %>% 
   separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
   select(-x,-y) %>%
@@ -143,8 +132,6 @@ comp_acmg %>%
   write.table('comp_acmgFINAL.tsv',quote = F,col.names = T,sep='\t',row.names = F)
 
 comp_acmg %>% 
-  group_by(SYMBOL) %>%
-  summarise(PL_AC = sum(PL_AC)) %>%
   ggplot(aes(y=reorder(SYMBOL,-PL_AC),x=PL_AC)) +
   geom_bar(fill="gray", stat = 'identity') + 
   theme_classic() +
@@ -162,7 +149,7 @@ clinsig$gnomAD3g_AF <- ifelse(clinsig$gnomAD3g_AF == '-',0,clinsig$gnomAD3g_AF)
 clinsig$gnomAD3g_AF <-as.numeric(clinsig$gnomAD3g_AF)
 
 clinsig <- clinsig %>%
-  filter(gnomAD3g_AF < 0.001) %>% na.omit()
+  filter(gnomAD3g_AF < 0.001 & is.na(stars) == F) 
 
 clinsig %>% na.omit() %>%
   separate(Uploaded_variation, into=c('x','y','REF','ALT'),sep = '_') %>%
@@ -264,7 +251,7 @@ common <- read.table('../output/common_summary.tsv',header = T)
 mediumrare <- read.table('../output/mediumrare_summary.tsv',header = T)
 rare <- read.table('../output/rare_summary.tsv',header=T)
 #missing <- read.table('../output/missing_summary.tsv',header=T)
-variants <- rbind(common,mediumrare,rare)
+variants <- rbind(common,mediumrare,rare) %>% filter(VARIANT_CLASS != 'indel')
 kable(variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) %>%
         relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%')
         )

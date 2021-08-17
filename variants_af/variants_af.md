@@ -11,20 +11,20 @@ Variants in disease causing genes (1076 unrelated individuals)
 
 ## Cummulative allele frequency
 
-![](variants_af_files/figure-gfm/af_hist_pct-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/af_hist_pct-1.png)<!-- -->
 
     ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
     ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
 
-![](variants_af_files/figure-gfm/sv.af.hist-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/sv.af.hist-1.png)<!-- -->
 
-## ACMG
+## 3. ACMG
 
-![](variants_af_files/figure-gfm/ACMG-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/ACMG-1.png)<!-- -->
 
 ### ClinVar variants pathogenic & likely pathogenic  filtered with gnomad3g AF &lt; 0.001
 
-![](variants_af_files/figure-gfm/clinvar_001-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/clinvar_001-1.png)<!-- -->
 
 | stars |   n |
 |------:|----:|
@@ -91,15 +91,12 @@ variants with Clinvar stars
 | VARIANT\_CLASS | AF       | HIGH |   LOW | MODERATE | MODIFIER |
 |:---------------|:---------|-----:|------:|---------:|---------:|
 | deletion       | &gt;0.5% |  412 |   855 |      603 |  1208322 |
-| indel          | &gt;0.5% |    0 |     2 |        3 |     3583 |
 | insertion      | &gt;0.5% |  260 |   977 |      573 |  1380654 |
 | SNV            | &gt;0.5% | 1109 | 41402 |    35717 | 10877171 |
 | deletion       | 0.1-0.5% |  392 |   316 |      492 |   433985 |
-| indel          | 0.1-0.5% |    0 |     1 |        0 |     6431 |
 | insertion      | 0.1-0.5% |  197 |   376 |      345 |   529654 |
 | SNV            | 0.1-0.5% |  852 | 18675 |    23682 |  4375036 |
 | deletion       | &lt;0.1% | 2849 |  1003 |     1988 |  1295678 |
-| indel          | &lt;0.1% |    1 |     0 |        4 |     8428 |
 | insertion      | &lt;0.1% | 1382 |   826 |     1144 |  1037730 |
 | SNV            | &lt;0.1% | 5432 | 80467 |   119843 | 17817903 |
 
@@ -172,12 +169,12 @@ variants with Clinvar stars
 
 ## NBS: chr8\_89971213\_ATTTGT\_A
 
-![](variants_af_files/figure-gfm/NBS-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/NBS-1.png)<!-- -->
 
 ## Cystic fybrosis: chr7\_117559590\_ATCT\_A
 
-![](variants_af_files/figure-gfm/Mucoviscidosis-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/Mucoviscidosis-1.png)<!-- -->
 
 ## DHCR7
 
-![](variants_af_files/figure-gfm/DHCR7-1.jpeg)<!-- -->
+![](variants_af_files/figure-gfm/DHCR7-1.png)<!-- -->

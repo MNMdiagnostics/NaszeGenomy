@@ -14,6 +14,19 @@ colnames(vep)[1] <- 'Uploaded_variation'
 
 vep <- vep %>% left_join(af, by = 'Uploaded_variation') 
 
+vep$stars <- NA
+vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == 'practice_guideline',
+                    '4',vep$stars)
+vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == 'reviewed_by_expert_panel',
+                    '3',vep$stars)
+vep$stars <- ifelse(
+  vep$ClinVar_CLNREVSTAT == 'criteria_provided,_multiple_submitters,_no_conflicts',
+  '2',vep$stars)
+vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_conflicting_interpretations',
+                    '1',vep$stars)
+vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_single_submitter',
+                    '1',vep$stars)
+
 af_vep <- vep %>% select(PL_AF,PL_AC,IMPACT,Consequence,EXON,INTRON)
 af_vep <- af_vep %>%
   mutate(group = case_when(PL_AF > 0.005~ ">0.5%",
@@ -79,23 +92,26 @@ consequence_vep %>%
 
 verticals <- c(log10(0.001),log10(0.005))
 
-af_vep %>%
-  ggplot(aes(log10(PL_AF))) +
-  geom_histogram(fill='#48C095',col='#27384A', bins=30) +
-  geom_vline(xintercept = verticals, linetype='dashed',col='#BC0020') +
-  ylab('Variant count') + xlab('log10 AF') + theme_classic() +
-  ggsave("variants_af_files/figure-gfm/afhist.png",dpi=320)
-
-af_vep %>%
-  ggplot(aes(PL_AC)) +
-  geom_histogram(fill='#48C095',col='#27384A', bins=30) +
-  ylab('Variant count') + xlab('AC') + theme_classic() +
-  ggsave("variants_af_files/figure-gfm/ac_hist.png",dpi=320)
+# af_vep %>%
+#   ggplot(aes(log10(PL_AF))) +
+#   geom_histogram(fill='#48C095',col='#27384A', bins=30) +
+#   geom_vline(xintercept = verticals, linetype='dashed',col='#BC0020') +
+#   ylab('Variant count') + xlab('log10 AF') + theme_classic() +
+#   ggsave("variants_af_files/figure-gfm/afhist.png",dpi=320)
+# 
+# af_vep %>%
+#   ggplot(aes(PL_AC)) +
+#   geom_histogram(fill='#48C095',col='#27384A', bins=30) +
+#   ylab('Variant count') + xlab('AC') + theme_classic() +
+#   ggsave("variants_af_files/figure-gfm/ac_hist.png",dpi=320)
 
 
 print('Filtering ACMG variants')
 acmg_list <- read.table('../input/diseases/Ensembl_ACMG_v3.txt',sep='\t')
-vep %>% filter(Gene %in% acmg_list$V1 & IMPACT == 'HIGH') %>%
+vep %>% filter(Gene %in% acmg_list$V1 & 
+                 grepl('pathogenic',ClinVar_CLNSIG, ignore.case = T) & 
+                 !grepl('Conflicting',ClinVar_CLNSIG,ignore.case = T)
+               ) %>%
   write.table('../input/diseases/acmg_ready.tsv',sep='\t',
               row.names = F,
               col.names = T,
@@ -111,19 +127,6 @@ vep %>%
               quote = F)
 
 print('Filtering pathogenic variants')
-
-vep$stars <- NA
-vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == 'practice_guideline',
-                          '4',vep$stars)
-vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == 'reviewed_by_expert_panel',
-                          '3',vep$stars)
-vep$stars <- ifelse(
-  vep$ClinVar_CLNREVSTAT == 'criteria_provided,_multiple_submitters,_no_conflicts',
-  '2',vep$stars)
-vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_conflicting_interpretations',
-                          '1',vep$stars)
-vep$stars <- ifelse(vep$ClinVar_CLNREVSTAT == '_single_submitter',
-                          '1',vep$stars)
 
 af_list <- c('PL_AF',  'gnomAD3g_AF_NFE','gnomAD3g_AF')
 
