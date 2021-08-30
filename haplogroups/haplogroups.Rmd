@@ -14,10 +14,10 @@ suppressMessages(library(data.table))
 
 
 ```{r load, echo=FALSE}
-haplo_input <- read.table('../output/haplogroups/res',header=T) 
-to_include <- read.table('../../SAMPLES_TO_INCLUDE_210716.txt',sep='\t')
+haplo_input <- read.table('../output/haplogroups/res.txt',header=T) 
+#to_include <- read.table('../../SAMPLES_TO_INCLUDE_210716.txt',sep='\t')
 
-haplo_input = haplo_input %>% filter(SampleID %in% to_include$V1)
+#haplo_input = haplo_input %>% filter(SampleID %in% to_include$V1)
 haplo_input$clad <- substring(haplo_input$Haplogroup,1,1)
 
 # infer subclads
