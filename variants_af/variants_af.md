@@ -100,31 +100,27 @@ variants with Clinvar stars
 | insertion      | &lt;0.1% | 1382 |   826 |     1144 |  1037730 |
 | SNV            | &lt;0.1% | 5432 | 80467 |   119843 | 17817903 |
 
-### Variants per coding consequence
+    ## # A tibble: 4 × 2
+    ##   IMPACT          n
+    ##   <chr>       <int>
+    ## 1 HIGH        12885
+    ## 2 LOW        144897
+    ## 3 MODERATE   184387
+    ## 4 MODIFIER 38956133
 
-    ## Joining, by = "Consequence"
+### Variants per coding consequence
 
     ## `summarise()` has grouped output by 'Coding_var_category'. You can override using the `.groups` argument.
 
+    ## `summarise()` has grouped output by 'Konsekwencje'. You can override using the `.groups` argument.
+
 ![](variants_af_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-<!-- ### Variants per non-coding consequence -->
-<!-- ```{r non-coding consequence, echo=FALSE} -->
-<!-- consequence$noncoding.var_category <- gsub('_',' ',consequence$noncoding.var_category) -->
-<!-- cons_plot <- consequence %>% group_by(noncoding.var_category, group) %>% -->
-<!--   summarise(n = sum(n)) %>% -->
-<!--   mutate(percentage = n/(sum(n)), -->
-<!--          minmax = (n - min(n))/(max(n)-min(n)) -->
-<!--            ) -->
-<!-- cons_plot %>% -->
-<!--   ggplot(aes(x=as.numeric(group),y=percentage,fill=noncoding.var_category)) + -->
-<!--   geom_area(alpha=0.6 , size=.5, colour="white",position = 'fill') + -->
-<!--     scale_fill_viridis(discrete = T, 'Coding consequence') + -->
-<!--   theme_minimal() + -->
-<!--   scale_x_continuous(breaks = seq(1,9,2), labels = unique(cons_plot$group)[seq(1,9,2)]) + -->
-<!-- xlab('Allele frequency') + -->
-<!--   ylab('Normalized percentage') -->
-<!-- ``` -->
+### Variants per non-coding consequence
+
+    ## `summarise()` has grouped output by 'noncoding.var_category'. You can override using the `.groups` argument.
+
+![](variants_af_files/figure-gfm/non-coding%20consequence-1.png)<!-- -->
 
 ## NBS: chr8\_89971213\_ATTTGT\_A
 
