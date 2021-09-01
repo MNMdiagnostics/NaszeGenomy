@@ -13,6 +13,13 @@ Variants in disease causing genes (1076 unrelated individuals)
 
 ![](variants_af_files/figure-gfm/af_hist_pct-1.png)<!-- -->
 
+| svtype |     n |
+|:-------|------:|
+| BND    |  3964 |
+| DEL    | 19808 |
+| DUP    |  2270 |
+| INV    |   998 |
+
     ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
     ## `summarise()` has grouped output by 'svtype'. You can override using the `.groups` argument.
 
@@ -100,13 +107,29 @@ variants with Clinvar stars
 | insertion      | &lt;0.1% | 1382 |   826 |     1144 |  1037730 |
 | SNV            | &lt;0.1% | 5432 | 80467 |   119843 | 17817903 |
 
-    ## # A tibble: 4 × 2
-    ##   IMPACT          n
-    ##   <chr>       <int>
-    ## 1 HIGH        12885
-    ## 2 LOW        144897
-    ## 3 MODERATE   184387
-    ## 4 MODIFIER 38956133
+| IMPACT   |        n |
+|:---------|---------:|
+| HIGH     |    12885 |
+| LOW      |   144897 |
+| MODERATE |   184387 |
+| MODIFIER | 38956133 |
+
+    ## `summarise()` has grouped output by 'IMPACT'. You can override using the `.groups` argument.
+
+| IMPACT   | AF       |        n |
+|:---------|:---------|---------:|
+| HIGH     | &lt;0.1% |     9663 |
+| HIGH     | &gt;0.5% |     1781 |
+| HIGH     | 0.1-0.5% |     1441 |
+| LOW      | &lt;0.1% |    82296 |
+| LOW      | &gt;0.5% |    43234 |
+| LOW      | 0.1-0.5% |    19367 |
+| MODERATE | &lt;0.1% |   122975 |
+| MODERATE | &gt;0.5% |    36893 |
+| MODERATE | 0.1-0.5% |    24519 |
+| MODIFIER | &lt;0.1% | 20151311 |
+| MODIFIER | &gt;0.5% | 13466147 |
+| MODIFIER | 0.1-0.5% |  5338675 |
 
 ### Variants per coding consequence
 

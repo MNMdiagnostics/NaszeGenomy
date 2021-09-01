@@ -75,12 +75,15 @@ sv.af <- read.table('../../../genom_polaka/sv/sv_multisample_210716.smoove.squar
 #sv.af$af <- sv.af$ac/sv.af$an
 sv.af <- sv.af[order(sv.af$af), ]
 
+kable(sv.af %>% group_by(svtype) %>% summarise(n=n()))
+
 colnames(af_plot)[1] <- 'af'
 
 af_perc_plot <- af_plot %>%
   pivot_longer(-af,names_to = 'svtype',values_to = 'cspct') %>%
   relocate(svtype, .before = af) %>%
   mutate(svtype = as.factor(svtype))
+
 
 sv.af.cs  <-  sv.af %>%
              group_by(svtype, af) %>%
@@ -257,7 +260,8 @@ variants %>% pivot_wider(names_from = IMPACT, values_from = n, values_fill = 0) 
         relocate(MODERATE, .before = MODIFIER) %>% filter(AF != '0%') %>%
   write.table('variants_class.tsv',quote=F,col.names = T,row.names = F,sep='\t')
 
-variants %>% group_by(IMPACT) %>% summarise(n=sum(n))
+kable(variants %>% group_by(IMPACT) %>% summarise(n=sum(n)))
+kable(variants %>% group_by(IMPACT,AF) %>% summarise(n=sum(n)))
 ```
 
 ### Variants per coding consequence
