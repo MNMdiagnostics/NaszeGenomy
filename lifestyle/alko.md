@@ -1,14 +1,14 @@
 Alcohol metabolism
 ================
 
-![](alko_files/figure-gfm/scatter_plot_two_colors-1.png)<!-- -->
+![](alko_files/figure-gfm/scatter_plot_two_colors-1.png)<!-- -->![](alko_files/figure-gfm/scatter_plot_two_colors-2.png)<!-- -->
 
 Wykres korelacji częstości wariantów pomiędzy populacją polską, a
 populacjami 1000genomes. Zielone pole oznacza warianty występujące
 częściej u Polaków niż reszty świata, czerwone - warianty występujące u
 Polaków rzadziej
 
-![](alko_files/figure-gfm/multiple_colors-1.png)<!-- -->
+![](alko_files/figure-gfm/multiple_colors-1.png)<!-- -->![](alko_files/figure-gfm/multiple_colors-2.png)<!-- -->
 
 Wykres korelacji częstości wariantów pomiędzy populacją polską, a
 populacjami 1000genomes. Warianty poniżej przekątnej występują częściej
