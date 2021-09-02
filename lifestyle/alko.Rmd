@@ -2,7 +2,7 @@
 title: "Alcohol metabolism"
 subtitle: "Results on 943 unrelated individuals"
 output:
-  pdf_document: default
+  #pdf_document: default
   github_document: default
 ---
 
@@ -66,6 +66,9 @@ plot_data %>% na.omit() %>%
   scale_color_viridis_d(name='Populacje') +
   xlab('Częstość w populacji polskiej') +
   ylab('Częstość w innych populacjach') 
+```
+
+```{r, scatter_plot_two_colors_ENG, echo=FALSE, message=F, warning=F}
 
 plot_data %>% na.omit() %>%
   ggplot(aes(x=PL_AF,y=AF)) + 
@@ -97,7 +100,9 @@ plot_data %>% na.omit() %>%
   ylab('Częstość w innych populacjach') +
   xlim(c(0,1)) +
   theme(legend.position = 'top',legend.direction = 'horizontal',legend.title = element_blank())
-    
+```
+
+```{r, multiple_colors_ENG, echo=FALSE, message=F, warning=F}
 plot_data %>% na.omit() %>%
   mutate(group = gsub('_',' ',group)) %>%
   ggplot(aes(x=PL_AF,y=AF,col=group)) + 
