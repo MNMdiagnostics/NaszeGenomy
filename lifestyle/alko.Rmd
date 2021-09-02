@@ -45,7 +45,8 @@ rsid_comp %>% write.table('alko_rsid.tsv',col.names = T,row.names = F,sep='\t')
 plot_data <- rsid_comp %>% select(ends_with('AF')) %>%
   pivot_longer(-PL_AF,names_to = 'group',values_to = 'AF')
 plot_data$group <- as.factor(plot_data$group)
-levels(plot_data$group) <- list(
+plot_data$group_pl <- as.factor(plot_data$group)
+levels(plot_data$group_pl) <- list(
                                 `Europejska` = 'EUR_AF',
                                 `Afrykańska` = "AFR_AF",
                                 `Amerykańskie` = 'AMR_AF',
@@ -65,6 +66,18 @@ plot_data %>% na.omit() %>%
   scale_color_viridis_d(name='Populacje') +
   xlab('Częstość w populacji polskiej') +
   ylab('Częstość w innych populacjach') 
+
+plot_data %>% na.omit() %>%
+  ggplot(aes(x=PL_AF,y=AF)) + 
+  geom_point() +
+  geom_abline(linetype='dashed') +
+  geom_polygon(aes(x=x, y=y), data=trsup, fill="#FF000066",alpha=0.2) +
+  geom_polygon(aes(x=x, y=y), data=trinf, fill="#00FF0066",alpha=0.2)+
+  theme_minimal() +
+  scale_color_viridis_d(name='Populations') +
+  xlab('Allele frequency in Polish population') +
+  ylab('Allele frequency in 1000 genomes populations') 
+
 ```
 
 Wykres korelacji częstości wariantów pomiędzy populacją polską, a populacjami 1000genomes. 
@@ -75,11 +88,9 @@ Zielone pole oznacza warianty występujące częściej u Polaków niż reszty ś
 
 ```{r, multiple_colors, echo=F,message=F,warning=F}
 plot_data %>% na.omit() %>%
-  ggplot(aes(x=PL_AF,y=AF,col=group)) + 
+  ggplot(aes(x=PL_AF,y=AF,col=group_pl)) + 
   geom_point() +
   geom_abline(linetype='dashed') +
-  # geom_polygon(aes(x=x, y=y), data=trsup, fill="#FF000066",alpha=0.2) +
-  # geom_polygon(aes(x=x, y=y), data=trinf, fill="#00FF0066",alpha=0.2)+
   theme_minimal() +
   scale_color_viridis_d(name='Populacje') +
   xlab('Częstość w populacji polskiej') +
@@ -87,6 +98,17 @@ plot_data %>% na.omit() %>%
   xlim(c(0,1)) +
   theme(legend.position = 'top',legend.direction = 'horizontal',legend.title = element_blank())
     
+plot_data %>% na.omit() %>%
+  mutate(group = gsub('_',' ',group)) %>%
+  ggplot(aes(x=PL_AF,y=AF,col=group)) + 
+  geom_point() +
+  geom_abline(linetype='dashed') +
+  theme_minimal() +
+  scale_color_viridis_d(name='Populations') +
+    xlab('Allele frequency in Polish population') +
+  ylab('Allele frequency in 1000 genomes populations') +
+  xlim(c(0,1)) +
+  theme(legend.position = 'top',legend.direction = 'horizontal',legend.title = element_blank())
 
 ```
 
