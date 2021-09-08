@@ -102,7 +102,7 @@ sv.af.cs$svtype[sv.af.cs$svtype=='SNP'] <- 'SNV'
 # group.colors <- c(BND = "#BC0020", DEL = "#27384A", DUP ="gray", INV = "blue",
 #                   SNP = 'darkgoldenrod4', indel='#5F5F5F')
 
-sv.af.cs %>%
+sv.af.cs %>% filter(svtype != 'BND') %>%
 ggplot() +
   geom_line(aes(x = af, y=cspct, linetype=svtype)) +
   scale_x_log10()+
