@@ -33,6 +33,11 @@ psc_summary <- psc %>% mutate(SNV = nNonRefHom + nHets) %>%
             ) %>%
   mutate_at(
     vars(ends_with('count')), funs(round(.)))
+
+
+total_psc <- psc %>% select(nRefHom:nHets)  %>%
+  mutate(var_sum=nNonRefHom+nHets)
+
   
 kable(psc_summary)
 ```
@@ -45,7 +50,7 @@ kable(psc_summary)
 af <- read.table('../input/af_stats.tsv')
 colnames(af) <- c('AF','id', 'allele_frequency', 'SNV', 'number_of_transitions', 'number_of transversions', 'indel', 'repeat-consistent','repeat-inconsistent', 'not_applicable')
 
-#af$allele_frequency[1] <- 0.000530223
+af <- af %>% mutate(allele_frequency = allele_frequency+0.000464684)
 af_plot <- af %>% select(allele_frequency,SNV,indel)
 af_plot$SNV <- 100*cumsum(af_plot$SNV)/sum(af_plot$SNV)
 af_plot$indel <- 100*cumsum(af_plot$indel)/sum(af_plot$indel)
@@ -104,8 +109,9 @@ ggplot() +
   xlab('log10 Allele frequency') + ylab('% variants') +
   #scale_color_viridis(discrete = T, 'Coding consequence') +
   theme_minimal() +
-  theme(legend.position = 'top')
-
+  theme(legend.position = 'top') +
+  guides(linetype = guide_legend(override.aes = list(size = 0.4, width=50)))
+  
 
 ```
 
