@@ -77,13 +77,17 @@ types: deletions (DEL), duplications (DUP), and inversion (INV)**
 ### 2.3 Runs of homozygosity
 
 **Supplementary Figure 2.3.1 Distribution of average lengths of RoH per chromosome.**
-![](roh/roh_files/figure-gfm/lengths_per_chromosome-1.jpeg)<!-- -->
+![](roh/roh_files/figure-gfm/lengths_per_chromosome-1.png)<!-- -->
 
 **Supplementary Figure 2.3.2 Distribution of counts of runs of homozygosity per chromosome.**
-![](roh/roh_files/figure-gfm/numbers_per_chromosome-1.jpeg)<!-- -->
+![](roh/roh_files/figure-gfm/numbers_per_chromosome-1.png)<!-- -->
 
 **Supplementary Figure 2.3.3. Cummulative length of runs of homozygozity in single individuals.**
-![RoH cummulative](roh/roh_files/figure-gfm/cummulative_sum-1.jpeg)
+![RoH cummulative](roh/roh_files/figure-gfm/cummulative_sum-1.png)
+
+**Supplementary Figure 2.3.4. Genomic coverage of runs of homozygosity**
+
+![](roh/roh_files/figure-gfm/genome_coverage_heatmap-1.png)<!-- -->
 
 
 
