@@ -6,7 +6,7 @@ output: github_document
 ## Runs of homozygozity (ROH)
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,dev = 'jpeg')
+knitr::opts_chunk$set(echo = TRUE,dev = 'png')
 suppressMessages(library(knitr))
 ```
 

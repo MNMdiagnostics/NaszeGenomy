@@ -13,13 +13,13 @@ roh <- roh %>%
 
 #### ROH stats after quality filtering
 
-| stat                |   min |  median |      mean |        max |
-|:--------------------|------:|--------:|----------:|-----------:|
-| Length              | 609.0 | 72600.0 | 123215.74 | 45552412.0 |
-| Number\_of\_markers |  51.0 |   132.0 |    193.73 |    49027.0 |
-| Quality             |  25.1 |    60.4 |     59.43 |       98.7 |
+| stat              |   min |  median |      mean |        max |
+|:------------------|------:|--------:|----------:|-----------:|
+| Length            | 609.0 | 72600.0 | 123215.74 | 45552412.0 |
+| Number_of_markers |  51.0 |   132.0 |    193.73 |    49027.0 |
+| Quality           |  25.1 |    60.4 |     59.43 |       98.7 |
 
-Average ROH size per genome (additionally filtered: &gt;100kb)
+Average ROH size per genome (additionally filtered: \>100kb)
 
 | stat      |       average |
 |:----------|--------------:|
@@ -34,33 +34,33 @@ Average ROH size per genome (additionally filtered: &gt;100kb)
 
 1.  Cummulative sum
 
-![](roh_files/figure-gfm/cummulative_sum-1.jpeg)<!-- -->
+![](roh_files/figure-gfm/cummulative_sum-1.png)<!-- -->
 
 Fig. Relation between size of runs of homozygozity and cumulative length
 of RoHs in an average individual.
 
-![](roh_files/figure-gfm/lengths_per_chromosome-1.jpeg)<!-- -->
+![](roh_files/figure-gfm/lengths_per_chromosome-1.png)<!-- -->
 
 Fig. Distribution of mean length of runs of homozygozity per chromosome
 
-![](roh_files/figure-gfm/numbers_per_chromosome-1.jpeg)<!-- -->
+![](roh_files/figure-gfm/numbers_per_chromosome-1.png)<!-- -->
 
 Fig. Distribution of counts of runs of homozygozity per chromosome
 
 2.  Coverage heatmap
 
-![](roh_files/figure-gfm/genome_coverage_heatmap-1.jpeg)<!-- -->
+![](roh_files/figure-gfm/genome_coverage_heatmap-1.png)<!-- -->
 
 Fig. Chromosomal location of run of homozygozity hotspots - regions
 frequently covered by runs of homozygozity in this cohort.
 
-### All results below are ROHs filter for autosomes with Quality &gt; 25%, Number of markers &gt; 50 and ROH length &gt; 2 Mb
+### All results below are ROHs filter for autosomes with Quality \> 25%, Number of markers \> 50 and ROH length \> 2 Mb
 
 2.  Average sum of ROHs per genome
 
-![](roh_files/figure-gfm/total_roh-1.jpeg)<!-- -->
+![](roh_files/figure-gfm/total_roh-1.png)<!-- -->
 
-|     | mean\_SROH\_Mb  |
+|     | mean_SROH_Mb    |
 |:----|:----------------|
 |     | Min. : 3.391    |
 |     | 1st Qu.: 28.739 |
@@ -69,16 +69,16 @@ frequently covered by runs of homozygozity in this cohort.
 |     | 3rd Qu.: 37.755 |
 |     | Max. :258.308   |
 
-| Range    | mean\_length |
-|:---------|-------------:|
-| 2Mb-5Mb  |     2.892412 |
-| &gt;10Mb |    16.284168 |
+| Range   | mean_length |
+|:--------|------------:|
+| 2Mb-5Mb |    2.892412 |
+| \>10Mb  |   16.284168 |
 
 3.  Sum of ROH length per range
 
-![](roh_files/figure-gfm/SROH-1.jpeg)<!-- -->
+![](roh_files/figure-gfm/SROH-1.png)<!-- -->
 
-|     | 2Mb-5Mb        | &gt;10Mb       |
+|     | 2Mb-5Mb        | \>10Mb         |
 |:----|:---------------|:---------------|
 |     | Min. : 5.815   | Min. : 10.00   |
 |     | 1st Qu.:15.187 | 1st Qu.: 15.87 |
@@ -90,4 +90,4 @@ frequently covered by runs of homozygozity in this cohort.
 4.  Relationship between number of ROHs and total length of genome
     covered by them
 
-![](roh_files/figure-gfm/SROH_corr-1.jpeg)<!-- -->
+![](roh_files/figure-gfm/SROH_corr-1.png)<!-- -->
