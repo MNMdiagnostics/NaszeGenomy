@@ -6,7 +6,7 @@ output:
 ---
 
 ```{r setup, echo=FALSE}
-knitr::opts_chunk$set(echo=FALSE, dev = 'jpeg')
+knitr::opts_chunk$set(echo=FALSE, dev = 'png')
 suppressMessages(library(knitr))
 ```
 
@@ -29,11 +29,19 @@ suppressMessages(library(data.table))
 
 
 flagstat_path = "../output/multiqc_data/multiqc_samtools_flagstat.txt"
-depth_path = "../output/depth_concat.txt"
+depth_path = "../output/depth_concat_full.txt"
 
 flagstat <- read.table(flagstat_path,header=T,sep='\t')
 colnames(flagstat)[1] <- 'sample'
+
+
+`%!in%` <- Negate(`%in%`)
+samples_exclude <- read.table("../input/SAMPLES_TO_EXCLUDE_210908.txt",sep='\t',header=F)
+flagstat <- flagstat %>% filter(sample %!in% samples_exclude$V1) %>% mutate(sample = factor(sample))
+
 flagstat_samples <- length(unique(flagstat$sample))
+
+
 
 flagstat <- flagstat %>% 
     mutate(total_passed = total_passed/1e+06, properly.paired_passed = properly.paired_passed/1e+06, flagstat_total = flagstat_total/1e+06,
@@ -81,15 +89,15 @@ flagstat_out <- flagstat %>% select(sample,flagstat_total) %>% filter(flagstat_t
 kable(flagstat_out)
 ```
 
-### Call rate
+<!-- ### Call rate -->
 
-```{r variant_missing_call_rate, echo=FALSE}
-library(png)
-img1_path <- "qc_files/figure-gfm/var_miss.png"
-img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
-include_graphics(img1_path)
-  
-```
+<!-- ```{r variant_missing_call_rate, echo=FALSE} -->
+<!-- library(png) -->
+<!-- img1_path <- "qc_files/figure-gfm/var_miss.png" -->
+<!-- img1 <- readPNG(img1_path, native = TRUE, info = TRUE) -->
+<!-- include_graphics(img1_path) -->
+
+<!-- ``` -->
 
 <!-- ```{r filtered_variant_missing_call_rate, echo=FALSE} -->
 <!-- library(png) -->
@@ -132,7 +140,11 @@ include_graphics(img1_path)
 ## 2. Depth statistics
 
 ```{r  echo=FALSE}
-depth <- read.table(depth_path,header=T,sep='\t')
+depth <- read.table(depth_path,header=F,sep='\t')
+colnames(depth) <- c('sample','average_depth','percentage_above_10','percentage_above_20','percentage_above_30')
+depth <- depth %>% filter(sample %!in% samples_exclude$V1) %>% mutate(sample = factor(sample))
+
+
 depth_samples <- length(unique(depth$sample))
 
 
@@ -191,6 +203,9 @@ colnames(psc) <- c(
                    'nTransitions', 'nTransversions', 'nIndels', 'average_depth',
                    'nSingletons', 'nHapRef', 'nHapAlt', 'nMissing'
 )
+psc <- psc %>% filter(sample %!in% samples_exclude$V1) %>% mutate(sample = factor(sample))
+
+
 
 
 kable(psc %>% 
