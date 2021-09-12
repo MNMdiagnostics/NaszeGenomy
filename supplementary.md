@@ -4,7 +4,7 @@
 #### 1.1 Depth statistics
 
 
-**Supplementary Table 1.1: Coverage statistics for all 1230 samples analysed in the project.**
+**Supplementary Table 1.1: Coverage statistics for all 1222 samples analysed in the project.**
 | stat                |   min | median |  mean |   max |
 |:--------------------|------:|-------:|------:|------:|
 | average_depth       | 28.40 |  35.40 | 35.25 | 48.10 |
