@@ -115,6 +115,18 @@ ggplot() +
 
 ```
 
+```{r sv.af.hist.col, echo=F,warning=FALSE}
+sv.af.cs %>% filter(svtype != 'BND') %>%
+ggplot() +
+  geom_line(aes(x = af, y=cspct, col=svtype),size=1) +
+  scale_x_log10()+
+  xlab('log10 Allele frequency') + ylab('% variants') +
+  theme_minimal() +
+  theme(legend.position = 'top') +
+  guides(linetype = guide_legend(override.aes = list(size = 0.4, width=50)))
+```
+
+
 ```{r, echo=FALSE, warning=FALSE}
 af_list <- c('PL_AF',  'gnomADg_AF_NFE','gnomADg_AF')
 group.colors <- c(PL_AF = "#BC0020", AF = "#27384A", gnomAD_FIN_AF ="gray", gnomAD_AF_NFE = "#B6B6B6",EUR_AF='#5F5F5F')

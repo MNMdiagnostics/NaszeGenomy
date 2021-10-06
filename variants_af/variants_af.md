@@ -25,6 +25,8 @@ Variants in disease causing genes (1076 unrelated individuals)
 
 ![](variants_af_files/figure-gfm/sv.af.hist-1.png)<!-- -->
 
+![](variants_af_files/figure-gfm/sv.af.hist.col-1.png)<!-- -->
+
 ## 3. ACMG
 
 ![](variants_af_files/figure-gfm/ACMG-1.png)<!-- -->
